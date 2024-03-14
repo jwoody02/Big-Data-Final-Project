@@ -7,20 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		170828942BA3B8D300094406 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828932BA3B8D300094406 /* WeatherService.swift */; };
+		170828962BA3B8E100094406 /* FirePredictService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828952BA3B8E100094406 /* FirePredictService.swift */; };
+		170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828972BA3B8EE00094406 /* HomeViewController.swift */; };
+		1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */; };
+		1708289E2BA3B92A00094406 /* FullWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289D2BA3B92A00094406 /* FullWidthView.swift */; };
+		170828A02BA3B93000094406 /* HalfWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289F2BA3B93000094406 /* HalfWidthView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
-		1752E4F32B8E936D00137A74 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F22B8E936D00137A74 /* ViewController.swift */; };
-		1752E4F62B8E936D00137A74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F42B8E936D00137A74 /* Main.storyboard */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
 		1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F92B8E937600137A74 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		170828932BA3B8D300094406 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		170828952BA3B8E100094406 /* FirePredictService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePredictService.swift; sourceTree = "<group>"; };
+		170828972BA3B8EE00094406 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		1708289D2BA3B92A00094406 /* FullWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthView.swift; sourceTree = "<group>"; };
+		1708289F2BA3B93000094406 /* HalfWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfWidthView.swift; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1752E4F02B8E936D00137A74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1752E4F22B8E936D00137A74 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1752E4F52B8E936D00137A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1752E4F72B8E937600137A74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1752E4FA2B8E937600137A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1752E4FC2B8E937600137A74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -37,6 +45,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		170828912BA3B86400094406 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				170828932BA3B8D300094406 /* WeatherService.swift */,
+				170828952BA3B8E100094406 /* FirePredictService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		170828922BA3B86800094406 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				1708289C2BA3B90500094406 /* Views */,
+				170828972BA3B8EE00094406 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		170828992BA3B8F100094406 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		1708289C2BA3B90500094406 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1708289D2BA3B92A00094406 /* FullWidthView.swift */,
+				1708289F2BA3B93000094406 /* HalfWidthView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1752E4E22B8E936D00137A74 = {
 			isa = PBXGroup;
 			children = (
@@ -56,10 +99,11 @@
 		1752E4ED2B8E936D00137A74 /* AetherPredict */ = {
 			isa = PBXGroup;
 			children = (
+				170828992BA3B8F100094406 /* Onboarding */,
+				170828922BA3B86800094406 /* Home */,
+				170828912BA3B86400094406 /* API */,
 				1752E4EE2B8E936D00137A74 /* AppDelegate.swift */,
 				1752E4F02B8E936D00137A74 /* SceneDelegate.swift */,
-				1752E4F22B8E936D00137A74 /* ViewController.swift */,
-				1752E4F42B8E936D00137A74 /* Main.storyboard */,
 				1752E4F72B8E937600137A74 /* Assets.xcassets */,
 				1752E4F92B8E937600137A74 /* LaunchScreen.storyboard */,
 				1752E4FC2B8E937600137A74 /* Info.plist */,
@@ -127,7 +171,6 @@
 			files = (
 				1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */,
 				1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */,
-				1752E4F62B8E936D00137A74 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,8 +181,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1752E4F32B8E936D00137A74 /* ViewController.swift in Sources */,
+				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
+				1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */,
 				1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */,
+				170828962BA3B8E100094406 /* FirePredictService.swift in Sources */,
+				170828A02BA3B93000094406 /* HalfWidthView.swift in Sources */,
+				170828942BA3B8D300094406 /* WeatherService.swift in Sources */,
+				1708289E2BA3B92A00094406 /* FullWidthView.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,14 +195,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1752E4F42B8E936D00137A74 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1752E4F52B8E936D00137A74 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1752E4F92B8E937600137A74 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
