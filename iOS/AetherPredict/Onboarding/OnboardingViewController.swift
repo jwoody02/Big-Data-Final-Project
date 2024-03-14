@@ -6,3 +6,15 @@
 //
 
 import Foundation
+import UIKit
+
+
+public class OnboardingViewController: UIViewController {
+
+    private let locationService = LocationService.shared
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+    }
+}
