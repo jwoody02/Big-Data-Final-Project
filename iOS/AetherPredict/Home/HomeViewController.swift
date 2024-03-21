@@ -46,8 +46,18 @@ public class HomeViewController: UIViewController {
 //        updateRainForcast(with: object)
     }
     
-    private func updateBasicWeatherInfo(with current: CurrentWeather) {
-        // TODO: - Update temperature, high low, humidity, etc
+    private func updateBasicWeatherInfo(with currentWeather: CurrentWeather) {
+        let weatherDate = currentWeather.date // basically same as just doing Date(), maybe remove?
+        let temperatureObject = currentWeather.temperature // change this to .apparentTemperature for 'feels like' temp
+        let conditionDescription = currentWeather.condition.description
+        let conditionImageName = currentWeather.symbolName
+        let humidityValue = currentWeather.humidity
+        let windObject = currentWeather.wind
+        let uvIndex = currentWeather.uvIndex
+        
+        // add more as necessary
+        
+        // TODO: - Update temperature, condition icon, humidity, wind, etc
     }
     
     private func updateSpecialEvents(with current: CurrentWeather) {
