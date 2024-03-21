@@ -18,6 +18,15 @@ public class LocationService: NSObject, CLLocationManagerDelegate {
         super.init()
         locationManager.delegate = self
     }
+    // Get current Location
+    public func getCurrentLocation(completion: @escaping (Result<CLLocation, Error>) -> Void) {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        } else {
+            completion(.failure(NSError(domain: "LocationService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Location services are not enabled."])))
+        }
+    }
     
     // Request location authorization and pass back response
     public func requestAuthorizationAndGetCurrentLocation(completion: @escaping (Result<CLLocation, Error>) -> Void) {

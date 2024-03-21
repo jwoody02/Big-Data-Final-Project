@@ -8,29 +8,16 @@ import Foundation
 import WeatherKit
 import CoreLocation
 
-public class WeatherService {
+public class WeatherServiceWrapper {
 
-    public static let shared = WeatherService()
+    public static let shared = WeatherServiceWrapper()
 
     private let weatherService = WeatherService()
-    private let locationService = LocationService.shared
 
     private init() {}
 
-    // Fetch weather for the current location
-    public func fetchCurrentLocationWeather(completion: @escaping (Result<Weather, Error>) -> Void) {
-        locationService.getCurrentLocation { [weak self] result in
-            switch result {
-            case .success(let location):
-                self?.fetchWeather(for: location, completion: completion)
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    // Fetch weather for a specified city or zipcode
-    public func fetchWeatherForLocation(named locationName: String, completion: @escaping (Result<Weather, Error>) -> Void) {
+    // Fetch weather for a specified city or location name
+    public func fetchWeatherForLocation(named locationName: String, completion: @escaping (Result<(CurrentWeather, Forecast<MinuteWeather>?, Forecast<HourWeather>, Forecast<DayWeather>), Error>) -> Void) {
         CLGeocoder().geocodeAddressString(locationName) { [weak self] (placemarks, error) in
             if let error = error {
                 completion(.failure(error))
@@ -44,14 +31,16 @@ public class WeatherService {
         }
     }
 
-    private func fetchWeather(for location: CLLocation, completion: @escaping (Result<Weather, Error>) -> Void) {
-        weatherService.weather(for: location.coordinate, including: [.current, .hourly, .daily]) { result in
-            switch result {
-            case .success(let weather):
-                completion(.success(weather))
-            case .failure(let error):
+    // Fetch weather for a CLLocation
+    public func fetchWeather(for location: CLLocation, completion: @escaping (Result<(CurrentWeather, Forecast<MinuteWeather>?, Forecast<HourWeather>, Forecast<DayWeather>), Error>) -> Void) {
+        Task {
+            do {
+                let (current, minute, hourly, daily) = try await weatherService.weather(for: location, including: .current, .minute, .hourly, .daily)
+                completion(.success((current, minute, hourly, daily)))
+            } catch {
                 completion(.failure(error))
             }
         }
     }
+
 }

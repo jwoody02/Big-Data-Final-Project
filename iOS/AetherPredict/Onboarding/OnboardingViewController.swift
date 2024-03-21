@@ -13,7 +13,7 @@ public class OnboardingViewController: UIViewController {
 
     private let locationService = LocationService.shared
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
     }
