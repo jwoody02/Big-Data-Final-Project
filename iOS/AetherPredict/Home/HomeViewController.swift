@@ -51,6 +51,11 @@ public class HomeViewController: UIViewController {
         return label
     }()
 
+    private let currentMetricsView: CurrentMetricsView = {
+        let cmv = CurrentMetricsView()
+        return cmv
+    }()
+
     // reduce the amount of WeatherKit requests
     private var previousLocation: CLLocation? = nil
     
@@ -89,11 +94,13 @@ public class HomeViewController: UIViewController {
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         conditionImageView.translatesAutoresizingMaskIntoConstraints = false
         currentConditionsLabel.translatesAutoresizingMaskIntoConstraints = false
+        currentMetricsView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(lastUpdatedLabel)
         view.addSubview(temperatureLabel)
         view.addSubview(conditionImageView)
         view.addSubview(currentConditionsLabel)
+        view.addSubview(currentMetricsView)
 
         NSLayoutConstraint.activate([
             lastUpdatedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
@@ -110,6 +117,10 @@ public class HomeViewController: UIViewController {
             currentConditionsLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 30),
             currentConditionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
             currentConditionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+
+            currentMetricsView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            currentMetricsView.topAnchor.constraint(equalTo: currentConditionsLabel.bottomAnchor, constant: 20),
+
         ])
     }
 
@@ -144,6 +155,13 @@ public class HomeViewController: UIViewController {
         currentConditionsLabel.text = conditionDescription
         lastUpdatedLabel.text = DateFormatter.localizedString(from: updatedAtTimestamp, dateStyle: .none, timeStyle: .short)
 
+
+        // Update metrics
+        currentMetricsView.setMetricValue(forKey: .fireRisk, value: "Low", iconName: "flame.fill", primaryColor: .systemGreen)
+//        currentMetricsView.setMetricValue(forKey: .uvIndex, value: "\(uvIndex)", iconName: "sun.max", primaryColor: .purple)
+        currentMetricsView.setMetricValue(forKey: .windSpeed, value: "\(windSpeedObject.value)mph", iconName: "wind", primaryColor: .systemGreen)
+//        currentMetricsView.setMetricValue(forKey: .humidity, value: "\(humidityValue)%", iconName: "drop", primaryColor: .green)
+        
     }
 
     
@@ -175,10 +193,13 @@ public class HomeViewController: UIViewController {
             case .snow:
                 precipitationLogo = "snowflake"
                 break
-
+        @unknown default:
+            break
         }
 
-
+        
+        currentMetricsView.setMetricValue(forKey: .precipitationChance, value: "\(String(preciptationChance * 100).replacingOccurrences(of: ".0", with: ""))%", iconName: precipitationLogo, primaryColor: .blue)
+        currentMetricsView.setMetricValue(forKey: .precipitationAmount, value: "\(String(preciptationAmountObject?.precipitationAmount.value ?? 0))\"", iconName: "drop.fill", primaryColor: .blue)
         // TODO: - Update for 'raining' 'snow' and other events
     }
     

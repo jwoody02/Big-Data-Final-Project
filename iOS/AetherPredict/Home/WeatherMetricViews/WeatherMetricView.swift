@@ -17,12 +17,14 @@ class WeatherMetricView: UIView {
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false // Enable Auto Layout
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let textLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false // Enable Auto Layout
+        label.font = .systemFont(ofSize: 11, weight: .regular)
         return label
     }()
     
@@ -46,11 +48,10 @@ class WeatherMetricView: UIView {
         }
     }
     
-    init(primaryColor: UIColor, systemIconName: String? = nil) {
-        self.primaryColor = primaryColor
+    init() {
+        self.primaryColor = .black
+        self.systemIconName = nil
         super.init(frame: .zero)
-        
-        self.systemIconName = systemIconName
         setupUI()
     }
     
@@ -66,13 +67,13 @@ class WeatherMetricView: UIView {
         NSLayoutConstraint.activate([
             iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            iconImageView.heightAnchor.constraint(equalToConstant: 20),
-            iconImageView.widthAnchor.constraint(equalToConstant: 20)
+            iconImageView.heightAnchor.constraint(equalToConstant: 12),
+            iconImageView.widthAnchor.constraint(equalToConstant: 12)
         ])
         
         // Constraints for textLabel
         NSLayoutConstraint.activate([
-            textLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 8),
+            textLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 2),
             textLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             textLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -8)
         ])
@@ -84,6 +85,10 @@ class WeatherMetricView: UIView {
     
     func setPrimaryColor(to color: UIColor) {
         self.primaryColor = color
+    }
+    
+    func setTextLabel(to string: String) {
+        self.textLabel.text = string
     }
 
     func setSystemIcon(named iconName: String?) {
