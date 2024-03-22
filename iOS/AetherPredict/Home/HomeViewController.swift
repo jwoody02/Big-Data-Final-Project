@@ -42,37 +42,82 @@ public class HomeViewController: UIViewController {
     }
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
         updateBasicWeatherInfo(with: currentForecast)
-        updateSpecialEvents(with: currentForecast)
-//        updateRainForcast(with: object)
+        updatePrecipitationEvents(with: hourForcast)
+        updatePrecipitationForcast(with: minuteForcast)
+        updateHourlyForcast(with: hourForcast)
+        updateWeeklyForcast(with: dayWeather)
     }
     
+    /**
+        Updates the basic weather information such as temperature, condition, humidity, wind, etc
+    */
     private func updateBasicWeatherInfo(with currentWeather: CurrentWeather) {
-        let weatherDate = currentWeather.date // basically same as just doing Date(), maybe remove?
-        let temperatureObject = currentWeather.temperature // change this to .apparentTemperature for 'feels like' temp
+        let updatedAtTimestamp = currentWeather.date
+        let temperatureObject = currentWeather.temperature // change this to .apparentTemperature for a 'feels like' temp
         let conditionDescription = currentWeather.condition.description
         let conditionImageName = currentWeather.symbolName
         let humidityValue = currentWeather.humidity
-        let windObject = currentWeather.wind
+        let windSpeedObject = currentWeather.wind.speed
         let uvIndex = currentWeather.uvIndex
-        
-        // add more as necessary
         
         // TODO: - Update temperature, condition icon, humidity, wind, etc
     }
     
-    private func updateSpecialEvents(with current: CurrentWeather) {
-        // TODO: - Update for 'raining' 'fire' and other events
+    /**
+        Updates precipation labels and icons based on the current weather forecast
+    */
+    private func updatePrecipitationEvents(with current: Forecast<HourWeather>) {
+        let preciptationChance = current.forecast.first?.precipitationChance ?? 0.0
+        let preciptationAmountObject = current.forecast.first
+        let precipitationType = preciptationAmountObject?.precipitation ?? .none // none, hail, mixed, rain, sleet, snow
+        
+        // sf symbol to show
+        var precipitationLogo = ""
+        switch precipitationType {
+            case .none:
+                break
+            case .hail:
+                precipitationLogo = "cloud.hail"
+                break
+            case .mixed:
+                precipitationLogo = "cloud.sleet"
+                break
+            case .rain:
+                precipitationLogo = "umbrella.fill"
+                break
+            case .sleet:
+                precipitationLogo = "cloud.sleet"
+                break
+            case .snow:
+                precipitationLogo = "snowflake"
+                break
+
+        }
+
+
+        // TODO: - Update for 'raining' 'snow' and other events
     }
     
-    private func updateRainForcast(with: Weather) {
+    /**
+        Updates the minute by minute precipitation forcast for the next hour
+    */
+    private func updatePrecipitationForcast(with: Forecast<MinuteWeather>?) {
         // TODO: - minute by minute rain forcast for next hour under the temperature
     }
-    
-    private func updateWeeklyForcast(with: Weather) {
+
+    /**
+        Updates the hourly forcast for the next 24 hours
+    */
+    private func updateHourlyForcast(with: Forecast<HourWeather>) {
+    }
+
+
+    /**
+        Updates the daily forcast for the next 7 days
+    */
+    private func updateWeeklyForcast(with: Forecast<DayWeather>) {
         // TODO: - weekly forecast?
     }
-    
-    // TODO: - Maybe an hourly temperature forcast?
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
