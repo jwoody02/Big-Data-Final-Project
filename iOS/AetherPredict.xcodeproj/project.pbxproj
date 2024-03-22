@@ -11,9 +11,8 @@
 		170828962BA3B8E100094406 /* FirePredictService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828952BA3B8E100094406 /* FirePredictService.swift */; };
 		170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828972BA3B8EE00094406 /* HomeViewController.swift */; };
 		1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */; };
-		1708289E2BA3B92A00094406 /* FullWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289D2BA3B92A00094406 /* FullWidthView.swift */; };
-		170828A02BA3B93000094406 /* HalfWidthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289F2BA3B93000094406 /* HalfWidthView.swift */; };
 		170828A22BA3C09A00094406 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828A12BA3C09A00094406 /* LocationService.swift */; };
+		1725A5432BAD526300DE08DB /* WeatherMetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A5422BAD526300DE08DB /* WeatherMetricView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -25,10 +24,9 @@
 		170828952BA3B8E100094406 /* FirePredictService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePredictService.swift; sourceTree = "<group>"; };
 		170828972BA3B8EE00094406 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		1708289D2BA3B92A00094406 /* FullWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthView.swift; sourceTree = "<group>"; };
-		1708289F2BA3B93000094406 /* HalfWidthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfWidthView.swift; sourceTree = "<group>"; };
 		170828A12BA3C09A00094406 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
+		1725A5422BAD526300DE08DB /* WeatherMetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMetricView.swift; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1752E4F02B8E936D00137A74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,7 +59,7 @@
 		170828922BA3B86800094406 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				1708289C2BA3B90500094406 /* Views */,
+				1708289C2BA3B90500094406 /* WeatherMetricViews */,
 				170828972BA3B8EE00094406 /* HomeViewController.swift */,
 			);
 			path = Home;
@@ -75,13 +73,12 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		1708289C2BA3B90500094406 /* Views */ = {
+		1708289C2BA3B90500094406 /* WeatherMetricViews */ = {
 			isa = PBXGroup;
 			children = (
-				1708289D2BA3B92A00094406 /* FullWidthView.swift */,
-				1708289F2BA3B93000094406 /* HalfWidthView.swift */,
+				1725A5422BAD526300DE08DB /* WeatherMetricView.swift */,
 			);
-			path = Views;
+			path = WeatherMetricViews;
 			sourceTree = "<group>";
 		};
 		1752E4E22B8E936D00137A74 = {
@@ -187,12 +184,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
+				1725A5432BAD526300DE08DB /* WeatherMetricView.swift in Sources */,
 				1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */,
 				1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */,
 				170828962BA3B8E100094406 /* FirePredictService.swift in Sources */,
-				170828A02BA3B93000094406 /* HalfWidthView.swift in Sources */,
 				170828942BA3B8D300094406 /* WeatherService.swift in Sources */,
-				1708289E2BA3B92A00094406 /* FullWidthView.swift in Sources */,
 				170828A22BA3C09A00094406 /* LocationService.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 			);
