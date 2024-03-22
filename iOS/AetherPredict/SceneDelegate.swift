@@ -16,12 +16,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Set OnboardingViewController as the root view controller if first open, else set HomeViewController
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+//        if UserDefaults.standard.bool(forKey: "onboardingComplete") {
+//            window?.rootViewController = HomeViewController()
+//        } else {
+//            window?.rootViewController = OnboardingViewController()
+//        }
+        window?.rootViewController = HomeViewController()
         window?.makeKeyAndVisible()
-        if UserDefaults.standard.bool(forKey: "onboardingComplete") {
-            window?.rootViewController = HomeViewController()
-        } else {
-            window?.rootViewController = OnboardingViewController()
-        }
 
     }
 

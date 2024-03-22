@@ -12,7 +12,45 @@ import WeatherKit
 import os.log
 
 public class HomeViewController: UIViewController {
-    
+    // MARK: - UI
+    private let lastUpdatedLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.textAlignment = .center
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 1
+        label.alpha = 0
+        return label
+    }()
+    private let temperatureLabel: UILabel = {
+        let label = UILabel()
+        label.text = "NaN°"
+        label.font = .systemFont(ofSize: 50, weight: .regular)
+        label.textAlignment = .center
+        label.textColor = .label
+        label.numberOfLines = 1
+        label.alpha = 0
+        return label
+    }()
+    private let conditionImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .label
+        imageView.alpha = 0
+        return imageView
+    }()
+    private let currentConditionsLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textAlignment = .center
+        label.textColor = .label
+        label.numberOfLines = 2
+        label.alpha = 0
+        return label
+    }()
+
     // reduce the amount of WeatherKit requests
     private var previousLocation: CLLocation? = nil
     
@@ -23,29 +61,65 @@ public class HomeViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: - Setup UI + Constraints
-        
-        
-        // Ask for Authorisation from the User for access to location
-        self.locationManager.requestWhenInUseAuthorization()
+        // Setup initial UI
+        view.backgroundColor = .systemBackground
+        setupUI()
 
         // Request location
+        self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
-        
         
     }
+    
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        manager.startUpdatingLocation()
+    }
+    
+    private func animateInViews() {
+        UIView.animate(withDuration: 0.3) {
+            self.lastUpdatedLabel.alpha = 1
+            self.temperatureLabel.alpha = 1
+            self.conditionImageView.alpha = 1
+            self.currentConditionsLabel.alpha = 1
+        }
+    }
+    private func setupUI() {
+        lastUpdatedLabel.translatesAutoresizingMaskIntoConstraints = false
+        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        conditionImageView.translatesAutoresizingMaskIntoConstraints = false
+        currentConditionsLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(lastUpdatedLabel)
+        view.addSubview(temperatureLabel)
+        view.addSubview(conditionImageView)
+        view.addSubview(currentConditionsLabel)
+
+        NSLayoutConstraint.activate([
+            lastUpdatedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            lastUpdatedLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            temperatureLabel.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 8),
+            temperatureLabel.centerYAnchor.constraint(equalTo: conditionImageView.centerYAnchor, constant: 0),
+            
+            conditionImageView.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            conditionImageView.topAnchor.constraint(equalTo: lastUpdatedLabel.bottomAnchor, constant: 30),
+            conditionImageView.widthAnchor.constraint(equalToConstant: 80),
+            conditionImageView.heightAnchor.constraint(equalToConstant: 80),
+            
+            currentConditionsLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 30),
+            currentConditionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            currentConditionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+        ])
+    }
+
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
         updateBasicWeatherInfo(with: currentForecast)
         updatePrecipitationEvents(with: hourForcast)
         updatePrecipitationForcast(with: minuteForcast)
         updateHourlyForcast(with: hourForcast)
         updateWeeklyForcast(with: dayWeather)
+        animateInViews()
     }
     
     /**
@@ -60,8 +134,18 @@ public class HomeViewController: UIViewController {
         let windSpeedObject = currentWeather.wind.speed
         let uvIndex = currentWeather.uvIndex
         
-        // TODO: - Update temperature, condition icon, humidity, wind, etc
+        // Convert temperature from Celsius to Fahrenheit
+        let temperatureInCelsius = Measurement(value: temperatureObject.value, unit: UnitTemperature.celsius)
+        let temperatureInFahrenheit = temperatureInCelsius.converted(to: .fahrenheit).value
+        
+        // Update temperature and condition labels
+        temperatureLabel.text = String(format: "%.0f°", temperatureInFahrenheit)
+        conditionImageView.image = UIImage(systemName: conditionImageName)
+        currentConditionsLabel.text = conditionDescription
+        lastUpdatedLabel.text = DateFormatter.localizedString(from: updatedAtTimestamp, dateStyle: .none, timeStyle: .short)
+
     }
+
     
     /**
         Updates precipation labels and icons based on the current weather forecast
@@ -123,7 +207,7 @@ public class HomeViewController: UIViewController {
 extension HomeViewController: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let unwrappedLocation = manager.location else { return }
-        os_log(.info, "Received 'didUpdateLocations' message from CLLocationManaager")
+        os_log(.info, "Received 'didUpdateLocations' message from CLLocationManager")
 
         // prevent multiple requests for the same location (reducing costs basically)
         if let previousLocation = previousLocation, previousLocation.coordinate.latitude == unwrappedLocation.coordinate.latitude && previousLocation.coordinate.longitude == unwrappedLocation.coordinate.longitude {
@@ -131,6 +215,7 @@ extension HomeViewController: CLLocationManagerDelegate {
             return
         }
         
+        self.previousLocation = unwrappedLocation
         weatherService.fetchWeather(for: unwrappedLocation) { [weak self] result in
             // prevent memory leak
             guard let self = self else { return }
@@ -139,15 +224,19 @@ extension HomeViewController: CLLocationManagerDelegate {
             switch result {
             case .success(let (current, minute, hourly, daily)):
                 os_log(.info, "Updating UI with weather information")
-                self.updateUIWith(currentForecast: current, minuteForcast: minute, hourForcast: hourly, dayWeather: daily)
+                DispatchQueue.main.async {
+                    self.updateUIWith(currentForecast: current, minuteForcast: minute, hourForcast: hourly, dayWeather: daily)
+                }
                 break
             case .failure(let error):
                 os_log(.error, "Error fetching weather: %@", error.localizedDescription)
                 
                 // show error to user
-                let alert = UIAlertController(title: "Error", message: "Failed to fetch weather data.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Error", message: "Failed to fetch weather data.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
                 break
             }
         }
