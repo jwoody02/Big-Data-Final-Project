@@ -141,7 +141,6 @@ public class HomeViewController: UIViewController {
         let temperatureObject = currentWeather.temperature // change this to .apparentTemperature for a 'feels like' temp
         let conditionDescription = currentWeather.condition.description
         let conditionImageName = currentWeather.symbolName
-        let humidityValue = currentWeather.humidity
         let windSpeedObject = currentWeather.wind.speed
         let uvIndex = currentWeather.uvIndex
         
@@ -158,9 +157,10 @@ public class HomeViewController: UIViewController {
 
         // Update metrics
         currentMetricsView.setMetricValue(forKey: .fireRisk, value: "Low", iconName: "flame.fill", primaryColor: .systemGreen)
-//        currentMetricsView.setMetricValue(forKey: .uvIndex, value: "\(uvIndex)", iconName: "sun.max", primaryColor: .purple)
-        currentMetricsView.setMetricValue(forKey: .windSpeed, value: "\(windSpeedObject.value)mph", iconName: "wind", primaryColor: .systemGreen)
-//        currentMetricsView.setMetricValue(forKey: .humidity, value: "\(humidityValue)%", iconName: "drop", primaryColor: .green)
+        currentMetricsView.setMetricValue(forKey: .uvIndex, value: "\(uvIndex.value)", iconName: "sun.max", primaryColor: .purple.withAlphaComponent(CGFloat((uvIndex.value + 2) / 10)))
+        
+        let roundedWindSpeed = Int(round(windSpeedObject.value))
+        currentMetricsView.setMetricValue(forKey: .windSpeed, value: "\(roundedWindSpeed)mph", iconName: "wind", primaryColor: .systemGreen)
         
     }
 
@@ -200,7 +200,6 @@ public class HomeViewController: UIViewController {
         
         currentMetricsView.setMetricValue(forKey: .precipitationChance, value: "\(String(preciptationChance * 100).replacingOccurrences(of: ".0", with: ""))%", iconName: precipitationLogo, primaryColor: .blue)
         currentMetricsView.setMetricValue(forKey: .precipitationAmount, value: "\(String(preciptationAmountObject?.precipitationAmount.value ?? 0))\"", iconName: "drop.fill", primaryColor: .blue)
-        // TODO: - Update for 'raining' 'snow' and other events
     }
     
     /**

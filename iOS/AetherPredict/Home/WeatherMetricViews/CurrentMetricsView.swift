@@ -80,7 +80,7 @@ class CurrentMetricsView: UIView {
         }
         
         // Automatically hide if the value indicates it should be hidden
-        if value == "0" || value == "0%" || value == "0.0\"" {
+        if value == "0" || value == "0%" || value == "0.0\"" || value == "0mph" {
             metricViews[key.rawValue]?.isHidden = true
         } else {
             metricViews[key.rawValue]?.isHidden = false
