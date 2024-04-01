@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 300
+    static let MAXIMIZED_HEIGHT: CGFloat = 340
 
     var cardHeightConstraint = NSLayoutConstraint()
 
@@ -148,21 +148,15 @@ class CurrentWeatherCard: UIView {
     }
 
     public func minimize() {
-        UIView.animate(withDuration: 0.0) {
-            self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
-            self.showMoreButton.imageView?.transform = .identity
-            self.showMoreButton.setTitle("Show more ", for: .normal)
-            self.layoutIfNeeded()
-        }
+        self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
+        self.showMoreButton.imageView?.transform = .identity
+        self.showMoreButton.setTitle("Show more ", for: .normal)
     }
 
     public func maximize() {
-        UIView.animate(withDuration: 0.0) {
-            self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
-            self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
-            self.showMoreButton.setTitle("Show less ", for: .normal)
-            self.layoutIfNeeded()
-        }
+        self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
+        self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
+        self.showMoreButton.setTitle("Show less ", for: .normal)
     }
 
     public func toggle() {
