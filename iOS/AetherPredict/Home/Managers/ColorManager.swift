@@ -14,4 +14,5 @@ extension UIColor {
     static let primaryTint = UIColor.white
     static let secondaryTint = UIColor(red: 89/255, green: 104/255, blue: 136/255, alpha: 1.0)
     static let orangishYellow = UIColor(red: 245/255, green: 181/255, blue: 43/255, alpha: 1.0)
+    static let rainColor = UIColor(red: 86/255, green: 184/255, blue: 217/255, alpha: 1.0)
 }

@@ -28,11 +28,11 @@ class WeatherConditionView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .nunito(ofSize: 8, weight: .bold)
-        label.textColor = .cyan
+        label.textColor = .rainColor
         label.layer.cornerRadius = 8
         label.layer.masksToBounds = true
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.cyan.withAlphaComponent(0.1).cgColor
+        label.layer.borderColor = UIColor.rainColor.withAlphaComponent(0.1).cgColor
         label.backgroundColor = .backgroundColor
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowRadius = 2
@@ -68,12 +68,12 @@ class WeatherConditionView: UIView {
             containerBackgroundView.heightAnchor.constraint(equalTo: widthAnchor),
 
             conditionImageView.centerXAnchor.constraint(equalTo: containerBackgroundView.centerXAnchor),
-            conditionImageView.centerYAnchor.constraint(equalTo: containerBackgroundView.centerYAnchor),
+            conditionImageView.centerYAnchor.constraint(equalTo: containerBackgroundView.centerYAnchor, constant: 2),
             conditionImageView.widthAnchor.constraint(equalToConstant: 30),
             conditionImageView.heightAnchor.constraint(equalToConstant: 30),
 
-            precipitationChanceLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 6),
-            precipitationChanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 6),
+            precipitationChanceLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5),
+            precipitationChanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5),
             precipitationChanceLabel.heightAnchor.constraint(equalToConstant: 18),
             precipitationChanceLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 26)
         ])
