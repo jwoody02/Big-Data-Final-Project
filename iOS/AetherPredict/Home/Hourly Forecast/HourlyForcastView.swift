@@ -16,8 +16,8 @@ class HourlyForecastCollectionView: UIView, UICollectionViewDataSource {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 65, height: 80) // Adjust the size as needed
-        layout.minimumLineSpacing = 20
+        layout.itemSize = CGSize(width: 65, height: 110) // Adjust the size as needed
+        layout.minimumLineSpacing = 4
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: WeatherCollectionViewCell.identifier)
         collectionView.dataSource = self

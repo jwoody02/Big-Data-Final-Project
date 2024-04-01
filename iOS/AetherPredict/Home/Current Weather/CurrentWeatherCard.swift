@@ -23,7 +23,7 @@ class CurrentWeatherCard: UIView {
         label.text = ""
         label.font = .nunito(ofSize: 13, weight: .medium)
         label.textAlignment = .left
-        label.textColor = .secondaryLabel
+        label.textColor = .secondaryTint
         label.numberOfLines = 1
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +34,7 @@ class CurrentWeatherCard: UIView {
         label.text = "--°"
         label.font = .nunito(ofSize: 48, weight: .medium)
         label.textAlignment = .left
-        label.textColor = .label
+        label.textColor = .primaryTint
         label.numberOfLines = 1
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ class CurrentWeatherCard: UIView {
     private let conditionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .label
+        imageView.tintColor = .primaryTint
         imageView.image = UIImage(systemName: "icloud.slash.fill")
         imageView.alpha = 1
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ class CurrentWeatherCard: UIView {
         label.text = "Feels like --°"
         label.font = .nunito(ofSize: 14, weight: .light)
         label.textAlignment = .left
-        label.textColor = .label
+        label.textColor = .primaryTint
         label.numberOfLines = 1
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,7 @@ class CurrentWeatherCard: UIView {
         label.text = ""
         label.font = .nunito(ofSize: 14, weight: .light)
         label.textAlignment = .left
-        label.textColor = .label
+        label.textColor = .primaryTint
         label.numberOfLines = 2
         label.alpha = 1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +85,7 @@ class CurrentWeatherCard: UIView {
     private func setupUI() {
         cardHeightConstraint = heightAnchor.constraint(equalToConstant: CurrentWeatherCard.MINIMIZED_HEIGHT)
 
-        backgroundColor = .white // TODO: - Replace with theme controller
+        backgroundColor = .foregroundColor
         layer.cornerRadius = 16
 
         addSubview(lastUpdatedLabel)
@@ -190,12 +190,12 @@ class CurrentWeatherCard: UIView {
     private func setFeelsLike(to value: Double) {
         let lightAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.nunito(ofSize: 14, weight: .light),
-            .foregroundColor: UIColor.label // Adjust color if necessary
+            .foregroundColor: UIColor.primaryTint
         ]
         
         let mediumAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.nunito(ofSize: 14, weight: .medium),
-            .foregroundColor: UIColor.label // Adjust color if necessary
+            .foregroundColor: UIColor.primaryTint
         ]
         
         // Create the attributed string for the "Feels like " part

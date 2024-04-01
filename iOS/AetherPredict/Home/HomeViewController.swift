@@ -18,7 +18,7 @@ public class HomeViewController: UIViewController {
         label.text = "Current Location"
         label.font = .nunito(ofSize: 18, weight: .medium)
         label.textAlignment = .left
-        label.textColor = .label
+        label.textColor = .primaryTint
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +48,7 @@ public class HomeViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         // Setup initial UI
-        view.backgroundColor = UIColor(red: 243/255, green: 243/255, blue: 243/255, alpha: 1.0)
+        view.backgroundColor = .backgroundColor
         setupUI()
 
         // Request location
@@ -77,14 +77,14 @@ public class HomeViewController: UIViewController {
             locationLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
             locationLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 
-            currentWeatherCard.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
+            currentWeatherCard.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
             currentWeatherCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             currentWeatherCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
             hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 5),
             hourlyForcastView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             hourlyForcastView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            hourlyForcastView.heightAnchor.constraint(equalToConstant: 100)
+            hourlyForcastView.heightAnchor.constraint(equalToConstant: 110)
         ])
     }
     

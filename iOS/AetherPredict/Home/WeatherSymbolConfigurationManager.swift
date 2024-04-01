@@ -11,34 +11,51 @@ import UIKit
 class WeatherSymbolConfigurationManager {
     
     static func configuration(forCondition systemName: String) -> UIImage.SymbolConfiguration {
-        let defaultConfiguration = UIImage.SymbolConfiguration(paletteColors: [.secondaryLabel])
+        let defaultConfiguration = UIImage.SymbolConfiguration(paletteColors: [.systemGray5])
         
         switch systemName {
         case "sun.max.fill":
             // Sunny: Sun is yellow
-            return UIImage.SymbolConfiguration(paletteColors: [.yellow])
+            return UIImage.SymbolConfiguration(paletteColors: [.orangishYellow])
         case "cloud.fill", "cloud":
             // Cloudy: Cloud is light gray
-            return UIImage.SymbolConfiguration(paletteColors: [.lightGray])
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5])
         case "cloud.drizzle.fill", "cloud.rain.fill":
             // Rain: Cloud is light gray, raindrops are blue
-            return UIImage.SymbolConfiguration(paletteColors: [.lightGray, .blue])
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .blue])
         case "cloud.bolt.rain.fill":
             // Thunderstorm: Cloud is dark gray, lightning is yellow, rain is blue
-            return UIImage.SymbolConfiguration(paletteColors: [.darkGray, .yellow, .blue])
+            return UIImage.SymbolConfiguration(paletteColors: [.darkGray, .orangishYellow, .blue])
         case "cloud.snow.fill", "snow":
             // Snow: Cloud is light gray, snowflakes are white
-            return UIImage.SymbolConfiguration(paletteColors: [.lightGray, .white])
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .primaryTint])
         case "cloud.fog.fill":
             // Fog: Cloud is light gray (considering white background)
-            return UIImage.SymbolConfiguration(paletteColors: [.lightGray])
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5])
         case "thermometer.sun.fill":
             // Hot temperature: Thermometer mercury is red, sun is yellow
-            return UIImage.SymbolConfiguration(paletteColors: [.red, .yellow])
+            return UIImage.SymbolConfiguration(paletteColors: [.red, .orangishYellow])
         case "moon.stars.fill":
             // Clear night: Moon is light yellow, stars are white
-            return UIImage.SymbolConfiguration(paletteColors: [.yellow, .white])
-        // Add more conditions as needed
+            return UIImage.SymbolConfiguration(paletteColors: [.primaryTint])
+        case "cloud.sun.fill":
+            // Partly Cloudy Day: Sun is yellow, cloud is light gray
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .orangishYellow])
+        case "wind":
+            // Wind: Wind symbol is light gray
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray4])
+        case "smoke.fill":
+            // Smoke/Haze: Smoke is light gray
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray3])
+        case "tornado":
+            // Tornado: Tornado is dark gray
+            return UIImage.SymbolConfiguration(paletteColors: [.darkGray])
+        case "hurricane":
+            // Hurricane: Hurricane symbol is dark blue
+            return UIImage.SymbolConfiguration(paletteColors: [.blue])
+        case "cloud.hail.fill":
+            // Hail: Cloud is light gray, hailstones are white
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .primaryTint])
         default:
             return defaultConfiguration
         }

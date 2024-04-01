@@ -15,25 +15,29 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     private let timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .nunito(ofSize: 14, weight: .medium)
-        label.textColor = .secondaryLabel
+        label.font = .nunito(ofSize: 13, weight: .medium)
+        label.textColor = .secondaryTint
         return label
     }()
     
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .nunito(ofSize: 16, weight: .medium)
-        label.textColor = .label
+        label.font = .nunito(ofSize: 17, weight: .medium)
+        label.textColor = .primaryTint
         return label
     }()
     
+    private let conditionImageContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .foregroundColor
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 12
+        return view
+    }()
     private let conditionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .systemBackground
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
         return imageView
     }()
     
@@ -41,6 +45,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(timeLabel)
         contentView.addSubview(temperatureLabel)
+        contentView.addSubview(conditionImageContainer)
         contentView.addSubview(conditionImageView)
         contentView.backgroundColor = .clear
         setupConstraints()
@@ -50,18 +55,26 @@ class WeatherCollectionViewCell: UICollectionViewCell {
             conditionImageView.translatesAutoresizingMaskIntoConstraints = false
             timeLabel.translatesAutoresizingMaskIntoConstraints = false
             temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        conditionImageContainer.translatesAutoresizingMaskIntoConstraints = false
+            
+        let conditionPadding: CGFloat = 10
             NSLayoutConstraint.activate([
-                conditionImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+                
+                conditionImageContainer.topAnchor.constraint(equalTo: conditionImageView.topAnchor, constant: -conditionPadding),
+                conditionImageContainer.leadingAnchor.constraint(equalTo: conditionImageView.leadingAnchor, constant: -conditionPadding),
+                conditionImageContainer.trailingAnchor.constraint(equalTo: conditionImageView.trailingAnchor, constant: conditionPadding),
+                conditionImageContainer.bottomAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: conditionPadding),
+                
+                conditionImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
                 conditionImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-                conditionImageView.widthAnchor.constraint(equalToConstant: 40),
-                conditionImageView.heightAnchor.constraint(equalToConstant: 40),
+                conditionImageView.widthAnchor.constraint(equalToConstant: 30),
+                conditionImageView.heightAnchor.constraint(equalToConstant: 30),
 
-                timeLabel.topAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: 4),
+                timeLabel.topAnchor.constraint(equalTo: conditionImageContainer.bottomAnchor, constant: 2),
                 timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
 
-                temperatureLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 4),
+                temperatureLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 0),
                 temperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
                 temperatureLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
