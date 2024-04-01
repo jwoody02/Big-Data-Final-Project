@@ -52,6 +52,9 @@ class HourlyForecastCollectionView: UIView, UICollectionViewDataSource {
             fatalError("Unable to dequeue WeatherCollectionViewCell")
         }
         cell.configure(with: hourlyForecast[indexPath.row])
+        if indexPath.row == 0 {
+            cell.timeLabel.text = "Now"
+        }
         return cell
     }
 

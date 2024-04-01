@@ -180,17 +180,20 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         currentWeatherCard.updateWith(currentForecast)
         
         // Update hourly forecast for the next 24 hours
+        let now = Date()
+        let currentCalendar = Calendar.current
+        let startOfCurrentHour = currentCalendar.dateInterval(of: .hour, for: now)?.start ?? now
+
         hourlyForcastView.update(with: Array(hourForcast.forecast.filter { forecast in
             let forecastDate = forecast.date
-            return forecastDate >= Date() && forecastDate <= Calendar.current.date(byAdding: .hour, value: 24, to: Date())!
+            return forecastDate >= startOfCurrentHour && forecastDate <= currentCalendar.date(byAdding: .hour, value: 24, to: startOfCurrentHour)!
         }))
         
-        // Update weekly forecast to start from today and include only up to DAY_FORCAST_COUNT days
+        // Update weekly forecast
         let today = Calendar.current.startOfDay(for: Date())
         let filteredForecasts = dayWeather.forecast.filter { $0.date >= today }
         let sliceCount = min(filteredForecasts.count, WeeklyForecastCollectionView.DAY_FORCAST_COUNT)
         let slicedForecasts = filteredForecasts.prefix(sliceCount)
-        
         weeklyForcastView.update(with: Array(slicedForecasts))
     }
 

@@ -54,7 +54,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
                 weatherConditionView.heightAnchor.constraint(equalToConstant: conditionViewWH),
                 weatherConditionView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
-                timeLabel.topAnchor.constraint(equalTo: weatherConditionView.bottomAnchor, constant: 4),
+                timeLabel.topAnchor.constraint(equalTo: weatherConditionView.bottomAnchor, constant: 8),
                 timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
 

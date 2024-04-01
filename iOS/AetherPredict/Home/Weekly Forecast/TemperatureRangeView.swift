@@ -44,7 +44,7 @@ class TemperatureRangeView: UIView {
 
     private let backgroundProgressBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = .secondaryTint.withAlphaComponent(0.5)
+        view.backgroundColor = .secondaryTint.withAlphaComponent(0.4)
         view.layer.cornerRadius = 1.5
         return view
     }() 
