@@ -12,15 +12,15 @@
 		170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828972BA3B8EE00094406 /* HomeViewController.swift */; };
 		1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */; };
 		170828A22BA3C09A00094406 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828A12BA3C09A00094406 /* LocationService.swift */; };
-		1725A5432BAD526300DE08DB /* WeatherMetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A5422BAD526300DE08DB /* WeatherMetricView.swift */; };
-		1725A5452BAD54A600DE08DB /* CurrentMetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A5442BAD54A600DE08DB /* CurrentMetricsView.swift */; };
-		1725A5472BAD54B200DE08DB /* PrecipitationForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A5462BAD54B200DE08DB /* PrecipitationForecastView.swift */; };
-		1725A5492BAD54BE00DE08DB /* HourlyForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A5482BAD54BE00DE08DB /* HourlyForecastView.swift */; };
-		1725A54B2BAD54C400DE08DB /* WeeklyforecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1725A54A2BAD54C400DE08DB /* WeeklyforecastView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
 		1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F92B8E937600137A74 /* LaunchScreen.storyboard */; };
+		17839E082BB9DEEE00E66992 /* CurrentWeatherCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E072BB9DEEE00E66992 /* CurrentWeatherCard.swift */; };
+		17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17839E0A2BBA525200E66992 /* Nunito-Light.ttf */; };
+		17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17839E0B2BBA525200E66992 /* Nunito-Bold.ttf */; };
+		17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17839E0C2BBA525200E66992 /* Nunito-Medium.ttf */; };
+		17839E112BBA539900E66992 /* NunitoFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E102BBA539900E66992 /* NunitoFont.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,17 +30,17 @@
 		1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		170828A12BA3C09A00094406 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
-		1725A5422BAD526300DE08DB /* WeatherMetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherMetricView.swift; sourceTree = "<group>"; };
-		1725A5442BAD54A600DE08DB /* CurrentMetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentMetricsView.swift; sourceTree = "<group>"; };
-		1725A5462BAD54B200DE08DB /* PrecipitationForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrecipitationForecastView.swift; sourceTree = "<group>"; };
-		1725A5482BAD54BE00DE08DB /* HourlyForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecastView.swift; sourceTree = "<group>"; };
-		1725A54A2BAD54C400DE08DB /* WeeklyforecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyforecastView.swift; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1752E4F02B8E936D00137A74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1752E4F72B8E937600137A74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1752E4FA2B8E937600137A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1752E4FC2B8E937600137A74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17839E072BB9DEEE00E66992 /* CurrentWeatherCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherCard.swift; sourceTree = "<group>"; };
+		17839E0A2BBA525200E66992 /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Light.ttf"; sourceTree = "<group>"; };
+		17839E0B2BBA525200E66992 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		17839E0C2BBA525200E66992 /* Nunito-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Medium.ttf"; sourceTree = "<group>"; };
+		17839E102BBA539900E66992 /* NunitoFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NunitoFont.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +67,10 @@
 		170828922BA3B86800094406 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				1708289C2BA3B90500094406 /* WeatherMetricViews */,
+				17839E062BB9DECF00E66992 /* Weekly Forecast */,
+				17839E052BB9DEC400E66992 /* Hourly Forecast */,
+				17839E042BB9DEB400E66992 /* Precipitation */,
+				17839E032BB9DEAD00E66992 /* Current Weather */,
 				170828972BA3B8EE00094406 /* HomeViewController.swift */,
 			);
 			path = Home;
@@ -79,18 +82,6 @@
 				1708289A2BA3B8FB00094406 /* OnboardingViewController.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		1708289C2BA3B90500094406 /* WeatherMetricViews */ = {
-			isa = PBXGroup;
-			children = (
-				1725A5422BAD526300DE08DB /* WeatherMetricView.swift */,
-				1725A5442BAD54A600DE08DB /* CurrentMetricsView.swift */,
-				1725A5462BAD54B200DE08DB /* PrecipitationForecastView.swift */,
-				1725A5482BAD54BE00DE08DB /* HourlyForecastView.swift */,
-				1725A54A2BAD54C400DE08DB /* WeeklyforecastView.swift */,
-			);
-			path = WeatherMetricViews;
 			sourceTree = "<group>";
 		};
 		1752E4E22B8E936D00137A74 = {
@@ -112,6 +103,7 @@
 		1752E4ED2B8E936D00137A74 /* AetherPredict */ = {
 			isa = PBXGroup;
 			children = (
+				17839E092BBA51A900E66992 /* Fonts */,
 				1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */,
 				170828992BA3B8F100094406 /* Onboarding */,
 				170828922BA3B86800094406 /* Home */,
@@ -123,6 +115,46 @@
 				1752E4FC2B8E937600137A74 /* Info.plist */,
 			);
 			path = AetherPredict;
+			sourceTree = "<group>";
+		};
+		17839E032BB9DEAD00E66992 /* Current Weather */ = {
+			isa = PBXGroup;
+			children = (
+				17839E072BB9DEEE00E66992 /* CurrentWeatherCard.swift */,
+			);
+			path = "Current Weather";
+			sourceTree = "<group>";
+		};
+		17839E042BB9DEB400E66992 /* Precipitation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Precipitation;
+			sourceTree = "<group>";
+		};
+		17839E052BB9DEC400E66992 /* Hourly Forecast */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Hourly Forecast";
+			sourceTree = "<group>";
+		};
+		17839E062BB9DECF00E66992 /* Weekly Forecast */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Weekly Forecast";
+			sourceTree = "<group>";
+		};
+		17839E092BBA51A900E66992 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				17839E0B2BBA525200E66992 /* Nunito-Bold.ttf */,
+				17839E0A2BBA525200E66992 /* Nunito-Light.ttf */,
+				17839E0C2BBA525200E66992 /* Nunito-Medium.ttf */,
+				17839E102BBA539900E66992 /* NunitoFont.swift */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +217,9 @@
 			files = (
 				1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */,
 				1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */,
+				17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */,
+				17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */,
+				17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,17 +230,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1725A5492BAD54BE00DE08DB /* HourlyForecastView.swift in Sources */,
-				1725A5452BAD54A600DE08DB /* CurrentMetricsView.swift in Sources */,
-				1725A5472BAD54B200DE08DB /* PrecipitationForecastView.swift in Sources */,
+				17839E082BB9DEEE00E66992 /* CurrentWeatherCard.swift in Sources */,
 				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
-				1725A5432BAD526300DE08DB /* WeatherMetricView.swift in Sources */,
 				1708289B2BA3B8FB00094406 /* OnboardingViewController.swift in Sources */,
 				1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */,
 				170828962BA3B8E100094406 /* FirePredictService.swift in Sources */,
+				17839E112BBA539900E66992 /* NunitoFont.swift in Sources */,
 				170828942BA3B8D300094406 /* WeatherService.swift in Sources */,
 				170828A22BA3C09A00094406 /* LocationService.swift in Sources */,
-				1725A54B2BAD54C400DE08DB /* WeeklyforecastView.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

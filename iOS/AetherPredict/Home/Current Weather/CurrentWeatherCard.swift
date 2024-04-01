@@ -1,0 +1,222 @@
+//
+//  CurrentWeatherCard.swift
+//  AetherPredict
+//
+//  Created by Jordan Wood on 3/31/24.
+//
+
+import Foundation
+import UIKit
+import WeatherKit
+import os.log
+
+class CurrentWeatherCard: UIView {
+
+    static let MINIMIZED_HEIGHT: CGFloat = 180
+    static let MAXIMIZED_HEIGHT: CGFloat = 300
+
+    var cardHeightConstraint = NSLayoutConstraint()
+
+    // MARK: - UI Elements
+    private let lastUpdatedLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .nunito(ofSize: 13, weight: .medium)
+        label.textAlignment = .left
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 1
+        label.alpha = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private let temperatureValueLabel: UILabel = {
+        let label = UILabel()
+        label.text = "--°"
+        label.font = .nunito(ofSize: 48, weight: .medium)
+        label.textAlignment = .left
+        label.textColor = .label
+        label.numberOfLines = 1
+        label.alpha = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private let conditionImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .label
+        imageView.image = UIImage(systemName: "icloud.slash.fill")
+        imageView.alpha = 1
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    private let feelsLikeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Feels like --°"
+        label.font = .nunito(ofSize: 14, weight: .light)
+        label.textAlignment = .left
+        label.textColor = .label
+        label.numberOfLines = 1
+        label.alpha = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    private let currentConditionsLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = .nunito(ofSize: 14, weight: .light)
+        label.textAlignment = .left
+        label.textColor = .label
+        label.numberOfLines = 2
+        label.alpha = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        cardHeightConstraint = heightAnchor.constraint(equalToConstant: CurrentWeatherCard.MINIMIZED_HEIGHT)
+
+        backgroundColor = .white // TODO: - Replace with theme controller
+        layer.cornerRadius = 16
+
+        addSubview(lastUpdatedLabel)
+        addSubview(temperatureValueLabel)
+        addSubview(conditionImageView)
+        addSubview(currentConditionsLabel)
+        addSubview(feelsLikeLabel)
+    }
+
+    private func setupConstraints() {
+        cardHeightConstraint.isActive = true
+        cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
+
+        NSLayoutConstraint.activate([
+            lastUpdatedLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            lastUpdatedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            lastUpdatedLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+
+            temperatureValueLabel.topAnchor.constraint(equalTo: lastUpdatedLabel.bottomAnchor, constant: 0),
+            temperatureValueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            temperatureValueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            currentConditionsLabel.topAnchor.constraint(equalTo: temperatureValueLabel.bottomAnchor, constant: 15),
+            currentConditionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            currentConditionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            feelsLikeLabel.topAnchor.constraint(equalTo: currentConditionsLabel.bottomAnchor, constant: 5),
+            feelsLikeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            feelsLikeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+
+            conditionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            conditionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            conditionImageView.widthAnchor.constraint(equalToConstant: 100),
+            conditionImageView.heightAnchor.constraint(equalToConstant: 100),
+
+        ])
+    }
+
+    public func minimize() {
+        UIView.animate(withDuration: 0.3) {
+            self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
+            self.layoutIfNeeded()
+        }
+    }
+
+    public func maximize() {
+        UIView.animate(withDuration: 0.3) {
+            self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
+            self.layoutIfNeeded()
+        }
+    }
+
+    public func toggle() {
+        if cardHeightConstraint.constant == CurrentWeatherCard.MINIMIZED_HEIGHT {
+            maximize()
+        } else {
+            minimize()
+        }
+    }
+
+    public func updateWith(_ currentWeather: CurrentWeather) {
+        let updatedAtTimestamp = currentWeather.date
+        let actualTemperatureObject = currentWeather.temperature
+        let feelsLikeObject = currentWeather.apparentTemperature
+        let conditionDescription = currentWeather.condition.description
+        let conditionImageName = currentWeather.symbolName
+        let windSpeedObject = currentWeather.wind.speed
+        let uvIndex = currentWeather.uvIndex
+
+         // Main Values (Temperature, Condition, Feels Like)
+        setUpdatedAt(updatedAtTimestamp) // "9:27 PM"
+        setCurrentConditionLabel(to: conditionDescription) // "Cloudy"
+
+        let temperatureInCelsius = Measurement(value: actualTemperatureObject.value, unit: UnitTemperature.celsius)
+        let temperatureInFahrenheit = temperatureInCelsius.converted(to: .fahrenheit).value
+        setTemperature(to: temperatureInFahrenheit) // Temperature Value
+        setConditionImage(named: conditionImageName) // Condition image
+
+        let feelsLikeInCelsius = Measurement(value: feelsLikeObject.value, unit: UnitTemperature.celsius)
+        let feelsLikeInFahrenheit = feelsLikeInCelsius.converted(to: .fahrenheit).value
+        setFeelsLike(to: feelsLikeInFahrenheit)
+
+        // Additional Values (Wind Speed, UV Index)
+        let roundedWindSpeed = Int(round(windSpeedObject.value))
+        // TODO: - Set wind speed
+
+        let UVIndex = uvIndex.value
+        // TODO: - Set UV Index
+        
+    }
+
+    private func setTemperature(to value: Double) {
+        temperatureValueLabel.text = String(format: "%.0f°", value)
+    }
+
+    private func setConditionImage(named name: String) {
+        conditionImageView.image = UIImage(systemName: name)
+    }
+
+    private func setFeelsLike(to value: Double) {
+        let lightAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.nunito(ofSize: 14, weight: .light),
+            .foregroundColor: UIColor.label // Adjust color if necessary
+        ]
+        
+        let mediumAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.nunito(ofSize: 14, weight: .medium),
+            .foregroundColor: UIColor.label // Adjust color if necessary
+        ]
+        
+        // Create the attributed string for the "Feels like " part
+        let feelsLikeAttributedString = NSMutableAttributedString(string: "Feels like ", attributes: lightAttributes)
+        
+        // Create the attributed string for the temperature value part
+        let valueAttributedString = NSAttributedString(string: String(format: "%.0f°", value), attributes: mediumAttributes)
+        
+        // Append the temperature value part to the "Feels like " part
+        feelsLikeAttributedString.append(valueAttributedString)
+        
+        // Set the attributed text to the label
+        feelsLikeLabel.attributedText = feelsLikeAttributedString
+    }
+
+    private func setUpdatedAt(_ date: Date) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, MMM d, h:mm a"
+        lastUpdatedLabel.text = "\(dateFormatter.string(from: date))"
+    }
+
+
+    private func setCurrentConditionLabel(to text: String) {
+        currentConditionsLabel.text = text
+    }
+}
