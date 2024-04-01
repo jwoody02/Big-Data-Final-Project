@@ -81,7 +81,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
                 conditionImageView.widthAnchor.constraint(equalToConstant: conditionImageWH),
                 conditionImageView.heightAnchor.constraint(equalToConstant: conditionImageWH),
 
-                timeLabel.topAnchor.constraint(equalTo: conditionImageContainer.bottomAnchor, constant: 2),
+                timeLabel.topAnchor.constraint(equalTo: conditionImageContainer.bottomAnchor, constant: 4),
                 timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
 

@@ -71,7 +71,21 @@ class CurrentWeatherCard: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    private let showMoreButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Show More ", for: .normal) // Space is intentional for spacing between text and image
+        
+        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
+        let chevronImage = UIImage(systemName: "chevron.down", withConfiguration: symbolConfiguration)?.withTintColor(.secondaryTint, renderingMode: .alwaysOriginal)
+        button.setImage(chevronImage, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft // This puts the image to the left of the text
+        
+        button.tintColor = .secondaryTint
+        button.titleLabel?.font = .nunito(ofSize: 12, weight: .medium)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -93,6 +107,7 @@ class CurrentWeatherCard: UIView {
         addSubview(conditionImageView)
         addSubview(currentConditionsLabel)
         addSubview(feelsLikeLabel)
+        addSubview(showMoreButton)
     }
 
     private func setupConstraints() {
@@ -120,7 +135,9 @@ class CurrentWeatherCard: UIView {
             conditionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             conditionImageView.widthAnchor.constraint(equalToConstant: 100),
             conditionImageView.heightAnchor.constraint(equalToConstant: 100),
-
+            
+            showMoreButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            showMoreButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
         ])
     }
 
