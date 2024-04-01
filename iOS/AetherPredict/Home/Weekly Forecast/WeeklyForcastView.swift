@@ -13,6 +13,8 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
     
     public static let DAY_FORCAST_COUNT = 10 // how many days to show forecast for
     private var weeklyForecast: [DayWeather] = []
+    private var weeklyLowValue: Double = 0
+    private var weeklyHighValue: Double = 0
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -52,17 +54,28 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WeeklyWeatherCollectionViewCell.identifier, for: indexPath) as? WeeklyWeatherCollectionViewCell else {
             fatalError("Unable to dequeue WeeklyWeatherCollectionViewCell")
         }
+        
+        // ui config
         cell.configure(with: weeklyForecast[indexPath.row])
+        
+        // custom day label text
         if indexPath.row == 0 {
             cell.dayLabel.text = "Today"
         } else if indexPath.row == 1 {
             cell.dayLabel.text = "Tomorrow"
         }
+        
+        // temperature range view
+        cell.temperatureRangeView.setHighValueForWeek(self.weeklyHighValue)
+        cell.temperatureRangeView.setLowValueForWeek(self.weeklyLowValue)
+        
         return cell
     }
 
     // Call this method to update the collection view with new data
     func update(with forecast: [DayWeather]) {
+        self.weeklyLowValue = forecast.map { $0.lowTemperature.value }.min() ?? 0
+        self.weeklyHighValue = forecast.map { $0.highTemperature.value }.max() ?? 0
         self.weeklyForecast = forecast
         collectionView.reloadData()
     }

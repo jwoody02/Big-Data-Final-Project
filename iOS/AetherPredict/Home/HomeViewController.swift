@@ -134,8 +134,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
         
         // Floating Location Label constraints
@@ -153,7 +152,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             locationLabel.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 
             searchButton.centerYAnchor.constraint(equalTo: locationLabel.centerYAnchor),
-            searchButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            searchButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -25),
             searchButton.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor, constant: 0),
             searchButton.heightAnchor.constraint(equalToConstant: 35),
             
@@ -161,7 +160,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             currentWeatherCard.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             currentWeatherCard.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
-            hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 10),
+            hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 20),
             hourlyForcastView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             hourlyForcastView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             hourlyForcastView.heightAnchor.constraint(equalToConstant: CGFloat(WeatherCollectionViewCell.HOURLY_FORECAST_HEIGHT)),
@@ -171,7 +170,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             weeklyForcastView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             weeklyForcastView.heightAnchor.constraint(equalToConstant: weeklyForecastHeight),
             
-            weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
+            weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
 
         ])
     }

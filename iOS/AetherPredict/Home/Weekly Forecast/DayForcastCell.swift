@@ -29,10 +29,15 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
 
     public let dayLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.font = .nunito(ofSize: 14, weight: .medium)
         label.textColor = .primaryTint
         return label
+    }()
+
+    public let temperatureRangeView: TemperatureRangeView = {
+        let trv = TemperatureRangeView()
+        return trv
     }()
     
     override init(frame: CGRect) {
@@ -40,6 +45,7 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(weatherConditionView)
         contentView.addSubview(conditionLabel)
         contentView.addSubview(dayLabel)
+        contentView.addSubview(temperatureRangeView)
         contentView.backgroundColor = .clear
         setupConstraints()
     }
@@ -48,6 +54,7 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
         weatherConditionView.translatesAutoresizingMaskIntoConstraints = false
         conditionLabel.translatesAutoresizingMaskIntoConstraints = false
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
+        temperatureRangeView.translatesAutoresizingMaskIntoConstraints = false
 
         let conditionViewWH: CGFloat = 50
             NSLayoutConstraint.activate([
@@ -56,12 +63,18 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
                 weatherConditionView.heightAnchor.constraint(equalToConstant: conditionViewWH),
                 weatherConditionView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
 
-                dayLabel.leadingAnchor.constraint(equalTo: weatherConditionView.trailingAnchor, constant: 10),
-                dayLabel.bottomAnchor.constraint(equalTo: weatherConditionView.centerYAnchor, constant: 0),
+                dayLabel.leadingAnchor.constraint(equalTo: weatherConditionView.trailingAnchor, constant: 20),
+                dayLabel.bottomAnchor.constraint(equalTo: weatherConditionView.centerYAnchor, constant: 2),
+                dayLabel.trailingAnchor.constraint(equalTo: temperatureRangeView.leadingAnchor, constant: 0),
                 
                 conditionLabel.topAnchor.constraint(equalTo: dayLabel.bottomAnchor, constant: 0),
-                conditionLabel.leadingAnchor.constraint(equalTo: weatherConditionView.trailingAnchor, constant: 10),
+                conditionLabel.leadingAnchor.constraint(equalTo: weatherConditionView.trailingAnchor, constant: 20),
+                conditionLabel.trailingAnchor.constraint(equalTo: temperatureRangeView.leadingAnchor, constant: 0),
 
+                temperatureRangeView.centerYAnchor.constraint(equalTo: weatherConditionView.centerYAnchor),
+                temperatureRangeView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+                temperatureRangeView.widthAnchor.constraint(equalToConstant: 120),
+                temperatureRangeView.heightAnchor.constraint(equalToConstant: 40)
             ])
         }
     
@@ -85,5 +98,9 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
 
         // update condition label
         conditionLabel.text = model.condition.description
+
+        // update temperature range view
+        temperatureRangeView.setLowCelciusValue(model.lowTemperature.value)
+        temperatureRangeView.setHighCelciusValue(model.highTemperature.value)
     }
 }

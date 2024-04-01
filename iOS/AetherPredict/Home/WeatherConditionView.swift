@@ -29,7 +29,7 @@ class WeatherConditionView: UIView {
         label.textAlignment = .center
         label.font = .nunito(ofSize: 8, weight: .bold)
         label.textColor = .rainColor
-        label.layer.cornerRadius = 8
+        label.layer.cornerRadius = 6
         label.layer.masksToBounds = true
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor.rainColor.withAlphaComponent(0.1).cgColor
@@ -68,7 +68,7 @@ class WeatherConditionView: UIView {
             containerBackgroundView.heightAnchor.constraint(equalTo: widthAnchor),
 
             conditionImageView.centerXAnchor.constraint(equalTo: containerBackgroundView.centerXAnchor),
-            conditionImageView.centerYAnchor.constraint(equalTo: containerBackgroundView.centerYAnchor, constant: 2),
+            conditionImageView.centerYAnchor.constraint(equalTo: containerBackgroundView.centerYAnchor, constant: 0),
             conditionImageView.widthAnchor.constraint(equalToConstant: 30),
             conditionImageView.heightAnchor.constraint(equalToConstant: 30),
 

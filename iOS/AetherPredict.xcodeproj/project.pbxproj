@@ -29,6 +29,7 @@
 		17839E1F2BBB14E600E66992 /* DayForcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E1E2BBB14E600E66992 /* DayForcastCell.swift */; };
 		17839E222BBB169000E66992 /* WeatherConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E212BBB169000E66992 /* WeatherConditionView.swift */; };
 		17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */; };
+		17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E252BBB609500E66992 /* TemperatureRangeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		17839E1E2BBB14E600E66992 /* DayForcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayForcastCell.swift; sourceTree = "<group>"; };
 		17839E212BBB169000E66992 /* WeatherConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionView.swift; sourceTree = "<group>"; };
 		17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+LocationDelegate.swift"; sourceTree = "<group>"; };
+		17839E252BBB609500E66992 /* TemperatureRangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureRangeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			children = (
 				17839E162BBA599C00E66992 /* WeeklyForcastView.swift */,
 				17839E1E2BBB14E600E66992 /* DayForcastCell.swift */,
+				17839E252BBB609500E66992 /* TemperatureRangeView.swift */,
 			);
 			path = "Weekly Forecast";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				17839E172BBA599C00E66992 /* WeeklyForcastView.swift in Sources */,
 				170828942BA3B8D300094406 /* WeatherService.swift in Sources */,
 				170828A22BA3C09A00094406 /* LocationService.swift in Sources */,
+				17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 				17839E1F2BBB14E600E66992 /* DayForcastCell.swift in Sources */,
 			);
@@ -418,6 +422,7 @@
 				DEVELOPMENT_TEAM = 4SSQ3NUFVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AetherPredict/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Aether;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access required to provide weather predictions";
@@ -449,6 +454,7 @@
 				DEVELOPMENT_TEAM = 4SSQ3NUFVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AetherPredict/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Aether;
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access required to provide weather predictions";

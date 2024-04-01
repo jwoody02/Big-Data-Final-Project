@@ -132,7 +132,7 @@ class CurrentWeatherCard: UIView {
             feelsLikeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
 
             conditionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            conditionImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            conditionImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
             conditionImageView.widthAnchor.constraint(equalToConstant: 100),
             conditionImageView.heightAnchor.constraint(equalToConstant: 100),
             
