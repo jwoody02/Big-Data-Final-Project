@@ -8,12 +8,6 @@
 		<string>Nunito-Light.ttf</string>
 		<string>Nunito-Medium.ttf</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location access required to provide weather predictions</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Location access required to provide weather predictions</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location access required to provide weather predictions</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

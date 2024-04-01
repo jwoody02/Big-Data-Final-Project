@@ -16,13 +16,13 @@ class HourlyForecastCollectionView: UIView, UICollectionViewDataSource {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 65, height: 110) // Adjust the size as needed
+        layout.itemSize = CGSize(width: 65, height: WeatherCollectionViewCell.HOURLY_FORECAST_HEIGHT) // Adjust the size as needed
         layout.minimumLineSpacing = 4
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: WeatherCollectionViewCell.identifier)
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()

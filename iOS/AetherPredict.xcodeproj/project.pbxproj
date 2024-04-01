@@ -406,11 +406,13 @@
 				DEVELOPMENT_TEAM = 4SSQ3NUFVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AetherPredict/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location access required to provide weather predictions";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access required to provide weather predictions";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -435,11 +437,13 @@
 				DEVELOPMENT_TEAM = 4SSQ3NUFVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AetherPredict/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Location access required to provide weather predictions";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access required to provide weather predictions";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access required to provide weather predictions";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -81,87 +81,20 @@ public class HomeViewController: UIViewController {
             currentWeatherCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             currentWeatherCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
-            hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 5),
+            hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 10),
             hourlyForcastView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             hourlyForcastView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            hourlyForcastView.heightAnchor.constraint(equalToConstant: 110)
+            hourlyForcastView.heightAnchor.constraint(equalToConstant: CGFloat(WeatherCollectionViewCell.HOURLY_FORECAST_HEIGHT))
         ])
     }
     
-    func updateCache(currentWeather: CurrentWeather, locationString: String) {
-//        UserDefaults.standard.set(locationString, forKey: "last_updated_location")
-//        UserDefaults.standard.set(currentWeather, forKey: "last_updated_weather")
-    }
 
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
-        updateCache(currentWeather: currentForecast, locationString: "Current Location")
         currentWeatherCard.updateWith(currentForecast)
-        hourlyForcastView.update(with: Array(hourForcast.forecast))
-        // updatePrecipitationEvents(with: hourForcast)
-        updatePrecipitationForcast(with: minuteForcast)
-        updateHourlyForcast(with: hourForcast)
-        updateWeeklyForcast(with: dayWeather)
-        animateInViews()
-    }
-    
-
-    
-    /**
-        Updates precipation labels and icons based on the current weather forecast
-    */
-    // private func updatePrecipitationEvents(with current: Forecast<HourWeather>) {
-    //     let preciptationChance = current.forecast.first?.precipitationChance ?? 0.0
-    //     let preciptationAmountObject = current.forecast.first
-    //     let precipitationType = preciptationAmountObject?.precipitation ?? .none // none, hail, mixed, rain, sleet, snow
-        
-    //     // sf symbol to show
-    //     var precipitationLogo = ""
-    //     switch precipitationType {
-    //         case .none:
-    //             break
-    //         case .hail:
-    //             precipitationLogo = "cloud.hail"
-    //             break
-    //         case .mixed:
-    //             precipitationLogo = "cloud.sleet"
-    //             break
-    //         case .rain:
-    //             precipitationLogo = "umbrella.fill"
-    //             break
-    //         case .sleet:
-    //             precipitationLogo = "cloud.sleet"
-    //             break
-    //         case .snow:
-    //             precipitationLogo = "snowflake"
-    //             break
-    //     @unknown default:
-    //         break
-    //     }
-
-        
-    //     currentMetricsView.setMetricValue(forKey: .precipitationChance, value: "\(String(preciptationChance * 100).replacingOccurrences(of: ".0", with: ""))%", iconName: precipitationLogo, primaryColor: .blue)
-    //     currentMetricsView.setMetricValue(forKey: .precipitationAmount, value: "\(String(preciptationAmountObject?.precipitationAmount.value ?? 0))\"", iconName: "drop.fill", primaryColor: .blue)
-    // }
-    
-    /**
-        Updates the minute by minute precipitation forcast for the next hour
-    */
-    private func updatePrecipitationForcast(with: Forecast<MinuteWeather>?) {
-        // TODO: - minute by minute rain forcast for next hour under the temperature
-    }
-
-    /**
-        Updates the hourly forcast for the next 24 hours
-    */
-    private func updateHourlyForcast(with: Forecast<HourWeather>) {
-    }
-
-
-    /**
-        Updates the daily forcast for the next 7 days
-    */
-    private func updateWeeklyForcast(with: Forecast<DayWeather>) {
-        // TODO: - weekly forecast?
+        hourlyForcastView.update(with: Array(hourForcast.forecast.filter { forecast in
+            let forecastDate = forecast.date
+            return forecastDate >= Date() && forecastDate <= Calendar.current.date(byAdding: .hour, value: 24, to: Date())!
+        }))
     }
 }
 

@@ -22,10 +22,10 @@ class WeatherSymbolConfigurationManager {
             return UIImage.SymbolConfiguration(paletteColors: [.systemGray5])
         case "cloud.drizzle.fill", "cloud.rain.fill":
             // Rain: Cloud is light gray, raindrops are blue
-            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .blue])
+            return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .cyan])
         case "cloud.bolt.rain.fill":
             // Thunderstorm: Cloud is dark gray, lightning is yellow, rain is blue
-            return UIImage.SymbolConfiguration(paletteColors: [.darkGray, .orangishYellow, .blue])
+            return UIImage.SymbolConfiguration(paletteColors: [.darkGray, .orangishYellow, .cyan])
         case "cloud.snow.fill", "snow":
             // Snow: Cloud is light gray, snowflakes are white
             return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .primaryTint])
@@ -52,7 +52,7 @@ class WeatherSymbolConfigurationManager {
             return UIImage.SymbolConfiguration(paletteColors: [.darkGray])
         case "hurricane":
             // Hurricane: Hurricane symbol is dark blue
-            return UIImage.SymbolConfiguration(paletteColors: [.blue])
+            return UIImage.SymbolConfiguration(paletteColors: [.cyan])
         case "cloud.hail.fill":
             // Hail: Cloud is light gray, hailstones are white
             return UIImage.SymbolConfiguration(paletteColors: [.systemGray5, .primaryTint])

@@ -11,8 +11,8 @@ import WeatherKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
     static let identifier = "WeatherCollectionViewCell"
-    
-    private let timeLabel: UILabel = {
+    static let HOURLY_FORECAST_HEIGHT = 110
+    public let timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .nunito(ofSize: 13, weight: .medium)
@@ -40,13 +40,22 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    
+    private let precipitationChanceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .nunito(ofSize: 10, weight: .bold)
+        label.textColor = .cyan
+        return label
+    }()
+    private var conditionImageViewTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(timeLabel)
         contentView.addSubview(temperatureLabel)
         contentView.addSubview(conditionImageContainer)
         contentView.addSubview(conditionImageView)
+        contentView.addSubview(precipitationChanceLabel)
         contentView.backgroundColor = .clear
         setupConstraints()
     }
@@ -56,19 +65,21 @@ class WeatherCollectionViewCell: UICollectionViewCell {
             timeLabel.translatesAutoresizingMaskIntoConstraints = false
             temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         conditionImageContainer.translatesAutoresizingMaskIntoConstraints = false
-            
+        precipitationChanceLabel.translatesAutoresizingMaskIntoConstraints = false
+        conditionImageViewTopConstraint = conditionImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20) // Default value
+
         let conditionPadding: CGFloat = 10
+        let conditionImageWH: CGFloat = 30
             NSLayoutConstraint.activate([
                 
-                conditionImageContainer.topAnchor.constraint(equalTo: conditionImageView.topAnchor, constant: -conditionPadding),
-                conditionImageContainer.leadingAnchor.constraint(equalTo: conditionImageView.leadingAnchor, constant: -conditionPadding),
-                conditionImageContainer.trailingAnchor.constraint(equalTo: conditionImageView.trailingAnchor, constant: conditionPadding),
-                conditionImageContainer.bottomAnchor.constraint(equalTo: conditionImageView.bottomAnchor, constant: conditionPadding),
+                conditionImageContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                conditionImageContainer.widthAnchor.constraint(equalToConstant: conditionImageWH + (conditionPadding * 2)),
+                conditionImageContainer.heightAnchor.constraint(equalToConstant: conditionImageWH + (conditionPadding * 2)),
+                conditionImageContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
                 
-                conditionImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
                 conditionImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-                conditionImageView.widthAnchor.constraint(equalToConstant: 30),
-                conditionImageView.heightAnchor.constraint(equalToConstant: 30),
+                conditionImageView.widthAnchor.constraint(equalToConstant: conditionImageWH),
+                conditionImageView.heightAnchor.constraint(equalToConstant: conditionImageWH),
 
                 timeLabel.topAnchor.constraint(equalTo: conditionImageContainer.bottomAnchor, constant: 2),
                 timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
@@ -77,7 +88,12 @@ class WeatherCollectionViewCell: UICollectionViewCell {
                 temperatureLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor, constant: 0),
                 temperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
                 temperatureLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-                temperatureLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+
+                precipitationChanceLabel.bottomAnchor.constraint(equalTo: conditionImageContainer.bottomAnchor, constant: -2),
+                precipitationChanceLabel.leadingAnchor.constraint(equalTo: conditionImageContainer.leadingAnchor, constant: 0),
+                precipitationChanceLabel.trailingAnchor.constraint(equalTo: conditionImageContainer.trailingAnchor, constant: 0),
+                
+                conditionImageViewTopConstraint
             ])
         }
     
@@ -88,14 +104,27 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     public func configure(with model: HourWeather) {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "ha" // Adjust the date format as needed
+        dateFormatter.dateFormat = "ha"
         timeLabel.text = dateFormatter.string(from: model.date)
         
-        temperatureLabel.text = "\(Int(model.temperature.value))°"
+        let temperatureInFahrenheit = Measurement(value: model.temperature.value, unit: UnitTemperature.celsius).converted(to: .fahrenheit).value
+        temperatureLabel.text = String(format: "%.0f°", temperatureInFahrenheit)
         
         let name = model.symbolName
         let isImageNonFillable = name == "wind" || name == "snowflake"
         conditionImageView.image = UIImage(systemName: isImageNonFillable ? name : name + ".fill")
         conditionImageView.preferredSymbolConfiguration = WeatherSymbolConfigurationManager.configuration(forCondition: isImageNonFillable ? name : name + ".fill")
+
+        let precipitationChance = model.precipitationChance
+        if precipitationChance > 0.0 {
+            precipitationChanceLabel.text = String(format: "%.0f%%", precipitationChance * 100)
+            conditionImageViewTopConstraint.constant = 15
+        } else {
+            precipitationChanceLabel.text = ""
+            conditionImageViewTopConstraint.constant = 20
+        }
+        
+        contentView.layoutIfNeeded()
     }
+
 }
