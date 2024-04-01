@@ -17,7 +17,7 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: 65, height: WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT) // Adjust the size as needed
+        layout.itemSize = CGSize(width: Int(UIScreen.main.bounds.width), height: WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT) // Adjust the size as needed
         layout.minimumLineSpacing = 4
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(WeeklyWeatherCollectionViewCell.self, forCellWithReuseIdentifier: WeeklyWeatherCollectionViewCell.identifier)

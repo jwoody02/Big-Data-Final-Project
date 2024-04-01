@@ -82,8 +82,9 @@ class WeatherConditionView: UIView {
     public func updateWith(image: UIImage, symbolConfig: UIImage.SymbolConfiguration?, precipitationChance: Double) {
         conditionImageView.image = image
         conditionImageView.preferredSymbolConfiguration = symbolConfig
-        if precipitationChance > 0 {
-            precipitationChanceLabel.text = "\(Int(precipitationChance * 100))%"
+        let roundedPrecipitationChance = (precipitationChance * 10).rounded() / 10
+        if roundedPrecipitationChance > 0 {
+            precipitationChanceLabel.text = "\(Int(roundedPrecipitationChance * 100))%"
             precipitationChanceLabel.isHidden = false
         } else {
             precipitationChanceLabel.text = ""
