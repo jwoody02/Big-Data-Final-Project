@@ -153,9 +153,9 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             locationLabel.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
 
             searchButton.centerYAnchor.constraint(equalTo: locationLabel.centerYAnchor),
-            searchButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -30),
+            searchButton.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             searchButton.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor, constant: 0),
-            searchButton.heightAnchor.constraint(equalToConstant: 40),
+            searchButton.heightAnchor.constraint(equalToConstant: 35),
             
             currentWeatherCard.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20),
             currentWeatherCard.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 20),

@@ -53,6 +53,11 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
             fatalError("Unable to dequeue WeeklyWeatherCollectionViewCell")
         }
         cell.configure(with: weeklyForecast[indexPath.row])
+        if indexPath.row == 0 {
+            cell.dayLabel.text = "Today"
+        } else if indexPath.row == 1 {
+            cell.dayLabel.text = "Tomorrow"
+        }
         return cell
     }
 
