@@ -29,6 +29,12 @@ public class HomeViewController: UIViewController {
         cmv.translatesAutoresizingMaskIntoConstraints = false
         return cmv
     }()
+    
+    private let hourlyForcastView: HourlyForecastCollectionView = {
+        let hfv = HourlyForecastCollectionView()
+        hfv.translatesAutoresizingMaskIntoConstraints = false
+        return hfv
+    }()
 
     // reduce the amount of WeatherKit requests
     private var previousLocation: CLLocation? = nil
@@ -64,6 +70,7 @@ public class HomeViewController: UIViewController {
 
         view.addSubview(locationLabel)
         view.addSubview(currentWeatherCard)
+        view.addSubview(hourlyForcastView)
 
         NSLayoutConstraint.activate([
             locationLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -73,6 +80,11 @@ public class HomeViewController: UIViewController {
             currentWeatherCard.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 10),
             currentWeatherCard.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             currentWeatherCard.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            
+            hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 5),
+            hourlyForcastView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            hourlyForcastView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            hourlyForcastView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     
@@ -84,6 +96,7 @@ public class HomeViewController: UIViewController {
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
         updateCache(currentWeather: currentForecast, locationString: "Current Location")
         currentWeatherCard.updateWith(currentForecast)
+        hourlyForcastView.update(with: Array(hourForcast.forecast))
         // updatePrecipitationEvents(with: hourForcast)
         updatePrecipitationForcast(with: minuteForcast)
         updateHourlyForcast(with: hourForcast)

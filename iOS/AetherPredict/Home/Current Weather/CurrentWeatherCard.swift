@@ -182,7 +182,9 @@ class CurrentWeatherCard: UIView {
     }
 
     private func setConditionImage(named name: String) {
-        conditionImageView.image = UIImage(systemName: name)
+        let isImageNonFillable = name == "wind" || name == "snowflake"
+        conditionImageView.image = UIImage(systemName: isImageNonFillable ? name : name + ".fill")
+        conditionImageView.preferredSymbolConfiguration = WeatherSymbolConfigurationManager.configuration(forCondition: isImageNonFillable ? name : name + ".fill")
     }
 
     private func setFeelsLike(to value: Double) {
