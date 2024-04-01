@@ -73,7 +73,7 @@ class CurrentWeatherCard: UIView {
     }()
     private let showMoreButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Show More ", for: .normal) // Space is intentional for spacing between text and image
+        button.setTitle("Show more ", for: .normal) // Space is intentional for spacing between text and image
         
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
         let chevronImage = UIImage(systemName: "chevron.down", withConfiguration: symbolConfiguration)?.withTintColor(.secondaryTint, renderingMode: .alwaysOriginal)
