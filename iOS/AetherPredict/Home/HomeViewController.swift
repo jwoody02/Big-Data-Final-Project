@@ -13,11 +13,15 @@ import os.log
 
 public class HomeViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - UI
-    
+    var alreadyGotCurrentLocation = false
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        if #available(iOS 17.4, *) {
+            scrollView.bouncesVertically = true
+        }
         return scrollView
     }()
     
@@ -145,7 +149,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             floatingLocationLabel.heightAnchor.constraint(equalTo: locationLabel.heightAnchor),
         ])
         
-        let weeklyForecastHeight = CGFloat(WeeklyForecastCollectionView.DAY_FORCAST_COUNT * WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT)
+        let weeklyForecastHeight = CGFloat((WeeklyForecastCollectionView.DAY_FORCAST_COUNT + 4) * WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT)
         NSLayoutConstraint.activate([
             locationLabel.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 0),
             locationLabel.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 30),
@@ -170,7 +174,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             weeklyForcastView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             weeklyForcastView.heightAnchor.constraint(equalToConstant: weeklyForecastHeight),
             
-            weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
+            weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
 
         ])
     }
@@ -194,6 +198,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         let filteredForecasts = dayWeather.forecast.filter { $0.date >= today }
         let sliceCount = min(filteredForecasts.count, WeeklyForecastCollectionView.DAY_FORCAST_COUNT)
         let slicedForecasts = filteredForecasts.prefix(sliceCount)
+        weeklyForcastView.currentTempCelcius = currentForecast.temperature.value
         weeklyForcastView.update(with: Array(slicedForecasts))
     }
 

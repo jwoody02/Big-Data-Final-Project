@@ -83,11 +83,17 @@ class CurrentWeatherCard: UIView {
         button.tintColor = .secondaryTint
         button.titleLabel?.font = .nunito(ofSize: 12, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isUserInteractionEnabled = false
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.isUserInteractionEnabled = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(currentWeatherCardTapped))
+        self.addGestureRecognizer(tapGesture)
+
         setupUI()
         setupConstraints()
     }
@@ -132,7 +138,7 @@ class CurrentWeatherCard: UIView {
             feelsLikeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
 
             conditionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            conditionImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -10),
+            conditionImageView.centerYAnchor.constraint(equalTo: temperatureValueLabel.centerYAnchor, constant: 10),
             conditionImageView.widthAnchor.constraint(equalToConstant: 100),
             conditionImageView.heightAnchor.constraint(equalToConstant: 100),
             
@@ -142,15 +148,19 @@ class CurrentWeatherCard: UIView {
     }
 
     public func minimize() {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.0) {
             self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
+            self.showMoreButton.imageView?.transform = .identity
+            self.showMoreButton.setTitle("Show more ", for: .normal)
             self.layoutIfNeeded()
         }
     }
 
     public func maximize() {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.0) {
             self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
+            self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
+            self.showMoreButton.setTitle("Show less ", for: .normal)
             self.layoutIfNeeded()
         }
     }
@@ -237,5 +247,11 @@ class CurrentWeatherCard: UIView {
 
     private func setCurrentConditionLabel(to text: String) {
         currentConditionsLabel.text = text
+    }
+
+    @objc func currentWeatherCardTapped() {
+        // light feedback
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        toggle()
     }
 }

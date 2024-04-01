@@ -13,6 +13,7 @@ import UIKit
 // delegate for getting current weather information
 extension HomeViewController: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if alreadyGotCurrentLocation { return }
         guard let unwrappedLocation = manager.location else { return }
         
         os_log(.info, "Received 'didUpdateLocations' message from CLLocationManager")
@@ -46,6 +47,7 @@ extension HomeViewController: CLLocationManagerDelegate {
                     os_log(.info, "Updating UI with weather information")
                     DispatchQueue.main.async {
                         self.updateUIWith(currentForecast: current, minuteForcast: minute, hourForcast: hourly, dayWeather: daily)
+                        self.alreadyGotCurrentLocation = true
                     }
                     break
                 case .failure(let error):

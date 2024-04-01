@@ -12,6 +12,7 @@ class TemperatureRangeView: UIView {
 
     private var lowValueForWeek: Double = 0
     private var highValueForWeek: Double = 0
+    private var currentValue: Double? = nil
     private var lowValue: Double = 0 {
         didSet {
             lowerValueLabel.text = String(format: "%.0f°", lowValue)
@@ -57,6 +58,15 @@ class TemperatureRangeView: UIView {
         return view
     }()
 
+    private let currentValueTracker: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundColor
+        view.layer.borderWidth = 1.5
+        view.layer.borderColor = UIColor.primaryTint.cgColor
+        view.layer.cornerRadius = 1.5
+        return view
+    }()
+
     private var gradientLayer: CAGradientLayer?
 
     override init(frame: CGRect) {
@@ -65,6 +75,7 @@ class TemperatureRangeView: UIView {
         addSubview(upperValueLabel)
         addSubview(backgroundProgressBarView)
         addSubview(gradientProgressBarView)
+        addSubview(currentValueTracker)
         backgroundColor = .clear
         setupConstraints()
         setupGradientLayer()
@@ -79,6 +90,7 @@ class TemperatureRangeView: UIView {
         upperValueLabel.translatesAutoresizingMaskIntoConstraints = false
         backgroundProgressBarView.translatesAutoresizingMaskIntoConstraints = false
         gradientProgressBarView.translatesAutoresizingMaskIntoConstraints = false
+        currentValueTracker.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             lowerValueLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -99,6 +111,15 @@ class TemperatureRangeView: UIView {
             gradientProgressBarView.leadingAnchor.constraint(equalTo: backgroundProgressBarView.leadingAnchor),
             gradientProgressBarView.trailingAnchor.constraint(equalTo: backgroundProgressBarView.trailingAnchor)
         ])
+    }
+
+    func setCurrentValue(_ value: Double?) {
+        if let value = value {
+            currentValue = Measurement(value: value, unit: UnitTemperature.celsius).converted(to: .fahrenheit).value
+        } else {
+            currentValue = nil
+        }
+        updateGradientRelativityView()
     }
 
     func setLowCelciusValue(_ value: Double) {
@@ -148,6 +169,19 @@ class TemperatureRangeView: UIView {
 
         // Set the corner radius for the gradient view.
         gradientProgressBarView.layer.cornerRadius = backgroundProgressBarView.layer.cornerRadius
+
+        // Update the position of the current value tracker.
+        if let currentValue = currentValue {
+            let heightOffset: CGFloat = 6
+            let trackerWH = backgroundProgressBarView.bounds.height + heightOffset
+            let currentPercentage = max(0, min((currentValue - lowValueForWeek) / weeklyRange, 1)) // Clamp result between 0 and 1.
+            let xPos = backgroundWidth * CGFloat(currentPercentage)
+            currentValueTracker.frame = CGRect(x: xPos, y: backgroundProgressBarView.frame.minY - (heightOffset / 2), width: trackerWH, height: trackerWH)
+            currentValueTracker.layer.cornerRadius = trackerWH / 2
+            currentValueTracker.isHidden = false
+        } else {
+            currentValueTracker.isHidden = true
+        }
     }
 
 

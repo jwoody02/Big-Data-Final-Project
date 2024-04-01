@@ -15,11 +15,12 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
     private var weeklyForecast: [DayWeather] = []
     private var weeklyLowValue: Double = 0
     private var weeklyHighValue: Double = 0
+    public var currentTempCelcius: Double = 0
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: Int(UIScreen.main.bounds.width), height: WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT) // Adjust the size as needed
+        layout.itemSize = CGSize(width: Int(UIScreen.main.bounds.width), height: WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT)
         layout.minimumLineSpacing = 4
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(WeeklyWeatherCollectionViewCell.self, forCellWithReuseIdentifier: WeeklyWeatherCollectionViewCell.identifier)
@@ -27,6 +28,7 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
         collectionView.backgroundColor = .clear
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
 
@@ -61,8 +63,10 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
         // custom day label text
         if indexPath.row == 0 {
             cell.dayLabel.text = "Today"
+            cell.temperatureRangeView.setCurrentValue(currentTempCelcius)
         } else if indexPath.row == 1 {
             cell.dayLabel.text = "Tomorrow"
+            cell.temperatureRangeView.setCurrentValue(nil)
         }
         
         // temperature range view
