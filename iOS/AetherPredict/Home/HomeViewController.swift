@@ -13,7 +13,7 @@ import os.log
 
 public class HomeViewController: UIViewController {
     // MARK: - UI
-    private let locationLabel: UILabel = {
+    public let locationLabel: UILabel = {
         let label = UILabel()
         label.text = "Current Location"
         label.font = .nunito(ofSize: 18, weight: .medium)
@@ -35,14 +35,20 @@ public class HomeViewController: UIViewController {
         hfv.translatesAutoresizingMaskIntoConstraints = false
         return hfv
     }()
+    
+    private let weeklyForcastView: WeeklyForecastCollectionView = {
+        let wfv = WeeklyForecastCollectionView()
+        wfv.translatesAutoresizingMaskIntoConstraints = false
+        return wfv
+    }()
 
     // reduce the amount of WeatherKit requests
-    private var previousLocation: CLLocation? = nil
-    private var previousCity: String? = nil
+    var previousLocation: CLLocation? = nil
+    var previousCity: String? = nil
     
     // managers
-    private let locationManager = CLLocationManager()
-    private let weatherService = WeatherServiceWrapper.shared
+    let locationManager = CLLocationManager()
+    let weatherService = WeatherServiceWrapper.shared
     private let firePredictService = FirePredictService.shared
 
     public override func viewDidLoad() {
@@ -61,16 +67,12 @@ public class HomeViewController: UIViewController {
         manager.startUpdatingLocation()
     }
     
-    private func animateInViews() {
-        UIView.animate(withDuration: 0.3) {
-            // TODO: forcast views
-        }
-    }
     private func setupUI() {
 
         view.addSubview(locationLabel)
         view.addSubview(currentWeatherCard)
         view.addSubview(hourlyForcastView)
+        view.addSubview(weeklyForcastView)
 
         NSLayoutConstraint.activate([
             locationLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -84,7 +86,12 @@ public class HomeViewController: UIViewController {
             hourlyForcastView.topAnchor.constraint(equalTo: currentWeatherCard.bottomAnchor, constant: 10),
             hourlyForcastView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             hourlyForcastView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            hourlyForcastView.heightAnchor.constraint(equalToConstant: CGFloat(WeatherCollectionViewCell.HOURLY_FORECAST_HEIGHT))
+            hourlyForcastView.heightAnchor.constraint(equalToConstant: CGFloat(WeatherCollectionViewCell.HOURLY_FORECAST_HEIGHT)),
+            
+            weeklyForcastView.topAnchor.constraint(equalTo: hourlyForcastView.bottomAnchor, constant: 10),
+            weeklyForcastView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            weeklyForcastView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            weeklyForcastView.heightAnchor.constraint(equalToConstant: CGFloat(WeeklyForecastCollectionView.DAY_FORCAST_COUNT))
         ])
     }
     
@@ -95,67 +102,5 @@ public class HomeViewController: UIViewController {
             let forecastDate = forecast.date
             return forecastDate >= Date() && forecastDate <= Calendar.current.date(byAdding: .hour, value: 24, to: Date())!
         }))
-    }
-}
-
-
-// delegate for getting current weather information
-extension HomeViewController: CLLocationManagerDelegate {
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let unwrappedLocation = manager.location else { return }
-        
-        os_log(.info, "Received 'didUpdateLocations' message from CLLocationManager")
-
-        // prevent multiple requests for the same location (reducing costs basically)
-        if let previousLocation = self.previousLocation, previousLocation.coordinate.latitude == unwrappedLocation.coordinate.latitude && previousLocation.coordinate.longitude == unwrappedLocation.coordinate.longitude {
-            os_log(.debug, "Ignoring 'didUpdateLocations' message as the current user's location is the same as last time")
-            return
-        }
-        
-        // prevent multiple requests from same city
-        unwrappedLocation.fetchCityAndCountry { [weak self] city, _, error in
-            guard let city = city, error == nil, let self = self else { return }
-            
-            if self.previousCity ?? "" == city {
-                os_log(.debug, "Ignoring 'didUpdateLocations' message as the user's city is same as before")
-                return
-            }
-            
-            self.previousLocation = unwrappedLocation
-            self.previousCity = city
-            self.locationLabel.text = city
-            
-            self.weatherService.fetchWeather(for: unwrappedLocation) { [weak self] result in
-                // prevent memory leak
-                guard let self = self else { return }
-                
-                // Update ui for weather object
-                switch result {
-                case .success(let (current, minute, hourly, daily)):
-                    os_log(.info, "Updating UI with weather information")
-                    DispatchQueue.main.async {
-                        self.updateUIWith(currentForecast: current, minuteForcast: minute, hourForcast: hourly, dayWeather: daily)
-                    }
-                    break
-                case .failure(let error):
-                    os_log(.error, "Error fetching weather: %@", error.localizedDescription)
-                    
-                    // show error to user
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Error", message: "Failed to fetch weather data.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                    break
-                }
-            }
-        }
-        
-    }
-}
-
-extension CLLocation {
-    func fetchCityAndCountry(completion: @escaping (_ city: String?, _ country:  String?, _ error: Error?) -> ()) {
-        CLGeocoder().reverseGeocodeLocation(self) { completion($0?.first?.locality, $0?.first?.country, $1) }
     }
 }

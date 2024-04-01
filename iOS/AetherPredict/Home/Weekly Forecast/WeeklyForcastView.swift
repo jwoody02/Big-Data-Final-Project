@@ -10,7 +10,8 @@ import UIKit
 import WeatherKit
 
 class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
-
+    
+    public static let DAY_FORCAST_COUNT = 10 // how many days to show forecast for
     private var weeklyForecast: [DayWeather] = []
 
     private lazy var collectionView: UICollectionView = {
