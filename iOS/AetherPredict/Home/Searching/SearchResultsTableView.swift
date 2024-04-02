@@ -11,7 +11,8 @@ import MapKit
 
 class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate {
    
-    var places: [MKMapItem] = []
+    var places: [City] = []
+    let searchManager = CitySearchManager()
     let searchLock = NSLock()
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -20,6 +21,8 @@ class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate
         return tableView
     }()
     var searchterm = ""
+
+    var didSelectPlace: ((City) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,7 +43,11 @@ class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate
     }
     
     func showResultsForSearchString(_ searchTerm: String) {
-        // TODO
+        searchManager.search(with: searchTerm) { [weak self] cities in
+            guard let self = self else { return }
+            places = cities
+            tableView.reloadData()
+        }
     }
 
      // UITableViewDataSource methods
@@ -57,11 +64,20 @@ class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate
         cell.contentView.backgroundColor = .clear
         cell.backgroundColor = .clear
         configureCell(cell: cell, with: place, searchTerm: searchterm)
+        cell.selectionStyle = .none
         return cell
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row >= places.count {
+            return
+        }
+        let place = places[indexPath.row]
+        didSelectPlace?(place)
+    }
     
-    func configureCell(cell: UITableViewCell, with place: MKMapItem, searchTerm: String) {
-        let fullText = place.name ?? ""
+    func configureCell(cell: UITableViewCell, with place: City, searchTerm: String) {
+        let fullText = place.name + ", " + place.state
         let attributedString = NSMutableAttributedString(string: fullText)
         
         // Define attributes

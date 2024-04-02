@@ -6,32 +6,41 @@
 //
 
 import Foundation
-struct City: Codable {
+import os.log
+struct City {
     let name: String
+    let state: String
+    let population: Int
     let lat: String
-    let lng: String
-    let country: String
-    let admin1: String
-    let admin2: String
+    let lon: String
 }
 
 
 class CitySearchManager {
-    private let fuse = Fuse()
     private var cities: [City] = []
-    private let queue = DispatchQueue(label: "com.aether.citysearchmanager")
+    private let queue = DispatchQueue(label: "com.yourapp.citysearchmanager")
+    private var fuse: Fuse = Fuse()
     private var currentSearchToken: UUID?
 
-    
     init() {
         loadCities()
     }
-    
+
     private func loadCities() {
-        if let url = Bundle.main.url(forResource: "cities", withExtension: "json"),
-           let data = try? Data(contentsOf: url) {
-            let decoder = JSONDecoder()
-            cities = (try? decoder.decode([City].self, from: data)) ?? []
+        guard let filePath = Bundle.main.path(forResource: "us-top-1k-cities", ofType: "csv") else { return }
+        do {
+            let data = try String(contentsOfFile: filePath)
+            let rows = data.components(separatedBy: "\n")
+            self.cities = rows.compactMap { row -> City? in
+                let columns = row.components(separatedBy: ",")
+                guard columns.count == 5,
+                      let population = Int(columns[2]) else {
+                    return nil
+                }
+                return City(name: columns[0], state: columns[1], population: population, lat: columns[3], lon: columns[4])
+            }
+        } catch {
+            os_log(.fault, "Error reading CSV file: \(error)")
         }
     }
     
@@ -40,18 +49,15 @@ class CitySearchManager {
         currentSearchToken = searchToken
 
         queue.async {
-            // Perform fuzzy search. Assume `search` method returns array of `Fusable` objects or similar.
-            let fuseResults = self.fuse.search(term, in: self.cities.map { $0.name })
+            // Assuming the fuse.search method allows for configuration to search through multiple fields, adapt as necessary.
+            let results = self.fuse.search(term, in: self.cities.map { "\($0.name) \($0.state)" })
 
-            // Assuming `fuseResults` contains indices or objects that allow fetching the matched items.
-            let matchedCities = fuseResults.map { self.cities[$0.index] }.prefix(20)
+            let matchedCities = results.map { self.cities[$0.index] }.prefix(20)
 
             DispatchQueue.main.async {
-                // Ignore results if this isn't the latest search
                 guard self.currentSearchToken == searchToken else { return }
                 completion(Array(matchedCities))
             }
         }
     }
-
 }

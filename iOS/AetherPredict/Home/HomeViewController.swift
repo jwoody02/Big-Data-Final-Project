@@ -227,6 +227,35 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             searchResultsView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             searchResultsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        searchResultsView.didSelectPlace = { [weak self] city in
+            guard let self = self else { return }
+            self.cancelSearch()
+            let clLocation = CLLocation(latitude: Double(city.lat) ?? 0, longitude: Double(city.lon) ?? 0)
+            self.locationOption = .other(clLocation)
+            self.locationLabel.text = "\(city.name), \(city.state)"
+            self.weatherService.fetchWeather(for: clLocation) { result in
+                
+                // Update ui for weather object
+                switch result {
+                case .success(let (current, minute, hourly, daily)):
+                    os_log(.info, "Updating UI with weather information")
+                    DispatchQueue.main.async {
+                        self.updateUIWith(currentForecast: current, minuteForcast: minute, hourForcast: hourly, dayWeather: daily)
+                    }
+                    break
+                case .failure(let error):
+                    os_log(.error, "Error fetching weather: %@", error.localizedDescription)
+                    
+                    // show error to user
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Error", message: "Failed to fetch weather data.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    break
+                }
+            }
+        }
         searchField.addTarget(self, action: #selector(searchFieldDidChange), for: .editingChanged)
 
         cancelButton.addTarget(self, action: #selector(cancelSearch), for: .touchUpInside)
