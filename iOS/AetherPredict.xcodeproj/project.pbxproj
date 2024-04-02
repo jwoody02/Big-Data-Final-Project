@@ -11,6 +11,7 @@
 		170828962BA3B8E100094406 /* FirePredictService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828952BA3B8E100094406 /* FirePredictService.swift */; };
 		170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828972BA3B8EE00094406 /* HomeViewController.swift */; };
 		170828A22BA3C09A00094406 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828A12BA3C09A00094406 /* LocationService.swift */; };
+		171767792BBBB67800B128A7 /* SearchResultsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767782BBBB67800B128A7 /* SearchResultsTableView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -36,6 +37,7 @@
 		170828952BA3B8E100094406 /* FirePredictService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirePredictService.swift; sourceTree = "<group>"; };
 		170828972BA3B8EE00094406 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		170828A12BA3C09A00094406 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		171767782BBBB67800B128A7 /* SearchResultsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableView.swift; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		170828922BA3B86800094406 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				171767752BBBB65B00B128A7 /* Searching */,
 				17839E202BBB167E00E66992 /* Managers */,
 				17839E062BB9DECF00E66992 /* Weekly Forecast */,
 				17839E052BB9DEC400E66992 /* Hourly Forecast */,
@@ -92,6 +95,14 @@
 				17839E212BBB169000E66992 /* WeatherConditionView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		171767752BBBB65B00B128A7 /* Searching */ = {
+			isa = PBXGroup;
+			children = (
+				171767782BBBB67800B128A7 /* SearchResultsTableView.swift */,
+			);
+			path = Searching;
 			sourceTree = "<group>";
 		};
 		1752E4E22B8E936D00137A74 = {
@@ -262,6 +273,7 @@
 				170828A22BA3C09A00094406 /* LocationService.swift in Sources */,
 				17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
+				171767792BBBB67800B128A7 /* SearchResultsTableView.swift in Sources */,
 				17839E1F2BBB14E600E66992 /* DayForcastCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

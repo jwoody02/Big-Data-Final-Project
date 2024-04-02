@@ -97,10 +97,27 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         sf.font = .nunito(ofSize: 18, weight: .medium)
         sf.textColor = .primaryTint
         sf.backgroundColor = .backgroundColor
-        sf.placeholder = "Search for a location"
-        sf.attributedPlaceholder = NSAttributedString(string: "Search for a location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryTint])
+        sf.placeholder = "Search for a city"
+        sf.attributedPlaceholder = NSAttributedString(string: "Search for a city", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryTint])
         sf.alpha = 0
         return sf
+    }()
+
+    private let searchResultsView: SearchResultsTableView = {
+        let srv = SearchResultsTableView()
+        srv.translatesAutoresizingMaskIntoConstraints = false
+        srv.alpha = 0
+        return srv
+    }()
+
+    private let cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.setTitleColor(.secondaryTint, for: .normal)
+        button.titleLabel?.font = .nunito(ofSize: 18, weight: .medium)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
     }()
 
     
@@ -146,6 +163,8 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         contentView.addSubview(locationLabel)
         contentView.addSubview(searchButton)
         contentView.addSubview(searchField)
+        contentView.addSubview(cancelButton)
+        contentView.addSubview(searchResultsView)
         contentView.addSubview(currentWeatherCard)
         contentView.addSubview(hourlyForcastView)
         contentView.addSubview(weeklyForcastView)
@@ -201,7 +220,23 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         ])
 
         // put search field just off screen
-        searchField.frame = CGRect(x: view.frame.width, y: searchButton.frame.minY - 5, width: view.frame.width - 40, height: 35)
+        searchField.frame = CGRect(x: view.frame.width, y: searchButton.frame.minY - 5, width: view.frame.width - 80 - 60, height: 35)
+        NSLayoutConstraint.activate([
+            searchResultsView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 0),
+            searchResultsView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            searchResultsView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            searchResultsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        searchField.addTarget(self, action: #selector(searchFieldDidChange), for: .editingChanged)
+
+        cancelButton.addTarget(self, action: #selector(cancelSearch), for: .touchUpInside)
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            cancelButton.centerYAnchor.constraint(equalTo: searchButton.centerYAnchor, constant: 0),
+            cancelButton.widthAnchor.constraint(equalToConstant: 60),
+            cancelButton.heightAnchor.constraint(equalToConstant: 35),
+            cancelButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20)
+        ])
     }
     
     
@@ -241,6 +276,18 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         }
     }
 
+    // MARK: - Search
+    // called when user types in search field
+    @objc func searchFieldDidChange() {
+        guard let text = searchField.text, !text.isEmpty else {
+            searchResultsView.showResultsForSearchString("")
+            return
+        }
+        
+       searchResultsView.showResultsForSearchString(text)
+    }
+
+    // called when search button is tapped
     @objc func searchButtonTapped() {
         // Hide all our weather views and move search button to far left
         searchButton.isUserInteractionEnabled = false
@@ -251,11 +298,36 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             self.locationLabel.alpha = 0
             self.floatingLocationLabel.alpha = 0
             self.searchField.alpha = 1
+            self.searchResultsView.alpha = 1
+            self.cancelButton.alpha = 1
             self.searchButton.transform = CGAffineTransform(translationX: -self.view.frame.width + 80, y: 0)
             self.searchField.transform = CGAffineTransform(translationX: -self.view.frame.width + 60, y: 0)
+//            self.cancelButton.transform = CGAffineTransform(translationX: -self.view.frame.width + 60, y: 0)
         } completion: { _ in
             // make searchField first responder
             self.searchField.becomeFirstResponder()
+        }
+    }
+
+    // called when cancel button is tapped
+    @objc func cancelSearch() {
+        // Show all our weather views and move search button back to original position
+        searchButton.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.3) {
+            self.currentWeatherCard.alpha = 1
+            self.hourlyForcastView.alpha = 1
+            self.weeklyForcastView.alpha = 1
+            self.locationLabel.alpha = 1
+            self.floatingLocationLabel.alpha = 1
+            self.searchField.alpha = 0
+            self.searchResultsView.alpha = 0
+            self.cancelButton.alpha = 0
+            self.searchButton.transform = .identity
+            self.searchField.transform = .identity
+            self.cancelButton.transform = .identity
+        } completion: { _ in
+            // resign first responder
+            self.searchField.resignFirstResponder()
         }
     }
 }

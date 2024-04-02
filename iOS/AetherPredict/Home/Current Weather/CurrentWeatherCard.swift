@@ -81,7 +81,7 @@ class CurrentWeatherCard: UIView {
         button.semanticContentAttribute = .forceRightToLeft // This puts the image to the left of the text
         
         button.tintColor = .secondaryTint
-        button.titleLabel?.font = .nunito(ofSize: 12, weight: .medium)
+        button.titleLabel?.font = .nunito(ofSize: 12, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
         return button

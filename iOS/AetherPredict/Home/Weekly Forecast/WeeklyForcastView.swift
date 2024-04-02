@@ -67,6 +67,8 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
         } else if indexPath.row == 1 {
             cell.dayLabel.text = "Tomorrow"
             cell.temperatureRangeView.setCurrentValue(nil)
+        } else {
+            cell.temperatureRangeView.setCurrentValue(nil)
         }
         
         // temperature range view
