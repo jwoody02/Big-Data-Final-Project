@@ -11,9 +11,16 @@ import CoreLocation
 import WeatherKit
 import os.log
 
+enum LocationOption {
+    case currentLocation
+    case other(CLLocation)
+}
+
 public class HomeViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - UI
     var alreadyGotCurrentLocation = false
+    var locationOption: LocationOption = .currentLocation
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,17 +80,28 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
     }()
 
     private let searchButton: UIButton = {
-    let button = UIButton()
-    let icon = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
-    button.setImage(icon, for: .normal)
-    button.tintColor = .primaryTint
-        button.contentMode = .scaleAspectFit
-        button.imageView?.contentMode = .scaleAspectFit
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.contentHorizontalAlignment = .right
-    button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-    return button
-}()
+        let button = UIButton()
+        let icon = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(icon, for: .normal)
+        button.tintColor = .primaryTint
+            button.contentMode = .scaleAspectFit
+            button.imageView?.contentMode = .scaleAspectFit
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentHorizontalAlignment = .right
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        return button
+    }()
+
+    private let searchField: UITextField = {
+        let sf = UITextField()
+        sf.font = .nunito(ofSize: 18, weight: .medium)
+        sf.textColor = .primaryTint
+        sf.backgroundColor = .backgroundColor
+        sf.placeholder = "Search for a location"
+        sf.attributedPlaceholder = NSAttributedString(string: "Search for a location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryTint])
+        sf.alpha = 0
+        return sf
+    }()
 
     
     // reduce the amount of WeatherKit requests
@@ -104,6 +122,9 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         // Request location
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+
+        // add search action
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
     }
     
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -124,6 +145,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         // Add subviews to contentView instead of view
         contentView.addSubview(locationLabel)
         contentView.addSubview(searchButton)
+        contentView.addSubview(searchField)
         contentView.addSubview(currentWeatherCard)
         contentView.addSubview(hourlyForcastView)
         contentView.addSubview(weeklyForcastView)
@@ -177,6 +199,9 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
 
         ])
+
+        // put search field just off screen
+        searchField.frame = CGRect(x: view.frame.width, y: searchButton.frame.minY - 5, width: view.frame.width - 40, height: 35)
     }
     
     
@@ -213,6 +238,24 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         } else {
             // Hide floating label when original label is in view
             floatingLocationLabel.isHidden = true
+        }
+    }
+
+    @objc func searchButtonTapped() {
+        // Hide all our weather views and move search button to far left
+        searchButton.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.3) {
+            self.currentWeatherCard.alpha = 0
+            self.hourlyForcastView.alpha = 0
+            self.weeklyForcastView.alpha = 0
+            self.locationLabel.alpha = 0
+            self.floatingLocationLabel.alpha = 0
+            self.searchField.alpha = 1
+            self.searchButton.transform = CGAffineTransform(translationX: -self.view.frame.width + 80, y: 0)
+            self.searchField.transform = CGAffineTransform(translationX: -self.view.frame.width + 60, y: 0)
+        } completion: { _ in
+            // make searchField first responder
+            self.searchField.becomeFirstResponder()
         }
     }
 }
