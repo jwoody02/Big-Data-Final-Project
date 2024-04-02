@@ -19,7 +19,9 @@ struct City: Codable {
 class CitySearchManager {
     private let fuse = Fuse()
     private var cities: [City] = []
-    private let queue = DispatchQueue(label: "com.aether.citysearchmanager", attributes: .concurrent)
+    private let queue = DispatchQueue(label: "com.aether.citysearchmanager")
+    private var currentSearchToken: UUID?
+
     
     init() {
         loadCities()
@@ -33,13 +35,23 @@ class CitySearchManager {
         }
     }
     
-    func search(text: String, completion: @escaping ([City]) -> Void) {
+    func search(with term: String, completion: @escaping ([City]) -> Void) {
+        let searchToken = UUID()
+        currentSearchToken = searchToken
+
         queue.async {
-            let results = self.fuse.search(text, in: self.cities.map { $0.name })
-            let matchedCities = results.map { self.cities[$0.index] }.prefix(20)
+            // Perform fuzzy search. Assume `search` method returns array of `Fusable` objects or similar.
+            let fuseResults = self.fuse.search(term, in: self.cities.map { $0.name })
+
+            // Assuming `fuseResults` contains indices or objects that allow fetching the matched items.
+            let matchedCities = fuseResults.map { self.cities[$0.index] }.prefix(20)
+
             DispatchQueue.main.async {
+                // Ignore results if this isn't the latest search
+                guard self.currentSearchToken == searchToken else { return }
                 completion(Array(matchedCities))
             }
         }
     }
+
 }

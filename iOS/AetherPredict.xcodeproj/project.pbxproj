@@ -18,6 +18,7 @@
 		171767882BBC66B500B128A7 /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767812BBC66B500B128A7 /* Fuse.swift */; };
 		171767892BBC66B500B128A7 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767822BBC66B500B128A7 /* FuseUtilities.swift */; };
 		1717678A2BBC66B500B128A7 /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767832BBC66B500B128A7 /* String+Fuse.swift */; };
+		1717678C2BBC670400B128A7 /* cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 1717678B2BBC670400B128A7 /* cities.json */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		171767812BBC66B500B128A7 /* Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fuse.swift; sourceTree = "<group>"; };
 		171767822BBC66B500B128A7 /* FuseUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuseUtilities.swift; sourceTree = "<group>"; };
 		171767832BBC66B500B128A7 /* String+Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Fuse.swift"; sourceTree = "<group>"; };
+		1717678B2BBC670400B128A7 /* cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cities.json; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		171767752BBBB65B00B128A7 /* Searching */ = {
 			isa = PBXGroup;
 			children = (
+				1717678B2BBC670400B128A7 /* cities.json */,
 				171767852BBC66B500B128A7 /* Fuse */,
 				171767782BBBB67800B128A7 /* SearchResultsTableView.swift */,
 				1717677C2BBC65BA00B128A7 /* CitySearchManager.swift */,
@@ -288,6 +291,7 @@
 				1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */,
 				17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */,
 				171767862BBC66B500B128A7 /* .gitkeep in Resources */,
+				1717678C2BBC670400B128A7 /* cities.json in Resources */,
 				17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */,
 				17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */,
 				171767872BBC66B500B128A7 /* .gitkeep in Resources */,
