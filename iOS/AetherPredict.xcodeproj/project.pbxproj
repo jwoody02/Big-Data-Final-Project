@@ -12,6 +12,12 @@
 		170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828972BA3B8EE00094406 /* HomeViewController.swift */; };
 		170828A22BA3C09A00094406 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170828A12BA3C09A00094406 /* LocationService.swift */; };
 		171767792BBBB67800B128A7 /* SearchResultsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767782BBBB67800B128A7 /* SearchResultsTableView.swift */; };
+		1717677D2BBC65BA00B128A7 /* CitySearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1717677C2BBC65BA00B128A7 /* CitySearchManager.swift */; };
+		171767862BBC66B500B128A7 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 1717677E2BBC66B500B128A7 /* .gitkeep */; };
+		171767872BBC66B500B128A7 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 171767802BBC66B500B128A7 /* .gitkeep */; };
+		171767882BBC66B500B128A7 /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767812BBC66B500B128A7 /* Fuse.swift */; };
+		171767892BBC66B500B128A7 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767822BBC66B500B128A7 /* FuseUtilities.swift */; };
+		1717678A2BBC66B500B128A7 /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767832BBC66B500B128A7 /* String+Fuse.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -38,6 +44,12 @@
 		170828972BA3B8EE00094406 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		170828A12BA3C09A00094406 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		171767782BBBB67800B128A7 /* SearchResultsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsTableView.swift; sourceTree = "<group>"; };
+		1717677C2BBC65BA00B128A7 /* CitySearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchManager.swift; sourceTree = "<group>"; };
+		1717677E2BBC66B500B128A7 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		171767802BBC66B500B128A7 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		171767812BBC66B500B128A7 /* Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fuse.swift; sourceTree = "<group>"; };
+		171767822BBC66B500B128A7 /* FuseUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuseUtilities.swift; sourceTree = "<group>"; };
+		171767832BBC66B500B128A7 /* String+Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Fuse.swift"; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,9 +112,39 @@
 		171767752BBBB65B00B128A7 /* Searching */ = {
 			isa = PBXGroup;
 			children = (
+				171767852BBC66B500B128A7 /* Fuse */,
 				171767782BBBB67800B128A7 /* SearchResultsTableView.swift */,
+				1717677C2BBC65BA00B128A7 /* CitySearchManager.swift */,
 			);
 			path = Searching;
+			sourceTree = "<group>";
+		};
+		1717677F2BBC66B500B128A7 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				1717677E2BBC66B500B128A7 /* .gitkeep */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		171767842BBC66B500B128A7 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				171767802BBC66B500B128A7 /* .gitkeep */,
+				171767812BBC66B500B128A7 /* Fuse.swift */,
+				171767822BBC66B500B128A7 /* FuseUtilities.swift */,
+				171767832BBC66B500B128A7 /* String+Fuse.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		171767852BBC66B500B128A7 /* Fuse */ = {
+			isa = PBXGroup;
+			children = (
+				1717677F2BBC66B500B128A7 /* Assets */,
+				171767842BBC66B500B128A7 /* Classes */,
+			);
+			path = Fuse;
 			sourceTree = "<group>";
 		};
 		1752E4E22B8E936D00137A74 = {
@@ -245,8 +287,10 @@
 				1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */,
 				1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */,
 				17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */,
+				171767862BBC66B500B128A7 /* .gitkeep in Resources */,
 				17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */,
 				17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */,
+				171767872BBC66B500B128A7 /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,12 +305,15 @@
 				17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */,
 				17839E082BB9DEEE00E66992 /* CurrentWeatherCard.swift in Sources */,
 				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
+				171767882BBC66B500B128A7 /* Fuse.swift in Sources */,
 				17839E132BBA583200E66992 /* WeatherSymbolConfigurationManager.swift in Sources */,
 				17839E152BBA599200E66992 /* HourlyForcastView.swift in Sources */,
+				171767892BBC66B500B128A7 /* FuseUtilities.swift in Sources */,
 				1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */,
 				17839E222BBB169000E66992 /* WeatherConditionView.swift in Sources */,
 				17839E1D2BBA7D2200E66992 /* ColorManager.swift in Sources */,
 				170828962BA3B8E100094406 /* FirePredictService.swift in Sources */,
+				1717677D2BBC65BA00B128A7 /* CitySearchManager.swift in Sources */,
 				17839E112BBA539900E66992 /* NunitoFont.swift in Sources */,
 				17839E172BBA599C00E66992 /* WeeklyForcastView.swift in Sources */,
 				170828942BA3B8D300094406 /* WeatherService.swift in Sources */,
@@ -275,6 +322,7 @@
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 				171767792BBBB67800B128A7 /* SearchResultsTableView.swift in Sources */,
 				17839E1F2BBB14E600E66992 /* DayForcastCell.swift in Sources */,
+				1717678A2BBC66B500B128A7 /* String+Fuse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
