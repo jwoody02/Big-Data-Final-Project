@@ -80,30 +80,36 @@ class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate
         let fullText = place.name + ", " + place.state
         let attributedString = NSMutableAttributedString(string: fullText)
         
-        // Define attributes
-        let primaryAttributes = [NSAttributedString.Key.foregroundColor: UIColor.primaryTint]
-        let secondaryAttributes = [NSAttributedString.Key.foregroundColor: UIColor.secondaryTint]
+        // Define your color attributes here
+        let primaryAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.primaryTint]
+        let secondaryAttributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.secondaryTint]
         
-        // Apply secondary color to the entire text initially
+        // Initially set the entire string to secondary color
         attributedString.addAttributes(secondaryAttributes, range: NSRange(location: 0, length: attributedString.length))
         
-        // Highlight matching characters with primary color
-        searchTerm.lowercased().forEach { char in
-            let str = String(char)
-            var range = (fullText.lowercased() as NSString).range(of: str)
-            while range.location != NSNotFound {
-                attributedString.addAttributes(primaryAttributes, range: range)
-                let nextLocation = range.location + range.length
-                if nextLocation < fullText.count {
-                    range = (fullText.lowercased() as NSString).range(of: str, options: [], range: NSRange(location: nextLocation, length: fullText.count - nextLocation))
-                } else {
+        // Find and highlight matches
+        if !searchTerm.isEmpty {
+            let lowercasedSearchTerm = searchTerm.lowercased()
+            let fullTextLowercased = fullText.lowercased()
+            var searchStartIndex = fullText.startIndex
+            
+            while searchStartIndex < fullText.endIndex,
+                  let range = fullTextLowercased.range(of: lowercasedSearchTerm, range: searchStartIndex..<fullText.endIndex),
+                  !range.isEmpty {
+                let nsRange = NSRange(range, in: fullText)
+                attributedString.addAttributes(primaryAttributes, range: nsRange)
+                
+                // Update search start index to look for next match
+                guard let newStartIndex = fullText.index(range.lowerBound, offsetBy: lowercasedSearchTerm.count, limitedBy: fullText.endIndex) else {
                     break
                 }
+                searchStartIndex = newStartIndex
             }
         }
         
-        // Assuming your cell has a UILabel named 'label'
         cell.textLabel?.attributedText = attributedString
     }
+
+
     
 }

@@ -100,8 +100,26 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         sf.placeholder = "Search for a city"
         sf.attributedPlaceholder = NSAttributedString(string: "Search for a city", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryTint])
         sf.alpha = 0
+        sf.clearButtonMode = .never
+        
+        // Create a custom clear button
+        let clearButton = UIButton(type: .custom)
+        if let clearImage = UIImage(systemName: "xmark.circle.fill")?.withRenderingMode(.alwaysTemplate) {
+            clearButton.setImage(clearImage, for: .normal)
+            clearButton.tintColor = .secondaryTint
+            clearButton.addTarget(self, action: #selector(clearTextField), for: .touchUpInside)
+        }
+        
+        sf.rightView = clearButton
+        sf.rightViewMode = .whileEditing
+        
         return sf
     }()
+
+    @objc func clearTextField() {
+        searchField.text = ""
+    }
+
 
     private let searchResultsView: SearchResultsTableView = {
         let srv = SearchResultsTableView()
@@ -220,7 +238,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         ])
 
         // put search field just off screen
-        searchField.frame = CGRect(x: view.frame.width, y: searchButton.frame.minY - 5, width: view.frame.width - 80 - 60, height: 35)
+        searchField.frame = CGRect(x: view.frame.width, y: searchButton.frame.minY - 5, width: view.frame.width - 80 - 70, height: 35)
         NSLayoutConstraint.activate([
             searchResultsView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 0),
             searchResultsView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 0),
