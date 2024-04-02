@@ -251,6 +251,9 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             let clLocation = CLLocation(latitude: Double(city.lat) ?? 0, longitude: Double(city.lon) ?? 0)
             self.locationOption = .other(clLocation)
             self.locationLabel.text = "\(city.name), \(city.state)"
+            self.currentWeatherCard.resetViews()
+            self.weeklyForcastView.update(with: [])
+            self.hourlyForcastView.update(with: [])
             self.weatherService.fetchWeather(for: clLocation) { result in
                 
                 // Update ui for weather object

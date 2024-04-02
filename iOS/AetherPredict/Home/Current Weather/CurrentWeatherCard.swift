@@ -248,4 +248,14 @@ class CurrentWeatherCard: UIView {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         toggle()
     }
+
+
+    public func resetViews() {
+        lastUpdatedLabel.text = ""
+        temperatureValueLabel.text = "--°"
+        conditionImageView.image = UIImage(systemName: "icloud.slash.fill")
+        conditionImageView.preferredSymbolConfiguration = WeatherSymbolConfigurationManager.configuration(forCondition: "icloud.slash.fill")
+        feelsLikeLabel.text = "Feels like --°"
+        currentConditionsLabel.text = ""   
+    }
 }
