@@ -308,7 +308,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         let filteredForecasts = dayWeather.forecast.filter { $0.date >= today }
         let sliceCount = min(filteredForecasts.count, WeeklyForecastCollectionView.DAY_FORCAST_COUNT)
         let slicedForecasts = filteredForecasts.prefix(sliceCount)
-        weeklyForcastView.currentTempCelcius = currentForecast.temperature.value
+        weeklyForcastView.currentTempCelcius = currentForecast.apparentTemperature.value
         weeklyForcastView.update(with: Array(slicedForecasts))
     }
 
@@ -359,7 +359,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
 
     // called when cancel button is tapped
     @objc func cancelSearch() {
-        searchButton.isUserInteractionEnabled = true
+        self.searchField.resignFirstResponder()
         locationOption = .currentLocation
         UIView.animate(withDuration: 0.3) {
             self.currentWeatherCard.alpha = 1
@@ -373,7 +373,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             self.searchButton.transform = .identity
             self.searchField.transform = .identity
         } completion: { _ in
-            self.searchField.resignFirstResponder()
+            self.searchButton.isUserInteractionEnabled = true
         }
     }
 }

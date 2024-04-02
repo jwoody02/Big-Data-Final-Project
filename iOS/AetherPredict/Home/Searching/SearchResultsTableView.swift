@@ -18,6 +18,7 @@ class SearchResultsTableView: UIView, UITableViewDataSource, UITableViewDelegate
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PlaceCell")
         tableView.backgroundColor = .clear
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
     var searchterm = ""
