@@ -291,7 +291,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
 
 
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
-        currentWeatherCard.updateWith(currentForecast)
+        currentWeatherCard.updateWith(currentForecast, dayWeather.first)
 
         // Update hourly forecast for the next 24 hours
         let now = Date()

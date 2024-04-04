@@ -16,6 +16,9 @@
 		171767882BBC66B500B128A7 /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767812BBC66B500B128A7 /* Fuse.swift */; };
 		171767892BBC66B500B128A7 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767822BBC66B500B128A7 /* FuseUtilities.swift */; };
 		1717678A2BBC66B500B128A7 /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171767832BBC66B500B128A7 /* String+Fuse.swift */; };
+		17246DCD2BBF56BC008FD7BB /* HighLowTempView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */; };
+		17246DCF2BBF56C6008FD7BB /* UVIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */; };
+		17246DD12BBF56D6008FD7BB /* SunLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DD02BBF56D6008FD7BB /* SunLocationView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -34,6 +37,8 @@
 		17839E222BBB169000E66992 /* WeatherConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E212BBB169000E66992 /* WeatherConditionView.swift */; };
 		17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */; };
 		17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E252BBB609500E66992 /* TemperatureRangeView.swift */; };
+		17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED622BBDF48B000CAA70 /* MetricView.swift */; };
+		17A1ED652BBDF5BD000CAA70 /* DetailedStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */; };
 		17EF329B2BBC6DCB001D24DE /* us-top-1k-cities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +52,9 @@
 		171767812BBC66B500B128A7 /* Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fuse.swift; sourceTree = "<group>"; };
 		171767822BBC66B500B128A7 /* FuseUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuseUtilities.swift; sourceTree = "<group>"; };
 		171767832BBC66B500B128A7 /* String+Fuse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Fuse.swift"; sourceTree = "<group>"; };
+		17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLowTempView.swift; sourceTree = "<group>"; };
+		17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVIndexView.swift; sourceTree = "<group>"; };
+		17246DD02BBF56D6008FD7BB /* SunLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunLocationView.swift; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +76,8 @@
 		17839E212BBB169000E66992 /* WeatherConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionView.swift; sourceTree = "<group>"; };
 		17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+LocationDelegate.swift"; sourceTree = "<group>"; };
 		17839E252BBB609500E66992 /* TemperatureRangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureRangeView.swift; sourceTree = "<group>"; };
+		17A1ED622BBDF48B000CAA70 /* MetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricView.swift; sourceTree = "<group>"; };
+		17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedStatsView.swift; sourceTree = "<group>"; };
 		17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-top-1k-cities.csv"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,7 +173,9 @@
 		17839E032BB9DEAD00E66992 /* Current Weather */ = {
 			isa = PBXGroup;
 			children = (
+				17A1ED612BBDF478000CAA70 /* Metric Views */,
 				17839E072BB9DEEE00E66992 /* CurrentWeatherCard.swift */,
+				17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */,
 			);
 			path = "Current Weather";
 			sourceTree = "<group>";
@@ -205,6 +217,17 @@
 				17839E1C2BBA7D2200E66992 /* ColorManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		17A1ED612BBDF478000CAA70 /* Metric Views */ = {
+			isa = PBXGroup;
+			children = (
+				17A1ED622BBDF48B000CAA70 /* MetricView.swift */,
+				17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */,
+				17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */,
+				17246DD02BBF56D6008FD7BB /* SunLocationView.swift */,
+			);
+			path = "Metric Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,7 +304,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17A1ED652BBDF5BD000CAA70 /* DetailedStatsView.swift in Sources */,
 				17839E192BBA5AC800E66992 /* HourlyForcastCollectionCell.swift in Sources */,
+				17246DCF2BBF56C6008FD7BB /* UVIndexView.swift in Sources */,
+				17246DCD2BBF56BC008FD7BB /* HighLowTempView.swift in Sources */,
+				17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */,
 				17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */,
 				17839E082BB9DEEE00E66992 /* CurrentWeatherCard.swift in Sources */,
 				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
@@ -301,6 +328,7 @@
 				17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */,
 				1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */,
 				171767792BBBB67800B128A7 /* SearchResultsTableView.swift in Sources */,
+				17246DD12BBF56D6008FD7BB /* SunLocationView.swift in Sources */,
 				17839E1F2BBB14E600E66992 /* DayForcastCell.swift in Sources */,
 				1717678A2BBC66B500B128A7 /* String+Fuse.swift in Sources */,
 			);
@@ -465,9 +493,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.caliwood.AetherPredict;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -497,9 +529,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.caliwood.AetherPredict;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

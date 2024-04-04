@@ -27,7 +27,7 @@ class WeatherConditionView: UIView {
     private let precipitationChanceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .nunito(ofSize: 8, weight: .bold)
+        label.font = .nunito(ofSize: 10, weight: .bold)
         label.textColor = .rainColor
         label.layer.cornerRadius = 6
         label.layer.masksToBounds = true
@@ -75,7 +75,7 @@ class WeatherConditionView: UIView {
             precipitationChanceLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 5),
             precipitationChanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 5),
             precipitationChanceLabel.heightAnchor.constraint(equalToConstant: 18),
-            precipitationChanceLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 26)
+            precipitationChanceLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 32)
         ])
     }
 

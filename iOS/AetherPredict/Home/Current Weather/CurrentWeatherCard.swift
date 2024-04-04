@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 340
+    static let MAXIMIZED_HEIGHT: CGFloat = 370
 
     var cardHeightConstraint = NSLayoutConstraint()
 
@@ -86,10 +86,41 @@ class CurrentWeatherCard: UIView {
         button.isUserInteractionEnabled = false
         return button
     }()
+
+    // MARK: - Detailed Stats View
+
+    // Row 1
+    let sunriseView = MetricView(title: "Sunrise", value: "", measureType: "")
+    let daylightView = MetricView(title: "Daylight", value: "", measureType: "")
+    let sunsetView = MetricView(title: "Sunset", value: "", measureType: "")
+
+    // Row 2
+    let highLowTempView = MetricView(title: "High/Low", value: "", measureType: "")
+    let uvIndexView = MetricView(title: "UV Index", value: "", measureType: "/10") // todo
+    let pressureView = MetricView(title: "Pressure", value: "", measureType: "mb")
+
+    // Row 3
+    let precipitationChanceView = MetricView(title: "Precipitation", value: "", measureType: "%")
+    let humidityView = MetricView(title: "Humidity", value: "", measureType: "%")
+    let windView = MetricView(title: "Wind", value: "", measureType: "")
+    
+    var detailedViews: [UIView] = []
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
+        detailedViews = [
+            sunriseView,
+            daylightView,
+            sunsetView,
+            highLowTempView,
+            uvIndexView,
+            pressureView,
+            precipitationChanceView,
+            humidityView,
+            windView
+        ]
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(currentWeatherCardTapped))
         self.addGestureRecognizer(tapGesture)
@@ -114,12 +145,28 @@ class CurrentWeatherCard: UIView {
         addSubview(currentConditionsLabel)
         addSubview(feelsLikeLabel)
         addSubview(showMoreButton)
+
+        addSubview(sunriseView)
+        addSubview(daylightView)
+        addSubview(sunsetView)
+
+        addSubview(highLowTempView)
+        addSubview(uvIndexView)
+        addSubview(pressureView)
+
+        addSubview(precipitationChanceView)
+        addSubview(humidityView)
+        addSubview(windView)
+
     }
 
     private func setupConstraints() {
         cardHeightConstraint.isActive = true
         cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
 
+        let detailedStatsViewPadding: CGFloat = 8
+        let detailedStatsViewWidth: CGFloat = ((UIScreen.main.bounds.width - 40 - (detailedStatsViewPadding * 3)) / 3)
+        let deatiledStatsViewHeight: CGFloat = 40
         NSLayoutConstraint.activate([
             lastUpdatedLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             lastUpdatedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
@@ -133,9 +180,10 @@ class CurrentWeatherCard: UIView {
             currentConditionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             currentConditionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             
-            feelsLikeLabel.topAnchor.constraint(equalTo: currentConditionsLabel.bottomAnchor, constant: 5),
+            feelsLikeLabel.topAnchor.constraint(equalTo: currentConditionsLabel.bottomAnchor, constant: 0),
             feelsLikeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             feelsLikeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            feelsLikeLabel.heightAnchor.constraint(equalToConstant: 20),
 
             conditionImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
             conditionImageView.centerYAnchor.constraint(equalTo: temperatureValueLabel.centerYAnchor, constant: 10),
@@ -144,19 +192,78 @@ class CurrentWeatherCard: UIView {
             
             showMoreButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             showMoreButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+
+        ])
+
+        NSLayoutConstraint.activate([
+
+            sunriseView.topAnchor.constraint(equalTo: feelsLikeLabel.bottomAnchor, constant: 30),
+            sunriseView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            sunriseView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: detailedStatsViewPadding),
+            sunriseView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            daylightView.topAnchor.constraint(equalTo: sunriseView.topAnchor, constant: 0),
+            daylightView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            daylightView.leadingAnchor.constraint(equalTo: sunriseView.trailingAnchor, constant: detailedStatsViewPadding),
+            daylightView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            sunsetView.topAnchor.constraint(equalTo: sunriseView.topAnchor, constant: 0),
+            sunsetView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            sunsetView.leadingAnchor.constraint(equalTo: daylightView.trailingAnchor, constant: detailedStatsViewPadding),
+            sunsetView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+
+            highLowTempView.topAnchor.constraint(equalTo: sunriseView.bottomAnchor, constant: detailedStatsViewPadding),
+            highLowTempView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            highLowTempView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: detailedStatsViewPadding),
+            highLowTempView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            uvIndexView.topAnchor.constraint(equalTo: highLowTempView.topAnchor, constant: 0),
+            uvIndexView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            uvIndexView.leadingAnchor.constraint(equalTo: highLowTempView.trailingAnchor, constant: detailedStatsViewPadding),
+            uvIndexView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            pressureView.topAnchor.constraint(equalTo: highLowTempView.topAnchor, constant: 0),
+            pressureView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            pressureView.leadingAnchor.constraint(equalTo: uvIndexView.trailingAnchor, constant: detailedStatsViewPadding),
+            pressureView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+
+            precipitationChanceView.topAnchor.constraint(equalTo: highLowTempView.bottomAnchor, constant: detailedStatsViewPadding),
+            precipitationChanceView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            precipitationChanceView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: detailedStatsViewPadding),
+            precipitationChanceView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            humidityView.topAnchor.constraint(equalTo: precipitationChanceView.topAnchor, constant: 0),
+            humidityView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            humidityView.leadingAnchor.constraint(equalTo: precipitationChanceView.trailingAnchor, constant: detailedStatsViewPadding),
+            humidityView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+
+            windView.topAnchor.constraint(equalTo: precipitationChanceView.topAnchor, constant: 0),
+            windView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            windView.leadingAnchor.constraint(equalTo: humidityView.trailingAnchor, constant: detailedStatsViewPadding),
+            windView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
         ])
     }
 
+    
     public func minimize() {
         self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
         self.showMoreButton.imageView?.transform = .identity
         self.showMoreButton.setTitle("Show more ", for: .normal)
+        for view in detailedViews {
+            view.isHidden = true
+        }
     }
 
     public func maximize() {
         self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
         self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
         self.showMoreButton.setTitle("Show less ", for: .normal)
+        
+        for view in detailedViews {
+            view.isHidden = false
+        }
     }
 
     public func toggle() {
@@ -167,7 +274,7 @@ class CurrentWeatherCard: UIView {
         }
     }
 
-    public func updateWith(_ currentWeather: CurrentWeather) {
+    public func updateWith(_ currentWeather: CurrentWeather, _ dayForecast: DayWeather?) {
         let updatedAtTimestamp = currentWeather.date
         let actualTemperatureObject = currentWeather.temperature
         let feelsLikeObject = currentWeather.apparentTemperature
@@ -189,12 +296,53 @@ class CurrentWeatherCard: UIView {
         let feelsLikeInFahrenheit = feelsLikeInCelsius.converted(to: .fahrenheit).value
         setFeelsLike(to: feelsLikeInFahrenheit)
 
-        // Additional Values (Wind Speed, UV Index)
-        let roundedWindSpeed = Int(round(windSpeedObject.value))
-        // TODO: - Set wind speed
+        // Detailed Stats 
+        if let dayForecast = dayForecast {
+            // Row 1
+            // Define the formatter for sunrise and sunset times
+            let sunriseSunsetFormatter = DateFormatter()
+            sunriseSunsetFormatter.dateFormat = "h:mm a"
 
-        let UVIndex = uvIndex.value
-        // TODO: - Set UV Index
+            // Extract sunrise and sunset times
+            if let sunriseTime = dayForecast.sun.sunrise, let sunsetTime = dayForecast.sun.sunset {
+                // Calculate daylight duration in seconds
+                let daylightSeconds = sunsetTime.timeIntervalSince(sunriseTime)
+                
+                // Convert daylight duration to hours and minutes
+                let daylightHours = Int(daylightSeconds) / 3600 // Convert seconds to hours
+                let daylightMinutes = (Int(daylightSeconds) % 3600) / 60 // Convert remainder to minutes
+                
+                // Format daylight duration as a string
+                let daylightString = "\(daylightHours)h \(daylightMinutes)m"
+                
+                // Set formatted values for sunrise, sunset, and daylight duration
+                sunriseView.value = sunriseSunsetFormatter.string(from: sunriseTime)
+                sunsetView.value = sunriseSunsetFormatter.string(from: sunsetTime)
+                daylightView.value = daylightString
+            } else {
+                // Handle cases where sunrise or sunset times are nil
+                sunriseView.value = "N/A"
+                sunsetView.value = "N/A"
+                daylightView.value = "N/A"
+            }
+
+
+
+            // Row 2
+            let farhenheitHigh = Measurement(value: dayForecast.highTemperature.value, unit: UnitTemperature.celsius).converted(to: .fahrenheit).value
+            let farhenheitLow = Measurement(value: dayForecast.lowTemperature.value, unit: UnitTemperature.celsius).converted(to: .fahrenheit).value
+            let highLowString = "↑\(Int(farhenheitHigh))° ↓\(Int(farhenheitLow))°"
+            highLowTempView.value = highLowString
+
+            uvIndexView.value = "\(uvIndex.value)"
+            pressureView.value = "\(Int(currentWeather.pressure.value))"
+
+            // Row 3
+            precipitationChanceView.value = "\(Int(dayForecast.precipitationChance * 100))"
+            humidityView.value = "\(Int(currentWeather.humidity * 100))"
+            windView.value = "\(Int(windSpeedObject.value * 0.62)) mph, \(currentWeather.wind.compassDirection.abbreviation)"
+        }
+
         
     }
 
