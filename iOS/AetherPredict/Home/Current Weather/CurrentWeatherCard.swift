@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 350
+    static let MAXIMIZED_HEIGHT: CGFloat = 370
 
     var cardHeightConstraint = NSLayoutConstraint()
 
@@ -175,7 +175,7 @@ class CurrentWeatherCard: UIView {
         cardHeightConstraint.isActive = true
         cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
 
-        let detailedStatsViewPadding: CGFloat = 10
+        let detailedStatsViewPadding: CGFloat = 16
         let detailedStatsViewWidth: CGFloat = ((UIScreen.main.bounds.width - 40 - (detailedStatsViewPadding * 4)) / 3)
         let deatiledStatsViewHeight: CGFloat = 40
         NSLayoutConstraint.activate([
