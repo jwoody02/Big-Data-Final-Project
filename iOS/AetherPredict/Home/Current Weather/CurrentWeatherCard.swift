@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 370
+    static let MAXIMIZED_HEIGHT: CGFloat = 360
 
     var cardHeightConstraint = NSLayoutConstraint()
 
