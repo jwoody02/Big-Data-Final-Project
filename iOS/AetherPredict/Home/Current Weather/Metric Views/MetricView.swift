@@ -10,7 +10,7 @@ import UIKit
 
 class MetricView: UIView {
     
-    private let titleLabel: UILabel = {
+    public let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .nunito(ofSize: 14, weight: .medium)
         label.textAlignment = .center
@@ -76,6 +76,7 @@ class MetricView: UIView {
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
             valueLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -85,6 +86,6 @@ class MetricView: UIView {
     }
     
     private func updateValueLabel() {
-        valueLabel.text = "\(value) \(measureType)"
+        valueLabel.text = "\(value)\(measureType)"
     }
 }

@@ -19,6 +19,7 @@
 		17246DCD2BBF56BC008FD7BB /* HighLowTempView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */; };
 		17246DCF2BBF56C6008FD7BB /* UVIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */; };
 		17246DD12BBF56D6008FD7BB /* SunLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DD02BBF56D6008FD7BB /* SunLocationView.swift */; };
+		17246DD32BBFBA4A008FD7BB /* GreenToRedSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17246DD22BBFBA4A008FD7BB /* GreenToRedSegmentView.swift */; };
 		1752E4EF2B8E936D00137A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4EE2B8E936D00137A74 /* AppDelegate.swift */; };
 		1752E4F12B8E936D00137A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752E4F02B8E936D00137A74 /* SceneDelegate.swift */; };
 		1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1752E4F72B8E937600137A74 /* Assets.xcassets */; };
@@ -55,6 +56,7 @@
 		17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLowTempView.swift; sourceTree = "<group>"; };
 		17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UVIndexView.swift; sourceTree = "<group>"; };
 		17246DD02BBF56D6008FD7BB /* SunLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunLocationView.swift; sourceTree = "<group>"; };
+		17246DD22BBFBA4A008FD7BB /* GreenToRedSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenToRedSegmentView.swift; sourceTree = "<group>"; };
 		1725A5412BAD12B700DE08DB /* AetherPredict.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AetherPredict.entitlements; sourceTree = "<group>"; };
 		1752E4EB2B8E936D00137A74 /* AetherPredict.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AetherPredict.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1752E4EE2B8E936D00137A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				17246DCC2BBF56BC008FD7BB /* HighLowTempView.swift */,
 				17246DCE2BBF56C6008FD7BB /* UVIndexView.swift */,
 				17246DD02BBF56D6008FD7BB /* SunLocationView.swift */,
+				17246DD22BBFBA4A008FD7BB /* GreenToRedSegmentView.swift */,
 			);
 			path = "Metric Views";
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */,
 				17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */,
 				17839E082BB9DEEE00E66992 /* CurrentWeatherCard.swift in Sources */,
+				17246DD32BBFBA4A008FD7BB /* GreenToRedSegmentView.swift in Sources */,
 				170828982BA3B8EE00094406 /* HomeViewController.swift in Sources */,
 				171767882BBC66B500B128A7 /* Fuse.swift in Sources */,
 				17839E132BBA583200E66992 /* WeatherSymbolConfigurationManager.swift in Sources */,

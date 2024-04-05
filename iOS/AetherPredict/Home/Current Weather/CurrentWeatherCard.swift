@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 370
+    static let MAXIMIZED_HEIGHT: CGFloat = 360
 
     var cardHeightConstraint = NSLayoutConstraint()
 
@@ -96,7 +96,7 @@ class CurrentWeatherCard: UIView {
 
     // Row 2
     let highLowTempView = MetricView(title: "High/Low", value: "", measureType: "")
-    let uvIndexView = MetricView(title: "UV Index", value: "", measureType: "/10") // todo
+    let uvIndexView = UVIndexView(title: "UV Index", value: "", measureType: "")
     let pressureView = MetricView(title: "Pressure", value: "", measureType: "mb")
 
     // Row 3
@@ -164,7 +164,7 @@ class CurrentWeatherCard: UIView {
         cardHeightConstraint.isActive = true
         cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
 
-        let detailedStatsViewPadding: CGFloat = 8
+        let detailedStatsViewPadding: CGFloat = 15
         let detailedStatsViewWidth: CGFloat = ((UIScreen.main.bounds.width - 40 - (detailedStatsViewPadding * 3)) / 3)
         let deatiledStatsViewHeight: CGFloat = 40
         NSLayoutConstraint.activate([
@@ -254,6 +254,8 @@ class CurrentWeatherCard: UIView {
         for view in detailedViews {
             view.isHidden = true
         }
+        
+        showMoreButton.isHidden = false
     }
 
     public func maximize() {
@@ -264,6 +266,8 @@ class CurrentWeatherCard: UIView {
         for view in detailedViews {
             view.isHidden = false
         }
+        
+        showMoreButton.isHidden = true
     }
 
     public func toggle() {
@@ -334,13 +338,13 @@ class CurrentWeatherCard: UIView {
             let highLowString = "↑\(Int(farhenheitHigh))° ↓\(Int(farhenheitLow))°"
             highLowTempView.value = highLowString
 
-            uvIndexView.value = "\(uvIndex.value)"
+            uvIndexView.updateWithUVIndex(uvIndex.value == 0 ? 1 : uvIndex.value)
             pressureView.value = "\(Int(currentWeather.pressure.value))"
 
             // Row 3
             precipitationChanceView.value = "\(Int(dayForecast.precipitationChance * 100))"
             humidityView.value = "\(Int(currentWeather.humidity * 100))"
-            windView.value = "\(Int(windSpeedObject.value * 0.62)) mph, \(currentWeather.wind.compassDirection.abbreviation)"
+            windView.value = "\(Int(windSpeedObject.value * 0.62))mph \(currentWeather.wind.compassDirection.abbreviation)"
         }
 
         
