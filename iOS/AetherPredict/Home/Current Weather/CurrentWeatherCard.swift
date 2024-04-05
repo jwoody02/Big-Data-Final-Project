@@ -13,7 +13,7 @@ import os.log
 class CurrentWeatherCard: UIView {
 
     static let MINIMIZED_HEIGHT: CGFloat = 180
-    static let MAXIMIZED_HEIGHT: CGFloat = 360
+    static let MAXIMIZED_HEIGHT: CGFloat = 350
 
     var cardHeightConstraint = NSLayoutConstraint()
 
@@ -86,6 +86,14 @@ class CurrentWeatherCard: UIView {
         button.isUserInteractionEnabled = false
         return button
     }()
+    
+    private let sunLocationView: SunView = {
+       let locView = SunView()
+        locView.translatesAutoresizingMaskIntoConstraints = false
+        locView.isHidden = true
+        
+        return locView
+    }()
 
     // MARK: - Detailed Stats View
 
@@ -119,7 +127,8 @@ class CurrentWeatherCard: UIView {
             pressureView,
             precipitationChanceView,
             humidityView,
-            windView
+            windView,
+            sunLocationView
         ]
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(currentWeatherCardTapped))
@@ -157,6 +166,8 @@ class CurrentWeatherCard: UIView {
         addSubview(precipitationChanceView)
         addSubview(humidityView)
         addSubview(windView)
+        
+        addSubview(sunLocationView)
 
     }
 
@@ -164,8 +175,8 @@ class CurrentWeatherCard: UIView {
         cardHeightConstraint.isActive = true
         cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
 
-        let detailedStatsViewPadding: CGFloat = 15
-        let detailedStatsViewWidth: CGFloat = ((UIScreen.main.bounds.width - 40 - (detailedStatsViewPadding * 3)) / 3)
+        let detailedStatsViewPadding: CGFloat = 10
+        let detailedStatsViewWidth: CGFloat = ((UIScreen.main.bounds.width - 40 - (detailedStatsViewPadding * 4)) / 3)
         let deatiledStatsViewHeight: CGFloat = 40
         NSLayoutConstraint.activate([
             lastUpdatedLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
@@ -206,6 +217,11 @@ class CurrentWeatherCard: UIView {
             daylightView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
             daylightView.leadingAnchor.constraint(equalTo: sunriseView.trailingAnchor, constant: detailedStatsViewPadding),
             daylightView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+            
+            sunLocationView.topAnchor.constraint(equalTo: daylightView.topAnchor, constant: -90),
+            sunLocationView.heightAnchor.constraint(equalToConstant: 120),
+            sunLocationView.widthAnchor.constraint(equalToConstant: 120),
+            sunLocationView.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             sunsetView.topAnchor.constraint(equalTo: sunriseView.topAnchor, constant: 0),
             sunsetView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
@@ -309,6 +325,7 @@ class CurrentWeatherCard: UIView {
 
             // Extract sunrise and sunset times
             if let sunriseTime = dayForecast.sun.sunrise, let sunsetTime = dayForecast.sun.sunset {
+                sunLocationView.updateSunPosition(currentTime: Date(), sunrise: sunriseTime, sunset: sunsetTime)
                 // Calculate daylight duration in seconds
                 let daylightSeconds = sunsetTime.timeIntervalSince(sunriseTime)
                 
