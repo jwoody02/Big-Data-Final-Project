@@ -14,6 +14,21 @@ class SunView: UIView {
     private let sunImageView = UIImageView()
     private let pathLayer = CAShapeLayer()
     private let sunPathLayer = CAShapeLayer()
+
+    private let leftBall: UIView = {
+        let view = UIView()
+        view.backgroundColor = .primaryTint
+        view.layer.cornerRadius = 3
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private let rightBall: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondaryTint
+        view.layer.cornerRadius = 3
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,11 +63,24 @@ class SunView: UIView {
         sunImageView.translatesAutoresizingMaskIntoConstraints = false // Use Auto Layout
         addSubview(sunImageView)
         
+        addSubview(leftBall)
+        addSubview(rightBall)
+        
         // Constraints for the sunImageView to keep it centered
         NSLayoutConstraint.activate([
             sunImageView.widthAnchor.constraint(equalToConstant: 24),
             sunImageView.heightAnchor.constraint(equalTo: sunImageView.widthAnchor),
             sunImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+
+            leftBall.widthAnchor.constraint(equalToConstant: 6),
+            leftBall.heightAnchor.constraint(equalTo: leftBall.widthAnchor),
+            leftBall.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            leftBall.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 1),
+
+            rightBall.widthAnchor.constraint(equalToConstant: 6),
+            rightBall.heightAnchor.constraint(equalTo: rightBall.widthAnchor),
+            rightBall.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+            rightBall.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -1)
         ])
     }
     
