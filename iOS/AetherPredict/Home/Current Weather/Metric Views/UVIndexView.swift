@@ -67,8 +67,10 @@ class UVIndexView: MetricView {
 
         // Calculate offset from center based on uvIndex
         let offsetFromCenter = (uvIndex - 1) * Int(greenToRedView.bounds.width) / 8
-        uvLabelCenterXConstraint = uvIndexLabel.centerXAnchor.constraint(equalTo: greenToRedView.leadingAnchor, constant: CGFloat(offsetFromCenter))
-        uvLabelCenterXConstraint?.isActive = true
+        UIView.animate(withDuration: 0.3, animations: {
+            self.uvLabelCenterXConstraint = self.uvIndexLabel.centerXAnchor.constraint(equalTo: self.greenToRedView.leadingAnchor, constant: CGFloat(offsetFromCenter))
+            self.uvLabelCenterXConstraint?.isActive = true
+        })
     }
 
     required init?(coder: NSCoder) {

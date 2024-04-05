@@ -78,7 +78,9 @@ class SunView: UIView {
         
         // Update the sun image position
         sunImageView.isHidden = false
-        sunImageView.center = CGPoint(x: sunXPosition, y: sunYPosition)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.sunImageView.center = CGPoint(x: sunXPosition, y: sunYPosition)
+        })
         
         // Update the sun path (solid line) to reflect the path taken so far
         let sunPath = UIBezierPath(arcCenter: arcCenter, radius: radius,
