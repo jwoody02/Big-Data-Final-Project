@@ -105,7 +105,7 @@ class CurrentWeatherCard: UIView {
     // Row 2
     let highLowTempView = MetricView(title: "High/Low", value: "", measureType: "")
     let uvIndexView = UVIndexView(title: "UV Index", value: "", measureType: "")
-    let pressureView = MetricView(title: "Pressure", value: "", measureType: "mb")
+    let fireChanceView = FireChanceView(title: "Fire Risk", value: "", measureType: "")
 
     // Row 3
     let precipitationChanceView = MetricView(title: "Precipitation", value: "", measureType: "%")
@@ -124,7 +124,7 @@ class CurrentWeatherCard: UIView {
             sunsetView,
             highLowTempView,
             uvIndexView,
-            pressureView,
+            fireChanceView,
             precipitationChanceView,
             humidityView,
             windView,
@@ -161,7 +161,7 @@ class CurrentWeatherCard: UIView {
 
         addSubview(highLowTempView)
         addSubview(uvIndexView)
-        addSubview(pressureView)
+        addSubview(fireChanceView)
 
         addSubview(precipitationChanceView)
         addSubview(humidityView)
@@ -239,10 +239,10 @@ class CurrentWeatherCard: UIView {
             uvIndexView.leadingAnchor.constraint(equalTo: highLowTempView.trailingAnchor, constant: detailedStatsViewPadding),
             uvIndexView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
 
-            pressureView.topAnchor.constraint(equalTo: highLowTempView.topAnchor, constant: 0),
-            pressureView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
-            pressureView.leadingAnchor.constraint(equalTo: uvIndexView.trailingAnchor, constant: detailedStatsViewPadding),
-            pressureView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
+            fireChanceView.topAnchor.constraint(equalTo: highLowTempView.topAnchor, constant: 0),
+            fireChanceView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
+            fireChanceView.leadingAnchor.constraint(equalTo: uvIndexView.trailingAnchor, constant: detailedStatsViewPadding),
+            fireChanceView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
 
 
             precipitationChanceView.topAnchor.constraint(equalTo: highLowTempView.bottomAnchor, constant: detailedStatsViewPadding),
@@ -277,7 +277,7 @@ class CurrentWeatherCard: UIView {
     public func maximize() {
         self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
         self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
-        self.showMoreButton.setTitle("Show less ", for: .normal)
+//        self.showMoreButton.setTitle("Show less ", for: .normal)
         
         for view in detailedViews {
             view.isHidden = false
@@ -355,8 +355,8 @@ class CurrentWeatherCard: UIView {
             let highLowString = "↑\(Int(farhenheitHigh))° ↓\(Int(farhenheitLow))°"
             highLowTempView.value = highLowString
 
-            uvIndexView.updateWithUVIndex(uvIndex.value == 0 ? 1 : uvIndex.value)
-            pressureView.value = "\(Int(currentWeather.pressure.value))"
+            uvIndexView.updateWithUVIndex(uvIndex.value)
+            fireChanceView.updateWithFireChance(.low)
 
             // Row 3
             precipitationChanceView.value = "\(Int(dayForecast.precipitationChance * 100))"
