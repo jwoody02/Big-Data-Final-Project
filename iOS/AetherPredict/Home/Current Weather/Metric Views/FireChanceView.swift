@@ -123,7 +123,13 @@ class FireChanceView: MetricView {
             let height = isCurrentSegment ? 10 : 5
             segmentView?.frame = CGRect(x: xPosition, y: titleLabel.frame.maxY + (isCurrentSegment ? 3 : 8), width: segmentWidth, height: CGFloat(height))
             if isCurrentSegment {
-                fireChanceLabel.textColor = .foregroundColor
+                if index == 0 {
+                    fireChanceLabel.textColor = UIColor(red: 34/255, green: 63/255, blue: 7/255, alpha: 1.0)
+                } else if index == 1 {
+                    fireChanceLabel.textColor = UIColor(red: 70/255, green: 60/255, blue: 0/255, alpha: 1.0)
+                } else {
+                    fireChanceLabel.textColor = UIColor(red: 71/255, green: 0/255, blue: 0/255, alpha: 1.0)
+                }
             }
         }
 
