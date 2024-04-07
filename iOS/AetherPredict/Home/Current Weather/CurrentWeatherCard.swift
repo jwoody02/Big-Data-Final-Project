@@ -74,24 +74,24 @@ class CurrentWeatherCard: UIView {
     private let showMoreButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Show more ", for: .normal) // Space is intentional for spacing between text and image
-        
+
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 8, weight: .regular)
         let chevronImage = UIImage(systemName: "chevron.down", withConfiguration: symbolConfiguration)?.withTintColor(.secondaryTint, renderingMode: .alwaysOriginal)
         button.setImage(chevronImage, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft // This puts the image to the left of the text
-        
+
         button.tintColor = .secondaryTint
         button.titleLabel?.font = .nunito(ofSize: 12, weight: .bold)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
         return button
     }()
-    
+
     private let sunLocationView: SunView = {
        let locView = SunView()
         locView.translatesAutoresizingMaskIntoConstraints = false
         locView.isHidden = true
-        
+
         return locView
     }()
 
@@ -111,10 +111,10 @@ class CurrentWeatherCard: UIView {
     let precipitationChanceView = MetricView(title: "Precipitation", value: "", measureType: "%")
     let humidityView = MetricView(title: "Humidity", value: "", measureType: "%")
     let windView = MetricView(title: "Wind", value: "", measureType: "")
-    
+
     var detailedViews: [UIView] = []
-    
-    
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.isUserInteractionEnabled = true
@@ -166,7 +166,7 @@ class CurrentWeatherCard: UIView {
         addSubview(precipitationChanceView)
         addSubview(humidityView)
         addSubview(windView)
-        
+
         addSubview(sunLocationView)
 
     }
@@ -186,11 +186,11 @@ class CurrentWeatherCard: UIView {
             temperatureValueLabel.topAnchor.constraint(equalTo: lastUpdatedLabel.bottomAnchor, constant: 0),
             temperatureValueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             temperatureValueLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            
+
             currentConditionsLabel.topAnchor.constraint(equalTo: temperatureValueLabel.bottomAnchor, constant: 15),
             currentConditionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             currentConditionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            
+
             feelsLikeLabel.topAnchor.constraint(equalTo: currentConditionsLabel.bottomAnchor, constant: 0),
             feelsLikeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             feelsLikeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
@@ -200,7 +200,7 @@ class CurrentWeatherCard: UIView {
             conditionImageView.centerYAnchor.constraint(equalTo: temperatureValueLabel.centerYAnchor, constant: 10),
             conditionImageView.widthAnchor.constraint(equalToConstant: 100),
             conditionImageView.heightAnchor.constraint(equalToConstant: 100),
-            
+
             showMoreButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             showMoreButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
 
@@ -217,7 +217,7 @@ class CurrentWeatherCard: UIView {
             daylightView.widthAnchor.constraint(equalToConstant: detailedStatsViewWidth),
             daylightView.leadingAnchor.constraint(equalTo: sunriseView.trailingAnchor, constant: detailedStatsViewPadding),
             daylightView.heightAnchor.constraint(equalToConstant: deatiledStatsViewHeight),
-            
+
             sunLocationView.topAnchor.constraint(equalTo: daylightView.topAnchor, constant: -90),
             sunLocationView.heightAnchor.constraint(equalToConstant: 120),
             sunLocationView.widthAnchor.constraint(equalToConstant: 120),
@@ -262,7 +262,7 @@ class CurrentWeatherCard: UIView {
         ])
     }
 
-    
+
     public func minimize() {
         self.cardHeightConstraint.constant = CurrentWeatherCard.MINIMIZED_HEIGHT
         self.showMoreButton.imageView?.transform = .identity
@@ -270,19 +270,18 @@ class CurrentWeatherCard: UIView {
         for view in detailedViews {
             view.isHidden = true
         }
-        
+
         showMoreButton.isHidden = false
     }
 
     public func maximize() {
         self.cardHeightConstraint.constant = CurrentWeatherCard.MAXIMIZED_HEIGHT
         self.showMoreButton.imageView?.transform = CGAffineTransform(rotationAngle: .pi)
-//        self.showMoreButton.setTitle("Show less ", for: .normal)
-        
+
         for view in detailedViews {
             view.isHidden = false
         }
-        
+
         showMoreButton.isHidden = true
     }
 
@@ -316,10 +315,9 @@ class CurrentWeatherCard: UIView {
         let feelsLikeInFahrenheit = feelsLikeInCelsius.converted(to: .fahrenheit).value
         setFeelsLike(to: feelsLikeInFahrenheit)
 
-        // Detailed Stats 
+        // Detailed Stats
         if let dayForecast = dayForecast {
             // Row 1
-            // Define the formatter for sunrise and sunset times
             let sunriseSunsetFormatter = DateFormatter()
             sunriseSunsetFormatter.dateFormat = "h:mm a"
 
@@ -328,14 +326,14 @@ class CurrentWeatherCard: UIView {
                 sunLocationView.updateSunPosition(currentTime: Date(), sunrise: sunriseTime, sunset: sunsetTime)
                 // Calculate daylight duration in seconds
                 let daylightSeconds = sunsetTime.timeIntervalSince(sunriseTime)
-                
+
                 // Convert daylight duration to hours and minutes
                 let daylightHours = Int(daylightSeconds) / 3600 // Convert seconds to hours
                 let daylightMinutes = (Int(daylightSeconds) % 3600) / 60 // Convert remainder to minutes
-                
+
                 // Format daylight duration as a string
                 let daylightString = "\(daylightHours)h \(daylightMinutes)m"
-                
+
                 // Set formatted values for sunrise, sunset, and daylight duration
                 sunriseView.value = sunriseSunsetFormatter.string(from: sunriseTime)
                 sunsetView.value = sunriseSunsetFormatter.string(from: sunsetTime)
@@ -356,7 +354,7 @@ class CurrentWeatherCard: UIView {
             highLowTempView.value = highLowString
 
             uvIndexView.updateWithUVIndex(uvIndex.value)
-            fireChanceView.updateWithFireChance(.low)
+            fireChanceView.updateWithFireChance(.high)
 
             // Row 3
             precipitationChanceView.value = "\(Int(dayForecast.precipitationChance * 100))"
@@ -364,7 +362,7 @@ class CurrentWeatherCard: UIView {
             windView.value = "\(Int(windSpeedObject.value * 0.62))mph \(currentWeather.wind.compassDirection.abbreviation)"
         }
 
-        
+
     }
 
     private func setTemperature(to value: Double) {
@@ -382,21 +380,21 @@ class CurrentWeatherCard: UIView {
             .font: UIFont.nunito(ofSize: 14, weight: .light),
             .foregroundColor: UIColor.primaryTint
         ]
-        
+
         let mediumAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.nunito(ofSize: 14, weight: .medium),
             .foregroundColor: UIColor.primaryTint
         ]
-        
+
         // Create the attributed string for the "Feels like " part
         let feelsLikeAttributedString = NSMutableAttributedString(string: "Feels like ", attributes: lightAttributes)
-        
+
         // Create the attributed string for the temperature value part
         let valueAttributedString = NSAttributedString(string: String(format: "%.0f°", value), attributes: mediumAttributes)
-        
+
         // Append the temperature value part to the "Feels like " part
         feelsLikeAttributedString.append(valueAttributedString)
-        
+
         // Set the attributed text to the label
         feelsLikeLabel.attributedText = feelsLikeAttributedString
     }
@@ -425,6 +423,6 @@ class CurrentWeatherCard: UIView {
         conditionImageView.image = UIImage(systemName: "icloud.slash.fill")
         conditionImageView.preferredSymbolConfiguration = WeatherSymbolConfigurationManager.configuration(forCondition: "icloud.slash.fill")
         feelsLikeLabel.text = "Feels like --°"
-        currentConditionsLabel.text = ""   
+        currentConditionsLabel.text = ""
     }
 }

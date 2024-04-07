@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum FireChance: String {
+public enum FireChance: String {
     case low = "Low"
     case moderate = "Med"
     case high = "High"

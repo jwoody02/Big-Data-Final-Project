@@ -14,4 +14,11 @@ public class FirePredictService {
     // TODO: - Create fire prediction service and integrate here
     private let locationService = LocationService.shared
 
+
+		private init() {}
+
+		public func runFireRiskPredicitonModel(completion: @escaping (Result<FireChance, Error>) -> Void) {
+
+		}
+
 }
