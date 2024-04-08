@@ -42,6 +42,8 @@
 		17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED622BBDF48B000CAA70 /* MetricView.swift */; };
 		17A1ED652BBDF5BD000CAA70 /* DetailedStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */; };
 		17BA59902BC4912C0075101A /* TensorFlowLiteSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 17BA598F2BC4912C0075101A /* TensorFlowLiteSwift */; };
+		17BA59942BC4950A0075101A /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17BA59932BC4950A0075101A /* CoreML.framework */; };
+		17BA59952BC4A4980075101A /* firepredict.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 17BA59912BC4917C0075101A /* firepredict.tflite */; };
 		17EF329B2BBC6DCB001D24DE /* us-top-1k-cities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +85,8 @@
 		17839E252BBB609500E66992 /* TemperatureRangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureRangeView.swift; sourceTree = "<group>"; };
 		17A1ED622BBDF48B000CAA70 /* MetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricView.swift; sourceTree = "<group>"; };
 		17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedStatsView.swift; sourceTree = "<group>"; };
+		17BA59912BC4917C0075101A /* firepredict.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = firepredict.tflite; sourceTree = "<group>"; };
+		17BA59932BC4950A0075101A /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-top-1k-cities.csv"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17BA59942BC4950A0075101A /* CoreML.framework in Frameworks */,
 				17BA59902BC4912C0075101A /* TensorFlowLiteSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,6 +106,7 @@
 		170828912BA3B86400094406 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				17BA59912BC4917C0075101A /* firepredict.tflite */,
 				170828932BA3B8D300094406 /* WeatherService.swift */,
 				170828952BA3B8E100094406 /* FirePredictService.swift */,
 				170828A12BA3C09A00094406 /* LocationService.swift */,
@@ -149,6 +155,7 @@
 			children = (
 				1752E4ED2B8E936D00137A74 /* AetherPredict */,
 				1752E4EC2B8E936D00137A74 /* Products */,
+				17BA59922BC4950A0075101A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -238,6 +245,14 @@
 			path = "Metric Views";
 			sourceTree = "<group>";
 		};
+		17BA59922BC4950A0075101A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				17BA59932BC4950A0075101A /* CoreML.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -308,6 +323,7 @@
 				17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */,
 				17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */,
 				17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */,
+				17BA59952BC4A4980075101A /* firepredict.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -314,6 +314,7 @@ class CurrentWeatherCard: UIView {
         let feelsLikeInCelsius = Measurement(value: feelsLikeObject.value, unit: UnitTemperature.celsius)
         let feelsLikeInFahrenheit = feelsLikeInCelsius.converted(to: .fahrenheit).value
         setFeelsLike(to: feelsLikeInFahrenheit)
+        
 
         // Detailed Stats
         if let dayForecast = dayForecast {
@@ -354,7 +355,7 @@ class CurrentWeatherCard: UIView {
             highLowTempView.value = highLowString
 
             uvIndexView.updateWithUVIndex(uvIndex.value)
-            fireChanceView.updateWithFireChance(.high)
+            fireChanceView.updateWithFireChance(.low)
 
             // Row 3
             precipitationChanceView.value = "\(Int(dayForecast.precipitationChance * 100))"
@@ -362,7 +363,23 @@ class CurrentWeatherCard: UIView {
             windView.value = "\(Int(windSpeedObject.value * 0.62))mph \(currentWeather.wind.compassDirection.abbreviation)"
         }
 
+        // Run the fire prediction model
+        FirePredictService.shared.runModel(month: Float(Calendar.current.component(.month, from: Date())), temperature: Float(currentWeather.temperature.value), humidity: Float(currentWeather.humidity), windSpeed: Float(currentWeather.wind.speed.value), rain: Float(dayForecast?.precipitationAmount.value ?? 0)) { [weak self] predictedValue in
+            guard let self = self, let predictedValue = predictedValue else { return }
+            var fireChance: FireChance = .low
+            switch predictedValue {
+            case 0...0.3:
+                fireChance = .low
+            case 0.3...0.6:
+                fireChance = .moderate
+            case 0.6...1:
+                fireChance = .high
+            default:
+                fireChance = .low
+            }
+            self.fireChanceView.updateWithFireChance(fireChance)
 
+        }
     }
 
     private func setTemperature(to value: Double) {

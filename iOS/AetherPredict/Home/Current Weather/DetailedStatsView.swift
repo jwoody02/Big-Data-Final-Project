@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import WeatherKit
+import os.log
 class DetailedStatsView: UIView {
     
     // MARK: - UI
@@ -104,5 +105,6 @@ class DetailedStatsView: UIView {
         precipitationView.value = "\(dayForecast.precipitationChance)"
         humidityView.value = "\(currentWeather.humidity)"
         windView.value = "\(currentWeather.wind.speed.value)"
+        
     }
 }

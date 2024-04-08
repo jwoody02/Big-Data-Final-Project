@@ -146,7 +146,6 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
     // managers
     let locationManager = CLLocationManager()
     let weatherService = WeatherServiceWrapper.shared
-//    private let firePredictService = FirePredictService.shared
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,6 +159,8 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
 
         // add search action
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        
+        FirePredictService.shared.loadModel()
     }
 
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -310,6 +311,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         let slicedForecasts = filteredForecasts.prefix(sliceCount)
         weeklyForcastView.currentTempCelcius = currentForecast.apparentTemperature.value
         weeklyForcastView.update(with: Array(slicedForecasts))
+        
     }
 
 
