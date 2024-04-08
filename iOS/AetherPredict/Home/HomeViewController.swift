@@ -198,6 +198,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.bottomAnchor.constraint(equalTo: weeklyForcastView.bottomAnchor, constant: 20)
         ])
 
         // Floating Location Label constraints
@@ -233,8 +234,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             weeklyForcastView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             weeklyForcastView.heightAnchor.constraint(equalToConstant: weeklyForecastHeight),
 
-            weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
-
+            // weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
         ])
 
         // put search field just off screen

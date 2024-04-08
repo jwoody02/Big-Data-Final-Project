@@ -31,6 +31,12 @@ class WeeklyForecastCollectionView: UIView, UICollectionViewDataSource {
         collectionView.isScrollEnabled = false
         return collectionView
     }()
+    
+    override var intrinsicContentSize: CGSize {
+        let totalHeight = CGFloat(WeeklyForecastCollectionView.DAY_FORCAST_COUNT) * CGFloat(WeeklyWeatherCollectionViewCell.WEEKLY_FORECAST_HEIGHT) + (CGFloat(WeeklyForecastCollectionView.DAY_FORCAST_COUNT - 1) * 4)
+        return CGSize(width: UIView.noIntrinsicMetric, height: totalHeight)
+    }
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)

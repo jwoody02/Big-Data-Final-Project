@@ -14,6 +14,8 @@ class SunView: UIView {
     private let sunImageView = UIImageView()
     private let pathLayer = CAShapeLayer()
     private let sunPathLayer = CAShapeLayer()
+    
+    
 
     private let leftBall: UIView = {
         let view = UIView()
@@ -128,15 +130,5 @@ class SunView: UIView {
     
     override func layoutSubviews() {
            super.layoutSubviews()
-           
-           // Update the paths' positions for the top half-circle
-           let arcCenter = CGPoint(x: bounds.midX, y: bounds.midY)
-           let radius = (bounds.width - 8) / 2
-           let path = UIBezierPath(arcCenter: arcCenter, radius: radius,
-                                   startAngle: 0, endAngle: .pi, clockwise: true)
-           pathLayer.path = path.cgPath
-           
-           // Clear the sun path (solid line) initially
-           sunPathLayer.path = nil
        }
 }
