@@ -364,15 +364,22 @@ class CurrentWeatherCard: UIView {
         }
 
         // Run the fire prediction model
-        FirePredictService.shared.runModel(month: Float(Calendar.current.component(.month, from: Date())), temperature: Float(currentWeather.temperature.value), humidity: Float(currentWeather.humidity), windSpeed: Float(currentWeather.wind.speed.value), rain: Float(dayForecast?.precipitationAmount.value ?? 0)) { [weak self] predictedValue in
-            guard let self = self, let predictedValue = predictedValue else { return }
+        FirePredictService.shared.runModel(
+            month: Float(Calendar.current.component(.month, from: Date())),
+            temperature: Float(currentWeather.temperature.value),
+            humidity: Float(currentWeather.humidity * 100),
+            windSpeed: Float(currentWeather.wind.speed.value),
+            rain: Float(dayForecast?.precipitationAmount.value ?? 0)
+        ) { [weak self] predictedValue in
+            guard let self = self, let predictedValueDouble = predictedValue else { return }
             var fireChance: FireChance = .low
+            let predictedValue = Int(predictedValueDouble)
             switch predictedValue {
-            case 0...0.3:
+            case 0:
                 fireChance = .low
-            case 0.3...0.6:
+            case 1:
                 fireChance = .moderate
-            case 0.6...1:
+            case 2:
                 fireChance = .high
             default:
                 fireChance = .low
