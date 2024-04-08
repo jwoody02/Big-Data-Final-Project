@@ -41,6 +41,7 @@
 		17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E252BBB609500E66992 /* TemperatureRangeView.swift */; };
 		17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED622BBDF48B000CAA70 /* MetricView.swift */; };
 		17A1ED652BBDF5BD000CAA70 /* DetailedStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */; };
+		17BA59902BC4912C0075101A /* TensorFlowLiteSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 17BA598F2BC4912C0075101A /* TensorFlowLiteSwift */; };
 		17EF329B2BBC6DCB001D24DE /* us-top-1k-cities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17BA59902BC4912C0075101A /* TensorFlowLiteSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,6 +254,9 @@
 			dependencies = (
 			);
 			name = AetherPredict;
+			packageProductDependencies = (
+				17BA598F2BC4912C0075101A /* TensorFlowLiteSwift */,
+			);
 			productName = AetherPredict;
 			productReference = 1752E4EB2B8E936D00137A74 /* AetherPredict.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +285,9 @@
 				Base,
 			);
 			mainGroup = 1752E4E22B8E936D00137A74;
+			packageReferences = (
+				17BA598E2BC4912C0075101A /* XCRemoteSwiftPackageReference "TensorFlowLiteSwift" */,
+			);
 			productRefGroup = 1752E4EC2B8E936D00137A74 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -569,6 +577,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		17BA598E2BC4912C0075101A /* XCRemoteSwiftPackageReference "TensorFlowLiteSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kewlbear/TensorFlowLiteSwift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		17BA598F2BC4912C0075101A /* TensorFlowLiteSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17BA598E2BC4912C0075101A /* XCRemoteSwiftPackageReference "TensorFlowLiteSwift" */;
+			productName = TensorFlowLiteSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1752E4E32B8E936D00137A74 /* Project object */;
 }

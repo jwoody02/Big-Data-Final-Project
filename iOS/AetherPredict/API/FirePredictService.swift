@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Foundation
+import os.log
 import TensorFlowLite
 
 class FirePredictService {
@@ -17,10 +17,11 @@ class FirePredictService {
     }
 
     private func loadModel() {
+        // Load model into memory in a seperate thread
         DispatchQueue.global(qos: .userInitiated).async {
-            let modelFileName = "model"
+            let modelFileName = "firepredict"
             guard let modelPath = Bundle.main.path(forResource: modelFileName, ofType: "tflite") else {
-                print("Failed to load the model file with name \(modelFileName).")
+                os_log(.fault, "Failed to load the model file with name \(modelFileName).")
                 return
             }
 
@@ -28,15 +29,16 @@ class FirePredictService {
                 self.interpreter = try Interpreter(modelPath: modelPath)
                 try self.interpreter?.allocateTensors()
             } catch {
-                print("Error occurred while creating TensorFlow Lite Interpreter: \(error)")
+                os_log(.fault, "Error occurred while creating TensorFlow Lite Interpreter: \(error)")
             }
         }
     }
 
     func runModel(month: Float, temperature: Float, humidity: Float, windSpeed: Float, rain: Float, completion: @escaping (Double?) -> Void) {
+        // Run inference on model in seperate thread (prevent UI from freezing)
         DispatchQueue.global(qos: .userInitiated).async {
             guard let interpreter = self.interpreter else {
-                print("Interpreter is not initialized.")
+                os_log(.fault, "Interpreter is not initialized.")
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -52,16 +54,17 @@ class FirePredictService {
                 if let outputTensor = try interpreter.output(at: 0),
                    let result = outputTensor.data.toArray(type: Double.self).first {
                     DispatchQueue.main.async {
+                        // pass back result on main thread
                         completion(result)
                     }
                 } else {
-                    print("Failed to get result from output tensor.")
+                    os_log(.fault, "Failed to get result from output tensor.")
                     DispatchQueue.main.async {
                         completion(nil)
                     }
                 }
             } catch {
-                print("Failed to run model inference: \(error)")
+                os_log(.fault, "Failed to run model inference: \(error)")
                 DispatchQueue.main.async {
                     completion(nil)
                 }

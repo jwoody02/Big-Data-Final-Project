@@ -146,7 +146,7 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
     // managers
     let locationManager = CLLocationManager()
     let weatherService = WeatherServiceWrapper.shared
-    private let firePredictService = FirePredictService.shared
+//    private let firePredictService = FirePredictService.shared
 
     public override func viewDidLoad() {
         super.viewDidLoad()
