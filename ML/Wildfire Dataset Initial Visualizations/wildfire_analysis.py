@@ -34,3 +34,5 @@ df['DATE'] = date
 df = df.drop(columns=['FIRE_YEAR', 'DISCOVERY_DOY', 'FIRE_SIZE'])
 
 df.to_csv('colorado_wildfires.csv', index=False)
+
+
