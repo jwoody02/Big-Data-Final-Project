@@ -1,0 +1,855 @@
+---
+title: "fire_analysis"
+output: html_document
+date: "2024-04-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# %% [code]
+---
+title: "Wildfire Exploratory Analysis"
+author: "Troy Walters"
+date: "September 17, 2017"
+output: html_document
+---
+
+# Introduction
+
+This database is a spectacular collection of data on wildfires in the United States from 1992 to 2015 created to support the US Fire Program Analysis. It has data on nearly 2 million wildfires over this time period. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.align = 'center')
+```
+
+* [Load Data](#Load)
+* [Wildfires over Time](#Time)
+* [Fires by Size](#Size)
+* [Wildfire Causes](#Causes)
+* [Wildfires by Geography](#Geo)
+
+To get started, load the libraries that we will need. We'll want RSQLite and dbplyr to extract the data from the sqlite database. We want dplyr for manipulation and ggplot2 for plotting of course. 
+
+```{r, message = FALSE}
+#install.packages("RSQLite")
+#install.packages("ggfortify")
+#install.packages("ggthemes")
+#install.packages("maps")
+#install.packages("mapdata")
+#install.packages("leaflet")
+#install.packages("remotes")
+#remotes::install_github("torfason/qst")
+library(RSQLite)
+library(dbplyr)
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(xts)
+library(ggfortify)
+library(ggthemes)
+library(maps)
+library(mapdata)
+library(leaflet)
+library(remotes)
+library(qst)
+
+
+
+
+```
+
+## Load the Data {#Load}
+
+Let's get the data from the database. Because it will fit into RAM, we'll want to extract the data into a dataframe rather than running sql queries againt the database on disk because it will be faster. 
+
+```{r}
+
+# create db connection
+#conn <- dbConnect(SQLite(), '../input/FPA_FOD_20170508.sqlite')
+conn <- dbConnect(SQLite(), 'D:/Big Data Architecture/FPA_FOD_20170508.sqlite')
+
+#df <- read_qst('D:/Big Data Architecture/FPA_FOD_20170508.sqlite')
+
+
+# pull the fires table into RAM
+fires <- tbl(conn, "Fires") %>% collect()
+
+# check size
+print(object.size(fires), units = 'Gb')
+
+# disconnect from db
+dbDisconnect(conn)
+
+write.csv(fires, file = "wildfires.csv")
+
+```
+
+Get a quick overview of the data using `glimpse()`. 
+
+```{r}
+
+glimpse(fires)
+
+```
+
+This database is pretty extensive. There is a lot of good stuff in here - spatial and temporal data. Let's see if we can find out anything interesting about wildfires in the US. 
+
+## Wildfires over Time {#Time} 
+
+### {.tabset}
+
+
+#### Annual
+
+```{r}
+
+fires %>% 
+    group_by(FIRE_YEAR) %>%
+    summarize(n_fires = n()) %>%
+    ggplot(aes(x = FIRE_YEAR, y = n_fires/1000)) + 
+    geom_bar(stat = 'identity', fill = 'orange') +
+    geom_smooth(method = 'lm', se = FALSE, linetype = 'dashed', size = 0.4, color = 'red') + 
+    labs(x = '', y = 'Number of wildfires (thousands)', title = 'US Wildfires by Year')
+
+```
+
+The number of fires per year ran between 60,000 and 100,000 from 1992 to 2015. There was a spike in fires in 2006 to about 114,000. There is a small upward trend during this time period. 
+
+#### Day of Year
+
+
+```{r}
+
+fires %>% 
+    group_by(DISCOVERY_DOY) %>%
+    summarize(n_fires = n()) %>%
+    ggplot(aes(x = DISCOVERY_DOY, y = n_fires)) + 
+    geom_line(color = 'orange') +
+    geom_smooth(method = 'lm', se = FALSE, linetype = 'dashed', size = 0.4, color = 'red') + 
+    labs(x = '', y = 'Number of wildfires', title = 'US Wildfires by Day of Year')
+
+```
+
+#### Daily
+
+The date columns in the database are in julian days. These two lines create new columns in year-month-day format. Thanks to kaggler [geher](https://www.kaggle.com/gw00207) for pointing this out. You can find the discussion thread [here](https://www.kaggle.com/rtatman/188-million-us-wildfires/discussion/39627). 
+
+```{r}
+
+fires$CONT_DATEymd <- as.Date(fires$CONT_DATE - 2458014.5, origin = '2017-09-18')
+fires$DISCOVERY_DATEymd <- as.Date(fires$DISCOVERY_DATE - 2458014.5, origin = '2017-09-18')
+
+```
+
+Now that we've done that we can create time series of fires over time. Here is a plot of daily fires. You can see the clear seasonal pattern with the number of fires peaking in the summer of each year. 
+
+```{r}
+
+fires %>% 
+    group_by(DISCOVERY_DATEymd) %>%
+    summarize(n_fires = n()) %>%
+    ggplot(aes(x = DISCOVERY_DATEymd, y = n_fires)) +
+    geom_line(color = 'orange') +
+    labs(x= '', y = 'Number of fires', title = 'Daily number of fires 1992-2015')
+
+```
+
+#### Monthly 
+
+We could cut down on the noise a bit and plot the data by month.
+
+```{r}
+
+fires_mo <- fires %>% 
+    group_by(DISCOVERY_DATEymd) %>%
+    summarize(n_fires = n())
+
+fires_mo <- as.xts(fires_mo$n_fires, order.by = fires_mo$DISCOVERY_DATEymd) %>%
+    apply.monthly(FUN = sum)
+
+autoplot(fires_mo, ts.colour = 'orange') +
+    labs(y = 'Number of fires', title = 'Monthly number of fires 1992-2015')
+
+```
+
+## Fires by Size {#Size}
+
+The column `FIRE_SIZE_CLASS` classifies each fire by size. The size ranges in the data description are 0-0.25 acres, 0.26-9.9 acres, 10-99.9 acres, 100-299 acres, 300-999 acres, 1000-4999 acres, and 5000 or more acres. Let's see how many fires fell within each size range. 
+
+```{r}
+
+size_classes <- c('A' = '0-0.25', 'B' = '0.26-9.9', 'C' = '10.0-99.9', 'D' = '100-299', 'E' = '300-999',
+                  'F' = '1000-4999', 'G' = '5000+')
+
+fires %>% 
+    group_by(FIRE_SIZE_CLASS) %>%
+    summarize(n = n()) %>%
+    mutate(FIRE_SIZE_CLASS = size_classes[FIRE_SIZE_CLASS]) %>%
+    ggplot(aes(x = FIRE_SIZE_CLASS, y= n)) +
+    geom_bar(stat = 'identity', fill = 'Orange') +
+    labs(x = 'Fire size (acres)', y = 'Number of fires', title = 'Number of Wildfires by Size Class')
+
+```
+
+
+## Causes {#Causes}  
+
+It would be interesting to examine the attributes of fires by cause. What causes the most fires? Which causes are associated with larger and longer-burning wildfires? Click on the tabs to see each plot. 
+
+### {.tabset}
+
+#### Number of Fires
+
+```{r}
+
+fires %>%
+    group_by(STAT_CAUSE_DESCR) %>%
+    summarize(n_fires = n()/1000) %>%
+    ggplot(aes(x = reorder(STAT_CAUSE_DESCR, n_fires), y = n_fires)) +
+    geom_bar(stat = 'identity', fill = 'orange') + 
+    coord_flip() + 
+    labs(x = '', y = 'Number of fires (thousands)', title = 'US Wildfires by Cause 1992 to 2015')
+    
+```
+
+Trash burning was the largest cause of wildfire by a significant margin. Interestingly, slightly more fires were started by arson than by lightning. I like that one of the causes is just 'children'. They really are terrible. 
+
+#### Fire Size
+
+Is there a relationship between cause and fire size?
+
+```{r}
+
+fires %>% 
+    group_by(STAT_CAUSE_DESCR) %>%
+    summarize(mean_size = mean(FIRE_SIZE, na.rm = TRUE)) %>%
+    ggplot(aes(x = reorder(STAT_CAUSE_DESCR, mean_size), y = mean_size)) +
+    geom_bar(stat = 'identity', fill = 'orange') + 
+    coord_flip() + 
+    labs(x = '', y = 'Acres', title = 'Average Wildfire Size by Cause')
+```
+
+That makes sense, fires started by electricity are the most damaging. 
+
+#### Burn Time
+
+Let's do the same for burn time. We can get the burn time in days by subtracting `DISCOVERY_DATE` from `CONT_DATE`.
+
+```{r}
+
+fires$BURN_TIME <- fires$CONT_DATE - fires$DISCOVERY_DATE
+
+fires %>% 
+    group_by(STAT_CAUSE_DESCR) %>%
+    summarize(mean_burn_time = mean(BURN_TIME, na.rm = TRUE)) %>%
+    ggplot(aes(x = reorder(STAT_CAUSE_DESCR, mean_burn_time), y = mean_burn_time)) +
+    geom_bar(stat = 'identity', fill = 'orange') + 
+    coord_flip() + 
+    labs(x = '', y = 'Days', title = 'Average Wildfire Burn Time by Cause')
+```
+
+## Wildfire Geography {#Geo}
+
+Let's compare the number of wildfires by state. This will take a bit of wrangling to get the data in the form that we need. I'll borrow some object from the `datasets` package, which has vectors of state abbreviations and state names. 
+
+```{r}
+
+# Add codes for DC and Puerto Rico to the default state lists
+state.abb <- append(state.abb, c("DC", "PR"))
+state.name <- append(state.name, c("District of Columbia", "Puerto Rico"))
+
+# Map the state abbreviations to state names so we can join with the map data
+fires$region <- map_chr(fires$STATE, function(x) { tolower(state.name[grep(x, state.abb)]) })
+
+# Get the us state map data
+state_map <- map_data('state')
+
+```
+
+```{r}
+
+fires %>% 
+    select(region) %>%
+    group_by(region) %>%
+    summarize(n = n()) %>%
+    right_join(state_map, by = 'region') %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = n)) + 
+    geom_polygon() + 
+    geom_path(color = 'white') + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Number of fires') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("US Wildfires, 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+This map isn't terribly interesting. As we might expect California and Texas have the most wildfires due to sheer size and climate. However, I am surprised to see Georgia with so many fires. A map of wildfires normalized by size would be more interesting. I'll do that shortly. First let's look at fire causes by state. 
+
+I'd like to make the same map for each of the fire causes. Because it will require using the same basic code block repeatedly, I will make it a function that we can reuse. 
+
+```{r}
+
+plot_feature_state <- function(cause) {
+    
+    # Join dataframes and build map
+    fires %>% 
+        filter(STAT_CAUSE_DESCR == cause) %>%
+        select(region) %>%
+        group_by(region) %>%
+        summarize(n = n()) %>%
+        right_join(state_map, by = 'region') %>%
+        ggplot(aes(x = long, y = lat, group = group, fill = n)) + 
+        geom_polygon() + 
+        geom_path(color = 'white') + 
+        scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Number of fires') + 
+        theme_map() + 
+        coord_map('albers', lat0=30, lat1=40) + 
+        ggtitle(paste0("US Wildfires Caused by ", cause, ", 1992-2015")) + 
+        theme(plot.title = element_text(hjust = 0.5))
+    
+}
+
+
+```
+
+### Fires By State {.tabset}
+
+#### Total
+
+```{r}
+
+plot_feature_state(cause = 'Arson')
+
+```
+
+#### Campfire
+
+```{r}
+
+plot_feature_state(cause = 'Campfire')
+
+```
+
+#### Children
+
+```{r}
+
+plot_feature_state(cause = 'Children')
+
+```
+
+#### Debris Burning
+
+```{r}
+
+plot_feature_state(cause = 'Debris Burning')
+
+```
+
+#### Equipment Use
+
+```{r}
+
+plot_feature_state(cause = 'Equipment Use')
+
+```
+
+#### Fireworks
+
+```{r}
+
+plot_feature_state(cause = 'Fireworks')
+
+```
+
+#### Lightning
+
+```{r}
+
+plot_feature_state(cause = 'Lightning')
+
+```
+
+
+#### Powerline
+
+```{r}
+
+plot_feature_state(cause = 'Powerline')
+
+```
+
+#### Railroad
+
+```{r}
+
+plot_feature_state(cause = 'Railroad')
+
+```
+
+#### Smoking
+
+```{r}
+
+plot_feature_state(cause = 'Smoking')
+
+```
+
+#### Structure
+
+```{r}
+
+plot_feature_state(cause = 'Structure')
+
+```
+
+###
+
+Now let's normalize the data by state so that we can see the number of wildfires per square mile. These maps will be more interesting because they will allow us to more directly compare wildfire across states. Fortunately, R already has data on the area of US states in the `state.x77` matrix in the `datasets` package. 
+
+```{r}
+
+# Create region column in state.x77 of lowercase state names
+state.x77 <- state.x77 %>%
+    as.data.frame() %>%
+    mutate(region = tolower(rownames(state.x77)))
+
+fires %>% 
+    group_by(region) %>%
+    summarize(n_fires = n()) %>%
+    left_join(state.x77, by = 'region') %>%
+    mutate(fires_per_sqm = n_fires / Area) %>%
+    right_join(state_map, by = 'region') %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = fires_per_sqm)) + 
+    geom_polygon() + 
+    geom_path(color = 'white') + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Fires per \nsquare mile') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("Wildfires per Square Mile by 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Once we adjust for size, it seems that New Jersey, New York, Georgia, South Carolina, and North Carolina have the most wildfires. 
+
+```{r}
+
+plot_normalized_state <- function(cause) {
+    
+    fires %>% 
+    filter(STAT_CAUSE_DESCR == cause) %>%
+    group_by(region) %>%
+    summarize(n_fires = n()) %>%
+    left_join(state.x77, by = 'region') %>%
+    mutate(fires_per_sqm = n_fires / Area) %>%
+    right_join(state_map, by = 'region') %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = fires_per_sqm)) + 
+    geom_polygon() + 
+    geom_path(color = 'white') + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Fires per \nsquare mile') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle(paste0("Wildfires Caused by ", cause, " per Square Mile 1992-2015")) + 
+    theme(plot.title = element_text(hjust = 0.5))
+}
+
+```
+
+Now let's again look at the causes by state, this time normalized by land area.
+
+### {.tabset}
+
+#### Arson
+
+```{r}
+
+plot_normalized_state(cause = 'Arson')
+
+```
+
+#### Campfire
+
+```{r}
+
+plot_normalized_state(cause = 'Campfire')
+
+```
+
+#### Children
+
+```{r}
+
+plot_normalized_state(cause = 'Children')
+
+```
+
+#### Debris Burning
+
+```{r}
+
+plot_normalized_state(cause = 'Debris Burning')
+
+```
+
+#### Equipment Use
+
+```{r}
+
+plot_normalized_state(cause = 'Equipment Use')
+
+```
+
+#### Fireworks
+
+```{r}
+
+plot_normalized_state(cause = 'Fireworks')
+
+```
+
+#### Lightning
+
+```{r}
+
+plot_normalized_state(cause = 'Lightning')
+
+```
+
+
+#### Powerline
+
+```{r}
+
+plot_normalized_state(cause = 'Powerline')
+
+```
+
+#### Railroad
+
+```{r}
+
+plot_normalized_state(cause = 'Railroad')
+
+```
+
+#### Smoking
+
+```{r}
+
+plot_normalized_state(cause = 'Smoking')
+
+```
+
+#### Structure
+
+```{r}
+
+plot_normalized_state(cause = 'Structure')
+
+```
+
+
+Now let's look at what percentage of each state's wildfires are the result of each cause. 
+
+```{r}
+
+plot_percent_state <- function(cause) {
+
+    fires %>%
+        select(region, STAT_CAUSE_DESCR) %>%
+        group_by(region, STAT_CAUSE_DESCR) %>%
+        summarize(n = n()) %>%
+        mutate(freq = n /sum(n) * 100) %>%
+        filter(STAT_CAUSE_DESCR == cause) %>%
+        right_join(state_map, by = 'region') %>%
+        ggplot(aes(x = long, y = lat, group = group, fill = freq)) + 
+        geom_polygon() + 
+        geom_path(color = 'white') + 
+        scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = '%') + 
+        theme_map() + 
+        coord_map('albers', lat0=30, lat1=40) + 
+        ggtitle(paste("Percent of State Wildfires due to", cause, "1992-2015")) + 
+        theme(plot.title = element_text(hjust = 0.5))
+}
+
+
+```
+
+### {.tabset}
+
+#### Arson
+
+```{r}
+
+plot_percent_state('Arson')
+
+```
+
+It looks like high concentration of arson-induced wilfires are clusted in the South. North Dakota seems to have the highest share. Tiny Rhode Island also has a high share, however that may be due to small sample size. 
+
+
+#### Campfire
+
+```{r}
+
+plot_percent_state('Campfire')
+
+```
+
+#### Children
+
+```{r}
+
+plot_percent_state('Children')
+
+```
+
+#### Debris Burning
+
+```{r}
+
+plot_percent_state('Debris Burning')
+
+```
+
+There is a fairly stark divide here. The Mountain and Pacific states all have low shares of fires started by debris burning, while in the eastern half of the country, many states have a very high share of fires started by the burning of trash.  
+
+#### Equipment Use
+
+```{r}
+
+plot_percent_state('Equipment Use')
+
+```
+
+#### Fireworks
+
+```{r}
+
+plot_percent_state('Fireworks')
+
+```
+
+#### Lightning
+
+```{r}
+
+plot_percent_state('Lightning')
+
+```
+
+It appears that lightning strikes cause an majority of fires in the western half of the state and a minority of fires in the eastern half. 
+
+#### Powerline
+
+```{r}
+
+plot_percent_state('Powerline')
+
+```
+
+#### Railroad
+
+```{r}
+
+plot_percent_state('Railroad')
+
+```
+
+#### Smoking
+
+```{r}
+
+plot_percent_state('Smoking')
+
+```
+
+#### Structure
+
+```{r}
+
+plot_percent_state('Structure')
+
+```
+
+
+###
+
+Now let's look at fires by county. 
+
+```{r}
+
+counties <- map_data('county')
+
+fires %>%
+    group_by(region, subregion = tolower(FIPS_NAME)) %>%
+    summarize(n_fires = n()) %>%
+    right_join(counties, by = c('region', 'subregion')) %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = n_fires)) + 
+    geom_polygon() + 
+    geom_path(color = 'white', size = 0.1) + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Number of fires') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("US Wildfires by County 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+    
+```
+
+What about the burn time of fires? 
+
+```{r}
+
+
+fires %>%
+    select(region, BURN_TIME) %>%
+    group_by(region) %>%
+    summarize(mean_burn_time = mean(BURN_TIME, na.rm = TRUE)) %>%
+    right_join(state_map, by = 'region') %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = mean_burn_time)) + 
+    geom_polygon() + 
+    geom_path(color = 'white') + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Mean burn time \n(days)') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("Average Burn Time of US Wildfires 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Interestingly, the average time from discovery to containment appears to be the longest in Washington, Idaho, and New Jersey. 
+
+New Jersey seems to have a significant wildfire problem. Let's take a closer look.
+
+```{r}
+
+nj_counties <- map_data('county') %>%
+    as.data.frame() %>%
+    filter(region == 'new jersey')
+
+fires %>%
+    filter(region == "new jersey") %>%
+    group_by(region, subregion = tolower(FIPS_NAME)) %>%
+    summarize(mean_burn_time = mean(BURN_TIME, na.rm = TRUE)) %>%
+    right_join(nj_counties, by = c('region', 'subregion')) %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = mean_burn_time)) + 
+    geom_polygon() + 
+    geom_path(color = 'white', size = 0.1) + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Burn time (days)') + 
+    theme_map() + 
+    theme(legend.position = c(-0.5, 0.4)) + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("Average Burn Time of NJ Wildfires by County 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+After doing some research on this it seems that the Pine Barrens have a lot of bad wildfires. This map shows Ocean County, the heart of the Pine Barrens with an average burn time of 8 days. 
+
+```{r}
+
+county_map <- map_data('county', c('washington', 'idaho', 'oregon', 'montana'))
+
+fires %>%
+    filter(region %in% c("washington", "idaho")) %>%
+    group_by(region, subregion = tolower(FIPS_NAME)) %>%
+    summarize(mean_burn_time = mean(BURN_TIME, na.rm = TRUE)) %>%
+    right_join(county_map, by = c('region', 'subregion')) %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = mean_burn_time)) + 
+    geom_polygon() + 
+    geom_path(color = 'white', size = 0.1) + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Burn time (days)') + 
+    theme_map() + 
+    theme(legend.position = c(0.7, -0.1)) + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("Average Burn Time of WA Wildfires by County 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Idaho county, the dark red one in Idaho has a mean burn time over 14 days. That is across 4,255 data points. In Washington, the worst counties are Stevens, Spokane, Skagit, Thurston, and Wahkiakum.
+
+We also hear alot about wildfires in California. At least those are the ones that seem to make the news so often, probably because they occur near very densely populated areas. 
+
+```{r}
+
+county_map <- map_data('county', 'california')
+
+fires %>%
+    filter(region == 'california') %>%
+    group_by(region, subregion = tolower(FIPS_NAME)) %>%
+    summarize(mean_burn_time = mean(BURN_TIME, na.rm = TRUE)) %>%
+    right_join(county_map, by = c('region', 'subregion')) %>%
+    ggplot(aes(x = long, y = lat, group = group, fill = mean_burn_time)) + 
+    geom_polygon() + 
+    geom_path(color = 'white', size = 0.1) + 
+    scale_fill_continuous(low = "orange", 
+                          high = "darkred",
+                          name = 'Burn time (days)') + 
+    theme_map() + 
+    coord_map('albers', lat0=30, lat1=40) + 
+    ggtitle("Average Burn Time of CA Wildfires by County 1992-2015") + 
+    theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+Solano, Yolo, Colusa, and Trinity counties are the ones in dark red and have the longest fire burn time. 
+
+We can also use leaflet to plot the individual fires. Here I plot all the 2015 California fires caused by Arson. You can hover over each one to get the fire name and its size in acres.
+
+```{r}
+
+fires %>%
+    filter(STATE == "CA", FIRE_YEAR == "2015", STAT_CAUSE_DESCR == "Arson") %>%
+    leaflet() %>% 
+    #setView(lat = -0.900653, lng = -78.467834, zoom = 7) %>% 
+    addTiles() %>%
+    addMarkers(
+        ~LONGITUDE,
+        ~LATITUDE,
+        label = ~paste("Name:", FIRE_NAME, "Size:", FIRE_SIZE, "Acres")
+    )
+
