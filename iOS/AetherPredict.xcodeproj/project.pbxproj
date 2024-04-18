@@ -39,11 +39,12 @@
 		17839E222BBB169000E66992 /* WeatherConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E212BBB169000E66992 /* WeatherConditionView.swift */; };
 		17839E242BBB393200E66992 /* HomeViewController+LocationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */; };
 		17839E262BBB609500E66992 /* TemperatureRangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17839E252BBB609500E66992 /* TemperatureRangeView.swift */; };
+		179CE2E12BD1D2A300CE94A0 /* lr_model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 179CE2E02BD1D2A000CE94A0 /* lr_model.tflite */; };
+		179CE2E42BD1D9FE00CE94A0 /* NN_model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 179CE2E32BD1D9AB00CE94A0 /* NN_model.tflite */; };
 		17A1ED632BBDF48B000CAA70 /* MetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED622BBDF48B000CAA70 /* MetricView.swift */; };
 		17A1ED652BBDF5BD000CAA70 /* DetailedStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */; };
 		17BA59902BC4912C0075101A /* TensorFlowLiteSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 17BA598F2BC4912C0075101A /* TensorFlowLiteSwift */; };
 		17BA59942BC4950A0075101A /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17BA59932BC4950A0075101A /* CoreML.framework */; };
-		17BA59952BC4A4980075101A /* firepredict.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 17BA59912BC4917C0075101A /* firepredict.tflite */; };
 		17EF329B2BBC6DCB001D24DE /* us-top-1k-cities.csv in Resources */ = {isa = PBXBuildFile; fileRef = 17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */; };
 /* End PBXBuildFile section */
 
@@ -83,9 +84,10 @@
 		17839E212BBB169000E66992 /* WeatherConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionView.swift; sourceTree = "<group>"; };
 		17839E232BBB393200E66992 /* HomeViewController+LocationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeViewController+LocationDelegate.swift"; sourceTree = "<group>"; };
 		17839E252BBB609500E66992 /* TemperatureRangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureRangeView.swift; sourceTree = "<group>"; };
+		179CE2E02BD1D2A000CE94A0 /* lr_model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = lr_model.tflite; sourceTree = "<group>"; };
+		179CE2E32BD1D9AB00CE94A0 /* NN_model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = NN_model.tflite; sourceTree = "<group>"; };
 		17A1ED622BBDF48B000CAA70 /* MetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricView.swift; sourceTree = "<group>"; };
 		17A1ED642BBDF5BD000CAA70 /* DetailedStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedStatsView.swift; sourceTree = "<group>"; };
-		17BA59912BC4917C0075101A /* firepredict.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = firepredict.tflite; sourceTree = "<group>"; };
 		17BA59932BC4950A0075101A /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		17EF329A2BBC6DCB001D24DE /* us-top-1k-cities.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-top-1k-cities.csv"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,7 +108,7 @@
 		170828912BA3B86400094406 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				17BA59912BC4917C0075101A /* firepredict.tflite */,
+				179CE2E22BD1D9A100CE94A0 /* models */,
 				170828932BA3B8D300094406 /* WeatherService.swift */,
 				170828952BA3B8E100094406 /* FirePredictService.swift */,
 				170828A12BA3C09A00094406 /* LocationService.swift */,
@@ -232,6 +234,15 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		179CE2E22BD1D9A100CE94A0 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				179CE2E32BD1D9AB00CE94A0 /* NN_model.tflite */,
+				179CE2E02BD1D2A000CE94A0 /* lr_model.tflite */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		17A1ED612BBDF478000CAA70 /* Metric Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,12 +329,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1752E4FB2B8E937600137A74 /* LaunchScreen.storyboard in Resources */,
+				179CE2E42BD1D9FE00CE94A0 /* NN_model.tflite in Resources */,
 				17EF329B2BBC6DCB001D24DE /* us-top-1k-cities.csv in Resources */,
+				179CE2E12BD1D2A300CE94A0 /* lr_model.tflite in Resources */,
 				1752E4F82B8E937600137A74 /* Assets.xcassets in Resources */,
 				17839E0E2BBA525200E66992 /* Nunito-Bold.ttf in Resources */,
 				17839E0D2BBA525200E66992 /* Nunito-Light.ttf in Resources */,
 				17839E0F2BBA525200E66992 /* Nunito-Medium.ttf in Resources */,
-				17BA59952BC4A4980075101A /* firepredict.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -489,7 +501,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -518,11 +530,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.caliwood.AetherPredict;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -554,11 +567,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.caliwood.AetherPredict;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

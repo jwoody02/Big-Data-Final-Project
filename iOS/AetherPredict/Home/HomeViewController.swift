@@ -160,7 +160,8 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         // add search action
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
         
-        FirePredictService.shared.loadModel()
+        FirePredictService.shared.loadLinearRegModel()
+        FirePredictService.shared.loadNeuralNetModel()
     }
 
     public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -194,13 +195,16 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
+        ])
+        
+        NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.bottomAnchor.constraint(equalTo: weeklyForcastView.bottomAnchor, constant: 20)
+            contentView.bottomAnchor.constraint(equalTo: weeklyForcastView.bottomAnchor, constant: 20),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
+
 
         // Floating Location Label constraints
         NSLayoutConstraint.activate([
@@ -234,8 +238,6 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
             weeklyForcastView.leadingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             weeklyForcastView.trailingAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             weeklyForcastView.heightAnchor.constraint(equalToConstant: weeklyForecastHeight),
-
-            // weeklyForcastView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50)
         ])
 
         // put search field just off screen
@@ -290,6 +292,11 @@ public class HomeViewController: UIViewController, UIScrollViewDelegate {
         ])
     }
 
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width: contentView.frame.width, height: contentView.frame.height)
+        scrollView.isScrollEnabled = true
+    }
 
     public func updateUIWith(currentForecast: CurrentWeather, minuteForcast: Forecast<MinuteWeather>?, hourForcast: Forecast<HourWeather>, dayWeather: Forecast<DayWeather>) {
         currentWeatherCard.updateWith(currentForecast, dayWeather.first)

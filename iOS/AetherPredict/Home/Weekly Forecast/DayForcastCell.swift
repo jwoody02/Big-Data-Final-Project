@@ -84,7 +84,7 @@ class WeeklyWeatherCollectionViewCell: UICollectionViewCell {
     public func configure(with model: DayWeather) {
         // update weather condition view
         let name = model.symbolName
-        let isImageNonFillable = name == "wind" || name == "snowflake"
+        let isImageNonFillable = name == "wind" || name == "snowflake" || name == "snow"
         guard let conditionImage = UIImage(systemName: isImageNonFillable ? name : name + ".fill") else { return }
         let conditionConfig = WeatherSymbolConfigurationManager.configuration(forCondition: isImageNonFillable ? name : name + ".fill")
 

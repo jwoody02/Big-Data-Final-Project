@@ -363,38 +363,66 @@ class CurrentWeatherCard: UIView {
             windView.value = "\(Int(windSpeedObject.value * 0.62))mph \(currentWeather.wind.compassDirection.abbreviation)"
         }
 
-        // Run the fire prediction model
-        FirePredictService.shared.runModel(
-            month: Float(Calendar.current.component(.month, from: Date())),
-            temperature: Float(currentWeather.temperature.value),
-            humidity: Float(currentWeather.humidity * 100),
-            windSpeed: Float(currentWeather.wind.speed.value),
-            rain: Float(dayForecast?.precipitationAmount.value ?? 0)
-        ) { [weak self] predictedValue in
-            guard let self = self, let predictedValueDouble = predictedValue else { return }
-            var fireChance: FireChance = .low
-            let predictedValue = Int(predictedValueDouble)
-            switch predictedValue {
-            case 0:
-                fireChance = .low
-            case 1:
-                fireChance = .moderate
-            case 2:
-                fireChance = .high
-            default:
-                fireChance = .low
+        // Run the linear reg prediction model
+        // which guesses the amount of acres that'll burn
+        FirePredictService.shared.runLinearRegModel(
+            month: Calendar.current.component(.month, from: Date()),
+            temperature: Float(currentWeather.temperature.value), // C
+            humidity: Float(currentWeather.humidity * 100), // 0 - 100
+            windSpeed: Float(currentWeather.wind.speed.value), //
+            rain: (dayForecast?.precipitationAmount.value ?? 0) > 0
+        ) { [weak self] linearRegPredictedValue in
+            guard let self = self, let linearRegPredictedValueDouble = linearRegPredictedValue else { return }
+            let predictedValue = Int(linearRegPredictedValueDouble)
+            
+            // Run neural net model
+            FirePredictService.shared.runNeuralNetModel(
+                month: Calendar.current.component(.month, from: Date()),
+                temperature: Float(currentWeather.temperature.value), // C
+                humidity: Float(currentWeather.humidity * 100), // 0 - 100
+                windSpeed: Float(currentWeather.wind.speed.value) // kmh
+            )  { [weak self] isFireGoingToHappen in
+                guard let self = self else { return }
+                
+                
+                var linearRegFireChance: FireChance = .low
+                switch linearRegPredictedValueDouble {
+                case 0...50:
+                    linearRegFireChance = .low
+                case 50...200:
+                    linearRegFireChance = .moderate
+                default:
+                    linearRegFireChance = .high
+                }
+                
+                var finalFireChance: FireChance = .low
+                if isFireGoingToHappen ?? false {
+                    switch linearRegFireChance {
+                        case .low:
+                            finalFireChance = .moderate
+                        default:
+                            finalFireChance = .high
+                    }
+                } else {
+                    finalFireChance = linearRegFireChance
+                }
+                
+                self.fireChanceView.updateWithFireChance(finalFireChance)
             }
-            self.fireChanceView.updateWithFireChance(fireChance)
+            
 
         }
+        
+        
     }
-
+    
+    
     private func setTemperature(to value: Double) {
         temperatureValueLabel.text = String(format: "%.0f°", value)
     }
 
     private func setConditionImage(named name: String) {
-        let isImageNonFillable = name == "wind" || name == "snowflake"
+        let isImageNonFillable = name == "wind" || name == "snowflake" || name == "snow"
         conditionImageView.image = UIImage(systemName: isImageNonFillable ? name : name + ".fill")
         conditionImageView.preferredSymbolConfiguration = WeatherSymbolConfigurationManager.configuration(forCondition: isImageNonFillable ? name : name + ".fill")
     }
